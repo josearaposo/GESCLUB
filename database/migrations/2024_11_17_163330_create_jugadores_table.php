@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('primer_apellido');
             $table->string('segundo_apellido')->nullable();
+            $table->foreignId('equipo_id')->constrained('equipos');
             $table->date('year');
             $table->string('ciudad');
             $table->string('provincia');

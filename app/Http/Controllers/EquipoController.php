@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEquipoRequest;
 use App\Http\Requests\UpdateEquipoRequest;
 use App\Models\Equipo;
+use Inertia\Inertia;
 
 class EquipoController extends Controller
 {
@@ -13,7 +14,10 @@ class EquipoController extends Controller
      */
     public function index()
     {
-        //
+        $equipos = Equipo::with('division')->get();
+        return Inertia::render('Equipos/Index', [
+            'equipos' => $equipos
+        ]);
     }
 
     /**
