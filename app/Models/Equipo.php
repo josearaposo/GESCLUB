@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Equipo extends Model
 {
+    protected $fillable = ['nombre', 'division_id'];
+
     use HasFactory;
+
+    public function division()
+   {
+       return $this->belongsTo(Division::class);
+   }
+
 }

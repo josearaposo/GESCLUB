@@ -9,4 +9,10 @@ class Division extends Model
 {
     protected $table = 'divisiones';
     use HasFactory;
+
+    public function equipos()
+    {
+        return $this->hasMany(Equipo::class);
+    }
+
 }
