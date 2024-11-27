@@ -13,34 +13,68 @@ export default function Create({ divisiones }) {
 
     return (
         <>
-        <div>
-            <Navigation />
-            <h1>Crear Nuevo Equipo</h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="nombre"
-                    placeholder="Nombre del equipo"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                    required
-                />
-                <select
-                    name="division_id"
-                    value={division_id}
-                    onChange={(e) => setDivisionId(e.target.value)}
-                    required
+            <div className="container mx-auto p-6">
+                <Navigation />
+                <h1 className="text-2xl font-bold mb-6">Crear Nuevo Equipo</h1>
+
+                <form
+                    onSubmit={handleSubmit}
+                    className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
                 >
-                    <option value="">Seleccionar División</option>
-                    {divisiones.map((division) => (
-                        <option key={division.id} value={division.id}>
-                            {division.nombre}
-                        </option>
-                    ))}
-                </select>
-                <button type="submit">Guardar</button>
-            </form>
-        </div>
+                    <div className="mb-4">
+                        <label
+                            htmlFor="nombre"
+                            className="block text-gray-700 text-sm font-bold mb-2"
+                        >
+                            Nombre del Equipo:
+                        </label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            placeholder="Nombre del equipo"
+                            value={nombre}
+                            onChange={(e) => setNombre(e.target.value)}
+                            required
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        />
+                    </div>
+
+                    <div className="mb-6">
+                        <label
+                            htmlFor="division_id"
+                            className="block text-gray-700 text-sm font-bold mb-2"
+                        >
+                            División:
+                        </label>
+                        <select
+                            id="division_id"
+                            name="division_id"
+                            value={division_id}
+                            onChange={(e) => setDivisionId(e.target.value)}
+                            required
+                            className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                        >
+                            <option value="">Seleccionar División</option>
+                            {divisiones.map((division) => (
+                                <option key={division.id} value={division.id}>
+                                    {division.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                        <button
+                            type="submit"
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
         </>
     );
 }
+
