@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->foreignId('division_id')->constrained('divisiones');
+            $table->foreignId('club_id')->constrained('clubs');
             $table->timestamps();
         });
     }

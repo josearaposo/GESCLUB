@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEquipoRequest;
 use App\Http\Requests\UpdateEquipoRequest;
+use App\Models\Club;
 use App\Models\Division;
 use App\Models\Equipo;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class EquipoController extends Controller
      */
     public function index()
     {
-        $equipos = Equipo::with('division')->get();
+        $equipos = Equipo::with('division', 'club')->get();
         return Inertia::render('Equipos/Index', [
             'equipos' => $equipos
         ]);
@@ -27,9 +28,12 @@ class EquipoController extends Controller
      */
     public function create()
     {
+
         $divisiones = Division::all();
+        $clubs = Club::all();
         return Inertia::render('Equipos/Create', [
-            'divisiones' => $divisiones
+            'divisiones' => $divisiones,
+            'clubs' => $clubs
         ]);
     }
 
@@ -41,6 +45,7 @@ class EquipoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'division_id' => 'required|exists:divisiones,id',
+            'club_id' => 'required|exists:clubs,id',
         ]);
 
         Equipo::create($validated);
@@ -64,9 +69,11 @@ class EquipoController extends Controller
     public function edit(Equipo $equipo)
     {
         $divisiones = Division::all();
+        $clubs = Club::all();
         return Inertia::render('Equipos/Edit', [
             'equipo' => $equipo,
-            'divisiones' => $divisiones
+            'divisiones' => $divisiones,
+            'clubs' => $clubs,
         ]);
     }
 
@@ -78,6 +85,7 @@ class EquipoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'division_id' => 'required|exists:divisiones,id',
+            'club_id' => 'required|exists:clubs,id',
         ]);
 
         $equipo->update($validated);

@@ -27,17 +27,21 @@ export default function Index({ equipos }) {
                         <tr>
                             <th className="border border-gray-300 px-4 py-2">Nombre</th>
                             <th className="border border-gray-300 px-4 py-2">División</th>
+                            <th className="border border-gray-300 px-4 py-2">Club</th>
                             <th className="border border-gray-300 px-4 py-2">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
+
                         {equipos.map((equipo) => (
                             <tr key={equipo.id} className="hover:bg-gray-50">
                                 <td className="border border-gray-300 px-4 py-2">{equipo.nombre}</td>
                                 <td className="border border-gray-300 px-4 py-2">{equipo.division.nombre}</td>
+                                <td className="border border-gray-300 px-4 py-2">{equipo.club.nombre}</td>
                                 <td className="border border-gray-300 px-4 py-2 flex space-x-2">
                                     <Link
                                         href={route('equipos.show', equipo.id)}
+                                        as="button"
                                         className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
                                     >
                                         Ver
@@ -45,6 +49,7 @@ export default function Index({ equipos }) {
 
                                     <Link
                                         href={route('equipos.edit', equipo.id)}
+                                        as="button"
                                         className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
                                     >
                                         Editar
@@ -52,6 +57,7 @@ export default function Index({ equipos }) {
                                     <Link
                                         href={route('equipos.destroy', equipo.id)}
                                         method="delete"
+                                        as="button"
                                         className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                                     >
                                         Eliminar

@@ -5,10 +5,11 @@ import Navigation from '@/Components/Navigation';
 export default function Edit({ equipo, divisiones }) {
     const [nombre, setNombre] = useState(equipo.nombre);
     const [division_id, setDivisionId] = useState(equipo.division_id);
+    const [club_id, setClubId] = useState(equipo.club_id);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.put(`/equipos/${equipo.id}`, { nombre, division_id });
+        Inertia.put(`/equipos/${equipo.id}`, { nombre, division_id } , { nombre, club_id } );
     };
 
     return (
@@ -34,6 +35,20 @@ export default function Edit({ equipo, divisiones }) {
                     {divisiones.map((division) => (
                         <option key={division.id} value={division.id}>
                             {division.nombre}
+                        </option>
+                    ))}
+                </select>
+
+                <select
+                    name="club_id"
+                    value={club_id}
+                    onChange={(e) => setClubId(e.target.value)}
+                    required
+                >
+                    <option value="">Seleccionar Club</option>
+                    {clubs.map((club) => (
+                        <option key={club.id} value={club.id}>
+                            {club.nombre}
                         </option>
                     ))}
                 </select>
