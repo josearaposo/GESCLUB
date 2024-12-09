@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClubRequest;
 use App\Http\Requests\UpdateClubRequest;
 use App\Models\Club;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ClubController extends Controller
 {
@@ -13,7 +15,10 @@ class ClubController extends Controller
      */
     public function index()
     {
-        //
+        $clubs = Club::all();
+        return Inertia::render('Clubs/Index', [
+            'clubs' => $clubs
+        ]);
     }
 
     /**
@@ -21,15 +26,38 @@ class ClubController extends Controller
      */
     public function create()
     {
-        //
+
+        return Inertia::render('Clubs/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreClubRequest $request)
+    public function store(Request $request)
     {
-        //
+
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'estadio' => 'required|string|max:255',
+            'presupuesto' => 'required|numeric',
+            'contacto' => 'required|string|max:255',
+            'web' => 'nullable|url',
+            'direccion' => 'nullable|string|max:255',
+            'ciudad' => 'nullable|string|max:255',
+            'pais' => 'nullable|string|max:255',
+            'empleados' => 'nullable|integer',
+            'fundacion' => 'nullable|date',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+       if ($request->hasFile('imagen')) {
+
+             $validated['imagen'] = $request->file('imagen')->store('images', 'public');
+        }
+
+        Club::create($validated);
+
+        return redirect()->route('clubs.index');
     }
 
     /**

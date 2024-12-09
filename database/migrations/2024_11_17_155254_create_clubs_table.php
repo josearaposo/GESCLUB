@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('clubs', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nombre');
             $table->string('imagen')->nullable();
             $table->string('estadio');
             $table->decimal('presupuesto', 11, 2);
