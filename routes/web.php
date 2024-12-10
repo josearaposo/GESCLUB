@@ -3,7 +3,9 @@
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RepresentanteController;
 use App\Models\Club;
+use App\Models\Representante;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,5 +42,6 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('equipos', EquipoController::class);
 Route::resource('clubs', ClubController::class);
+Route::resource('representantes', RepresentanteController::class);
 
 require __DIR__.'/auth.php';
