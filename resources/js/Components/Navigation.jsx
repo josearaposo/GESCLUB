@@ -39,6 +39,12 @@ export default function Navigation(user) {
                             >
                                 Clubs
                             </NavLink>
+                            <NavLink
+                                href={route("representantes.index")}
+                                active={route().current("representantes.index")}
+                            >
+                                Representantes
+                            </NavLink>
                         </div>
                     </div>
 

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import Navigation from '@/Components/Navigation';
 
-export default function Edit({ equipo, divisiones }) {
+export default function Edit({ equipo, divisiones, clubs}) {
     const [nombre, setNombre] = useState(equipo.nombre);
     const [division_id, setDivisionId] = useState(equipo.division_id);
     const [club_id, setClubId] = useState(equipo.club_id);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.put(`/equipos/${equipo.id}`, { nombre, division_id } , { nombre, club_id } );
+        Inertia.put(`/equipos/${equipo.id}`, { nombre, division_id, club_id });
     };
 
     return (
