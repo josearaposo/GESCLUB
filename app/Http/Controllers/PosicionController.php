@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Posicion;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PosicionController extends Controller
 {
@@ -12,7 +13,10 @@ class PosicionController extends Controller
      */
     public function index()
     {
-        //
+        $posiciones = Posicion::all();
+        return Inertia::render('Posiciones/Index', [
+            'posiciones' => $posiciones
+        ]);
     }
 
     /**
@@ -20,7 +24,7 @@ class PosicionController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Posiciones/Create');
     }
 
     /**
@@ -28,7 +32,13 @@ class PosicionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        Posicion::create($validated);
+
+        return redirect()->route('posiciones.index');
     }
 
     /**
@@ -44,7 +54,10 @@ class PosicionController extends Controller
      */
     public function edit(Posicion $posicion)
     {
-        //
+
+        return Inertia::render('Posiciones/Edit', [
+            'posicion' => $posicion,
+        ]);
     }
 
     /**

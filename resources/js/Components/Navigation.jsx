@@ -45,6 +45,12 @@ export default function Navigation(user) {
                             >
                                 Representantes
                             </NavLink>
+                            <NavLink
+                                href={route("posiciones.index")}
+                                active={route().current("posiciones.index")}
+                            >
+                                Posiciones
+                            </NavLink>
                         </div>
                     </div>
 

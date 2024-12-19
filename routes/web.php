@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\PosicionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepresentanteController;
 use App\Models\Club;
@@ -43,5 +44,6 @@ Route::middleware('auth')->group(function () {
 Route::resource('equipos', EquipoController::class);
 Route::resource('clubs', ClubController::class);
 Route::resource('representantes', RepresentanteController::class);
+Route::resource('posiciones', PosicionController::class);
 
 require __DIR__.'/auth.php';
