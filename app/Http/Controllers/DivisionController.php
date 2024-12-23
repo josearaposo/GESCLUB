@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDivisionRequest;
 use App\Http\Requests\UpdateDivisionRequest;
 use App\Models\Division;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DivisionController extends Controller
@@ -25,15 +26,22 @@ class DivisionController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Divisiones/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDivisionRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'numero_equipos' => 'integer',
+        ]);
+
+        Division::create($validated);
+
+        return redirect()->route('divisiones.index');
     }
 
     /**
@@ -49,7 +57,10 @@ class DivisionController extends Controller
      */
     public function edit(Division $division)
     {
-        //
+        return Inertia::render('Divisiones/Edit', [
+            'division' => $division,
+
+        ]);
     }
 
     /**
