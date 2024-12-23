@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDivisionRequest;
 use App\Http\Requests\UpdateDivisionRequest;
 use App\Models\Division;
+use Inertia\Inertia;
 
 class DivisionController extends Controller
 {
@@ -13,7 +14,10 @@ class DivisionController extends Controller
      */
     public function index()
     {
-        //
+        $divisiones = Division::all();
+        return Inertia::render('Divisiones/Index', [
+            'divisiones' => $divisiones
+        ]);
     }
 
     /**
