@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClubRequest;
 use App\Http\Requests\UpdateClubRequest;
 use App\Models\Club;
+use App\Models\Jugador;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,9 +16,9 @@ class ClubController extends Controller
      */
     public function index()
     {
-        $clubs = Club::all();
+        $jugadores = Jugador::with('equipo', 'primera_posicion' , 'representante')->get();
         return Inertia::render('Clubs/Index', [
-            'clubs' => $clubs
+            'jugadores' => $jugadores
         ]);
     }
 

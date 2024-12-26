@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\PosicionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepresentanteController;
@@ -47,5 +48,6 @@ Route::resource('clubs', ClubController::class);
 Route::resource('representantes', RepresentanteController::class);
 Route::resource('posiciones', PosicionController::class);
 Route::resource('divisiones', DivisionController::class);
+Route::resource('jugadores', JugadorController::class);
 
 require __DIR__.'/auth.php';

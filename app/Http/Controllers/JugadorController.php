@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreJugadorRequest;
 use App\Http\Requests\UpdateJugadorRequest;
+use App\Models\Equipo;
 use App\Models\Jugador;
+use App\Models\Posicion;
+use App\Models\Representante;
+use Inertia\Inertia;
 
 class JugadorController extends Controller
 {
@@ -13,7 +17,10 @@ class JugadorController extends Controller
      */
     public function index()
     {
-        //
+        $jugadores = Jugador::all();
+        return Inertia::render('Jugadores/Index', [
+            'jugadores' => $jugadores
+        ]);
     }
 
     /**
@@ -21,7 +28,16 @@ class JugadorController extends Controller
      */
     public function create()
     {
-        //
+
+        $equipos = Equipo::all();
+        $posiciones = Posicion::all();
+        $representantes = Representante::all();
+        return Inertia::render('Jugadores/Create', [
+            'equipos' => $equipos,
+            'posiciones' => $posiciones,
+            'representantes' => $representantes
+
+        ]);
     }
 
     /**
