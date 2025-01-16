@@ -7,7 +7,9 @@ export default function Index({ jugadores }) {
         <>
             <Navigation />
             <div className="container mx-auto p-6">
-                <h1 className="text-2xl font-bold mb-4">Gestión de jugadores</h1>
+                <h1 className="text-2xl font-bold mb-4">
+                    Gestión de jugadores
+                </h1>
 
                 <div className="flex justify-end mb-4">
                     <Link
@@ -21,11 +23,8 @@ export default function Index({ jugadores }) {
                 <div className="overflow-x-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {jugadores.map((jugador) => (
-                            <div
-                                key={jugador.id}
-                                className="bg-white"
-                            >
-                                <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                            <div key={jugador.id} className="bg-white">
+                                <div className="w-full max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                                     <div className="flex justify-end px-4 pt-4">
                                         <button
                                             id="dropdownButton"
@@ -94,7 +93,9 @@ export default function Index({ jugadores }) {
                                         </h3>
                                         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
                                             {" "}
-                                            {jugador.nombre + ' ' + jugador.primer_apellido}
+                                            {jugador.nombre +
+                                                " " +
+                                                jugador.primer_apellido}
                                         </h5>
                                         <span className="text-sm text-gray-500 dark:text-gray-400">
                                             Estadio: {jugador.primera_posicion}
@@ -106,12 +107,16 @@ export default function Index({ jugadores }) {
                                             >
                                                 Gestionar
                                             </a>
-                                            <a
-                                                href="#"
-                                                className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                            <Link
+                                                href={route(
+                                                    "jugadores.edit",
+                                                    jugador.id
+                                                )}
+                                                as="button"
+                                                className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
                                             >
                                                 Editar
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>

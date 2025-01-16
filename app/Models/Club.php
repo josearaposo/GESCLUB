@@ -9,4 +9,9 @@ class Club extends Model
 {
     protected $fillable = ['nombre', 'estadio', 'presupuesto', 'contacto', 'web', 'direccion', 'ciudad', 'pais', 'empleados', 'fundacion', 'imagen'];
     use HasFactory;
+
+    public function usuarios()
+    {
+        return $this->belongsToMany(User::class, 'club_usuario');
+    }
 }

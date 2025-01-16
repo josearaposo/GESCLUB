@@ -18,14 +18,14 @@ return new class extends Migration
             $table->string('primer_apellido');
             $table->string('segundo_apellido')->nullable();
             $table->foreignId('equipo_id')->constrained('equipos');
-            $table->date('year');
+            $table->integer('year');
             $table->string('ciudad');
             $table->string('provincia');
             $table->string('pais');
             $table->string('lateralidad');
             $table->integer('altura');
             $table->string('besoccer');
-            $table->boolean('insternacional');
+            $table->boolean('internacional');
             $table->foreignId('primera_posicion')->constrained('posiciones');
             $table->foreignId('segunda_posicion')->constrained('posiciones')->nullable();
             $table->foreignId('representante')->constrained('representantes')->nullable();

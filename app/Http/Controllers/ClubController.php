@@ -6,7 +6,9 @@ use App\Http\Requests\StoreClubRequest;
 use App\Http\Requests\UpdateClubRequest;
 use App\Models\Club;
 use App\Models\Jugador;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ClubController extends Controller
@@ -16,9 +18,10 @@ class ClubController extends Controller
      */
     public function index()
     {
-        $jugadores = Jugador::with('equipo', 'primera_posicion' , 'representante')->get();
+        $clubs = Auth::user()->clubes;
+
         return Inertia::render('Clubs/Index', [
-            'jugadores' => $jugadores
+            'clubs' => $clubs
         ]);
     }
 
@@ -56,7 +59,12 @@ class ClubController extends Controller
              $validated['imagen'] = $request->file('imagen')->store('images', 'public');
         }
 
-        Club::create($validated);
+        $club = Club::create($validated);
+
+        $user = auth()->user();
+        $user->clubes()->attach($club->id);
+
+
 
         return redirect()->route('clubs.index');
     }

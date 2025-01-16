@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 
-export default function Create({ equipos, posiciones , representantes }) {
+export default function Create({ equipos, posiciones, representantes }) {
     const [apodo, setApodo] = useState("");
     const [nombre, setNombre] = useState("");
     const [primer_apellido, setPrimerApellido] = useState("");
@@ -27,11 +27,12 @@ export default function Create({ equipos, posiciones , representantes }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+
         const formData = new FormData();
         formData.append("apodo", apodo);
         formData.append("nombre", nombre);
         formData.append("primer_apellido", primer_apellido);
-        formData.append("segundo_apellido", segundo_apellido);
+        formData.append("segundo_apellido", segundo_apellido || "");
         formData.append("equipo_id", equipo_id);
         formData.append("year", year);
         formData.append("ciudad", ciudad);
@@ -40,15 +41,16 @@ export default function Create({ equipos, posiciones , representantes }) {
         formData.append("lateralidad", lateralidad);
         formData.append("altura", altura);
         formData.append("besoccer", besoccer);
-        formData.append("internacional", internacional);
+        formData.append("internacional", internacional ? 1 : 0);
         formData.append("primera_posicion", primera_posicion);
-        formData.append("segunda_posicion", segunda_posicion);
-        formData.append("representante", representante);
-        formData.append("salario", salario);
-        formData.append("valor_mercado", valor_mercado);
-        formData.append("fortalezas", fortalezas);
-        formData.append("debilidades", debilidades);
-        formData.append("imagen", imagen);
+        formData.append("segunda_posicion", segunda_posicion || "");
+        formData.append("representante", representante || "");
+        formData.append("salario", salario || "");
+        formData.append("valor_mercado", valor_mercado || "");
+        formData.append("fortalezas", fortalezas || "");
+        formData.append("debilidades", debilidades || "");
+        formData.append("valoracion", 0.00);
+        formData.append("imagen", imagen || "");
 
         Inertia.post("/jugadores", formData, {
             headers: {
@@ -60,7 +62,7 @@ export default function Create({ equipos, posiciones , representantes }) {
     return (
         <div className="max-w-4xl mx-auto p-8 bg-white shadow rounded">
             <h1 className="text-2xl font-bold mb-6 text-gray-800">
-                Crear Nuevo Club
+                Crear Nuevo Jugador
             </h1>
             <form
                 onSubmit={handleSubmit}
@@ -137,7 +139,7 @@ export default function Create({ equipos, posiciones , representantes }) {
 
                 <div className="mb-6">
                     <label
-                        htmlFor="division_id"
+                        htmlFor="equipo_id"
                         className="block text-gray-700 text-sm font-bold mb-2"
                     >
                         Equipo:
@@ -167,7 +169,7 @@ export default function Create({ equipos, posiciones , representantes }) {
                         Año
                     </label>
                     <input
-                        type="year"
+                        type="number"
                         id="year"
                         value={year}
                         onChange={(e) => setYear(e.target.value)}
@@ -230,7 +232,7 @@ export default function Create({ equipos, posiciones , representantes }) {
                         htmlFor="lateralidad"
                         className="block text-sm font-medium text-gray-700"
                     >
-                        País
+                        Lateralidad
                     </label>
                     <input
                         type="text"
@@ -354,7 +356,10 @@ export default function Create({ equipos, posiciones , representantes }) {
                     >
                         <option value="">Representante</option>
                         {representantes.map((representante) => (
-                            <option key={representante.id} value={representante.id}>
+                            <option
+                                key={representante.id}
+                                value={representante.id}
+                            >
                                 {representante.nombre}
                             </option>
                         ))}
@@ -366,7 +371,7 @@ export default function Create({ equipos, posiciones , representantes }) {
                         htmlFor="salario"
                         className="block text-sm font-medium text-gray-700"
                     >
-                        Altura
+                        Salario
                     </label>
                     <input
                         type="number"
@@ -382,7 +387,7 @@ export default function Create({ equipos, posiciones , representantes }) {
                         htmlFor="valor_mercado"
                         className="block text-sm font-medium text-gray-700"
                     >
-                        Altura
+                        Valor Mercado
                     </label>
                     <input
                         type="number"
@@ -398,10 +403,9 @@ export default function Create({ equipos, posiciones , representantes }) {
                         htmlFor="fortalezas"
                         className="block text-sm font-medium text-gray-700"
                     >
-                        Altura
+                        Fortalezas
                     </label>
-                    <input
-                        type="textarea"
+                    <textarea
                         id="fortalezas"
                         value={fortalezas}
                         onChange={(e) => setFortalezas(e.target.value)}
@@ -414,23 +418,23 @@ export default function Create({ equipos, posiciones , representantes }) {
                         htmlFor="debilidades"
                         className="block text-sm font-medium text-gray-700"
                     >
-                        Altura
+                        Debilidades
                     </label>
-                    <input
-                        type="textarea"
+                    <textarea
                         id="debilidades"
                         value={debilidades}
                         onChange={(e) => setDebilidades(e.target.value)}
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                     />
                 </div>
+
                 {/* Imagen */}
                 <div>
                     <label
                         htmlFor="imagen"
                         className="block text-sm font-medium text-gray-700"
                     >
-                        Imagen del Club
+                        Imagen del Jugador
                     </label>
                     <input
                         type="file"
