@@ -57,6 +57,12 @@ export default function Navigation(user) {
                             >
                                 Divisiones
                             </NavLink>
+                            <NavLink
+                                href={route("jugadores.index")}
+                                active={route().current("jugadores.index")}
+                            >
+                                Jugadores
+                            </NavLink>
                         </div>
                     </div>
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 
-export default function Create( clubs) {
+export default function Create() {
     const [nombre, setNombre] = useState('');
     const [estadio, setEstadio] = useState('');
     const [presupuesto, setPresupuesto] = useState('');
@@ -42,7 +42,7 @@ export default function Create( clubs) {
         <div className="max-w-4xl mx-auto p-8 bg-white shadow rounded">
             <h1 className="text-2xl font-bold mb-6 text-gray-800">Crear Nuevo Club</h1>
             <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-6">
-                {/* Nombre */}
+
                 <div>
                     <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
                         Nombre del Club
@@ -57,7 +57,6 @@ export default function Create( clubs) {
                     />
                 </div>
 
-                {/* Estadio */}
                 <div>
                     <label htmlFor="estadio" className="block text-sm font-medium text-gray-700">
                         Estadio
@@ -72,7 +71,6 @@ export default function Create( clubs) {
                     />
                 </div>
 
-                {/* Presupuesto */}
                 <div>
                     <label htmlFor="presupuesto" className="block text-sm font-medium text-gray-700">
                         Presupuesto
@@ -88,7 +86,6 @@ export default function Create( clubs) {
                     />
                 </div>
 
-                {/* Contacto */}
                 <div>
                     <label htmlFor="contacto" className="block text-sm font-medium text-gray-700">
                         Contacto
@@ -103,7 +100,6 @@ export default function Create( clubs) {
                     />
                 </div>
 
-                {/* Web */}
                 <div>
                     <label htmlFor="web" className="block text-sm font-medium text-gray-700">
                         Página Web
@@ -117,7 +113,6 @@ export default function Create( clubs) {
                     />
                 </div>
 
-                {/* Dirección */}
                 <div>
                     <label htmlFor="direccion" className="block text-sm font-medium text-gray-700">
                         Dirección
@@ -131,7 +126,6 @@ export default function Create( clubs) {
                     />
                 </div>
 
-                {/* Ciudad */}
                 <div>
                     <label htmlFor="ciudad" className="block text-sm font-medium text-gray-700">
                         Ciudad
@@ -145,7 +139,6 @@ export default function Create( clubs) {
                     />
                 </div>
 
-                {/* País */}
                 <div>
                     <label htmlFor="pais" className="block text-sm font-medium text-gray-700">
                         País
@@ -159,7 +152,6 @@ export default function Create( clubs) {
                     />
                 </div>
 
-                {/* Empleados */}
                 <div>
                     <label htmlFor="empleados" className="block text-sm font-medium text-gray-700">
                         Número de Empleados
@@ -173,7 +165,6 @@ export default function Create( clubs) {
                     />
                 </div>
 
-                {/* Fundación */}
                 <div>
                     <label htmlFor="fundacion" className="block text-sm font-medium text-gray-700">
                         Año de Fundación
@@ -187,7 +178,6 @@ export default function Create( clubs) {
                     />
                 </div>
 
-                {/* Imagen */}
                 <div>
                     <label htmlFor="imagen" className="block text-sm font-medium text-gray-700">
                         Imagen del Club
