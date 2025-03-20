@@ -15,11 +15,18 @@ class EquipoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $equipos = Equipo::with('division', 'club')->get();
+        $club = $request->input('club');
+
+        $equipos = Equipo::with('division', 'club')
+            ->when($club, function ($query, $club) {
+                $query->where('club_id', $club);
+            })
+            ->get();
+
         return Inertia::render('Equipos/Index', [
-            'equipos' => $equipos
+            'equipos' => $equipos,
         ]);
     }
 
