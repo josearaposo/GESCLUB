@@ -7,7 +7,15 @@ export default function Index({ clubs }) {
         <>
             <Navigation />
             <div className="container mx-auto p-6">
-                <h1 className="text-2xl font-bold mb-4">Gestión de Clubs</h1>
+                <div className="flex justify-between items-center mb-4">
+                    <h1 className="text-2xl font-bold">Gestión de Clubs</h1>
+                    <Link
+                        href={route("clubs.create")}
+                        className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+                    >
+                        Crear Club
+                    </Link>
+                </div>
 
                 <div className="overflow-x-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -51,4 +59,5 @@ export default function Index({ clubs }) {
         </>
     );
 }
+
 

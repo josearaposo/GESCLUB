@@ -9,7 +9,7 @@ export default function Create({ divisiones, clubs }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.post('/equipos', { nombre, division_id, club_id});
+        Inertia.post('/equipos', { nombre, division_id, club_id });
     };
 
     return (
@@ -48,21 +48,30 @@ export default function Create({ divisiones, clubs }) {
                         >
                             División:
                         </label>
-                        <select
-                            id="division_id"
-                            name="division_id"
-                            value={division_id}
-                            onChange={(e) => setDivisionId(e.target.value)}
-                            required
-                            className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                        >
-                            <option value="">Seleccionar División</option>
-                            {divisiones.map((division) => (
-                                <option key={division.id} value={division.id}>
-                                    {division.nombre}
-                                </option>
-                            ))}
-                        </select>
+                        <div className="flex gap-2">
+                            <select
+                                id="division_id"
+                                name="division_id"
+                                value={division_id}
+                                onChange={(e) => setDivisionId(e.target.value)}
+                                required
+                                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                            >
+                                <option value="">Seleccionar División</option>
+                                {divisiones.map((division) => (
+                                    <option key={division.id} value={division.id}>
+                                        {division.nombre}
+                                    </option>
+                                ))}
+                            </select>
+                            <button
+                                type="button"
+                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                onClick={() => Inertia.get('/divisiones/create')}
+                            >
+                                +
+                            </button>
+                        </div>
                     </div>
 
                     <div className="mb-6">
@@ -103,4 +112,3 @@ export default function Create({ divisiones, clubs }) {
         </>
     );
 }
-
