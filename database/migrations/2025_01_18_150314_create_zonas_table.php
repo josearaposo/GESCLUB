@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->decimal('precio', 6, 2);
             $table->integer('aforo');
+            $table->integer('filas');
             $table->foreignId('estadio_id')->constrained('estadios');
             $table->timestamps();
         });

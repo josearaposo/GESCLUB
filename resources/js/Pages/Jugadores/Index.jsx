@@ -20,111 +20,57 @@ export default function Index({ jugadores }) {
                     </Link>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {jugadores.map((jugador) => (
-                            <div key={jugador.id} className="bg-white">
-                                <div className="w-full max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                    <div className="flex justify-end px-4 pt-4">
-                                        <button
-                                            id="dropdownButton"
-                                            data-dropdown-toggle="dropdown"
-                                            className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
-                                            type="button"
-                                        >
-                                            <span className="sr-only">
-                                                Opciones
-                                            </span>
-                                            <svg
-                                                className="w-5 h-5"
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="currentColor"
-                                                viewBox="0 0 16 3"
-                                            >
-                                                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                                            </svg>
-                                        </button>
+                <div className="space-y-4">
+                    {jugadores.map((jugador) => (
+                        <div
+                            key={jugador.id}
+                            className="bg-white border rounded-lg shadow flex flex-col md:flex-row items-center md:items-start p-4 gap-4"
+                        >
+                            <img
+                                src={`/storage/${jugador.imagen || "images/default.jpg"}`}
+                                alt={`Imagen de ${jugador.nombre}`}
+                                className="w-24 h-24 object-cover rounded-full border"
+                            />
 
-                                        <div
-                                            id="dropdown"
-                                            className="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-                                        >
-                                            <ul
-                                                className="py-2"
-                                                aria-labelledby="dropdownButton"
-                                            >
-                                                <li>
-                                                    <a
-                                                        href="#"
-                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                                    >
-                                                        Edit
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        href="#"
-                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                                    >
-                                                        Export Data
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        href="#"
-                                                        className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                                    >
-                                                        Delete
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col items-center pb-10">
-                                        <img
-                                            src={`/storage/${jugador.imagen}`}
-                                            alt={`Imagen de ${jugador.nombre}`}
-                                            className="w-full h-48 object-contain"
-                                        />
-                                        <h3 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-                                            {" "}
-                                            {jugador.apodo}
-                                        </h3>
-                                        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-                                            {" "}
-                                            {jugador.nombre +
-                                                " " +
-                                                jugador.primer_apellido}
-                                        </h5>
-                                        <span className="text-sm text-gray-500 dark:text-gray-400">
-                                            Estadio: {jugador.primera_posicion}
-                                        </span>
-                                        <div className="flex mt-4 md:mt-6">
-                                            <a
-                                                href="#"
-                                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                            >
-                                                Gestionar
-                                            </a>
-                                            <Link
-                                                href={route(
-                                                    "jugadores.edit",
-                                                    jugador.id
-                                                )}
-                                                as="button"
-                                                className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-                                            >
-                                                Editar
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="flex-1">
+                                <h3 className="text-xl font-semibold text-gray-800">
+                                    {jugador.apodo}
+                                </h3>
+                                <p className="text-gray-600">
+                                    {jugador.nombre} {jugador.primer_apellido}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                    Posición: {jugador.primera_posicion.nombre}
+                                </p>
                             </div>
-                        ))}
-                    </div>
+
+                            <div className="flex gap-2 mt-4 md:mt-0">
+                                <Link
+                                    href={route("jugadores.show", jugador.id)}
+                                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
+                                >
+                                    Informe
+                                </Link>
+                                <Link
+                                    href={route("jugadores.edit", jugador.id)}
+                                    className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 text-sm"
+                                >
+                                    Editar
+                                </Link>
+                                    <Link
+                                        href={route('jugadores.destroy', jugador.id)}
+                                        method="delete"
+                                        as="button"
+                                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                                    >
+                                        Eliminar
+                                    </Link>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </>
     );
 }
+

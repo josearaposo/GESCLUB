@@ -18,7 +18,8 @@ class JugadorController extends Controller
      */
     public function index()
     {
-        $jugadores = Jugador::all();
+        $jugadores = Jugador::with('primera_posicion')->get();
+
         return Inertia::render('Jugadores/Index', [
             'jugadores' => $jugadores
         ]);
@@ -69,10 +70,15 @@ class JugadorController extends Controller
             'fortalezas' => 'nullable|string',
             'debilidades' => 'nullable|string',
             'valoracion' => 'nullable|numeric|min:0|max:10',
-            'imagen' => 'nullable|string|max:255',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-
+        if ($request->hasFile('imagen')) {
+            $validated['imagen'] = $request->file('imagen')->store('images', 'public');
+        } else {
+            // Ruta de la imagen por defecto
+            $validated['imagen'] = 'images/default.jpg';
+        }
         Jugador::create($validated);
 
         return redirect()->route('equipos.index');
@@ -144,6 +150,8 @@ class JugadorController extends Controller
      */
     public function destroy(Jugador $jugador)
     {
-        //
+        $jugador->delete();
+
+        return redirect()->route('jugadores.index');
     }
 }

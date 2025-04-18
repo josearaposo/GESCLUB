@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AsientoController;
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EquipoController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\PosicionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepresentanteController;
+use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ZonaController;
 use App\Models\Club;
 use App\Models\Estadio;
@@ -55,6 +57,10 @@ Route::resource('jugadores', JugadorController::class);
 
 Route::resource('estadios', EstadioController::class);
 
-Route::get('/zonas', [ZonaController::class, 'index'])->name('zonas.index');
+Route::resource('zonas', ZonaController::class);
+Route::get('/zonas/{zona}/asientos', [ZonaController::class, 'asientos']);
+Route::post('/reservar', [ReservaController::class, 'reservar'])->name('reservar');
+
+// Route::get('/zonas', [ZonaController::class, 'index'])->name('zonas.index');
 
 require __DIR__.'/auth.php';

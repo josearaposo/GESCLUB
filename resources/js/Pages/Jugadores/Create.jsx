@@ -298,6 +298,7 @@ export default function Create({ equipos, posiciones, representantes }) {
                     >
                         Posicion:
                     </label>
+
                     <select
                         id="primera_posicion"
                         name="primera_posicion"
@@ -313,8 +314,8 @@ export default function Create({ equipos, posiciones, representantes }) {
                             </option>
                         ))}
                     </select>
-                </div>
 
+                </div>
                 <div className="mb-6">
                     <label
                         htmlFor="segunda_posicion"
@@ -346,6 +347,7 @@ export default function Create({ equipos, posiciones, representantes }) {
                     >
                         Representante:
                     </label>
+                    <div className="flex gap-2">
                     <select
                         id="representante"
                         name="representante"
@@ -364,6 +366,14 @@ export default function Create({ equipos, posiciones, representantes }) {
                             </option>
                         ))}
                     </select>
+                    <button
+                                                    type="button"
+                                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                                    onClick={() => Inertia.get('/representantes/create')}
+                                                >
+                                                    +
+                                                </button>
+                </div>
                 </div>
 
                 <div>

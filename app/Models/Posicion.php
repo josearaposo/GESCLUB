@@ -12,4 +12,9 @@ class Posicion extends Model
     protected $fillable = ['nombre'];
 
     use HasFactory;
+
+    public function jugadores()
+    {
+        return $this->hasMany(Jugador::class);
+    }
 }

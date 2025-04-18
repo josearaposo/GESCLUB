@@ -50,7 +50,7 @@ export default function Create({club}) {
                             htmlFor="numero_equipos"
                             className="block text-gray-700 text-sm font-bold mb-2"
                         >
-                            Dereccion:
+                            Direccion:
                         </label>
                         <input
                             type="text"

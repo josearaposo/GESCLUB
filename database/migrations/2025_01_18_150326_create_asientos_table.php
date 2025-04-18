@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('zona_id')->constrained('zonas');
             $table->string('numero');
-            $table->enum('estado', ['Libre', 'Reservado', 'Vendido'])->default('libre');
+            $table->enum('estado', ['Libre', 'Reservado', 'Vendido'])->default('Libre');
             $table->timestamps();
         });
     }
