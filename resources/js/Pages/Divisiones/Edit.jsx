@@ -3,7 +3,6 @@ import { Inertia } from "@inertiajs/inertia";
 import Navigation from "@/Components/Navigation";
 
 export default function Edit({ division }) {
-    console.log(division.nombre);
     const [nombre, setNombre] = useState(division.nombre);
     const [numero_equipos, setNumeroEquipos] = useState(
         division.numero_equipos
@@ -16,7 +15,6 @@ export default function Edit({ division }) {
             numero_equipos,
         });
     };
-
     return (
         <>
             <Navigation />
@@ -64,7 +62,6 @@ export default function Edit({ division }) {
                             className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
                         />
                     </div>
-
 
                     <div className="text-center">
                         <button

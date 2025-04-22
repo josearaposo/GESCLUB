@@ -16,6 +16,11 @@ export default function Index({ posiciones }) {
         "Carrilero Derecho": { x: 35, y: 80 },
         "Mediocentro": { x: 50, y: 50 },
         "Pivote Defensivo": { x: 40, y: 50 },
+        "Interior Izquierdo": { x: 60, y: 20 },
+        "Interior Derecho": { x: 60, y: 80 },
+        "Extremo Izquierdo": { x: 70, y: 20 },
+        "Extremo Derecho": { x: 70, y: 80 },
+        "Mediapunta": { x: 70, y: 50 },
         "Delantero": { x: 80, y: 50 },
     };
 

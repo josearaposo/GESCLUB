@@ -4,7 +4,7 @@ import Navigation from '@/Components/Navigation';
 
 export default function Create({club}) {
     console.log(club);
-    const [nombre, setNombre] = useState('');
+    const [nombre, setNombre] = useState(club.estadio);
     const [direccion, setDireccion] = useState('');
     const [capacidad, setCapacidad] = useState('');
     const [club_id] = useState(club.id);
@@ -50,7 +50,7 @@ export default function Create({club}) {
                             htmlFor="numero_equipos"
                             className="block text-gray-700 text-sm font-bold mb-2"
                         >
-                            Dereccion:
+                            Direccion:
                         </label>
                         <input
                             type="text"

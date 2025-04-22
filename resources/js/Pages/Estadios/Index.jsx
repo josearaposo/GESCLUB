@@ -4,7 +4,7 @@ import Navigation from "@/Components/Navigation";
 
 
 export default function Index({ club , estadios }) {
-    console.log('Contenido de club:', club.id);
+
     return (
 
         <>
@@ -43,7 +43,8 @@ export default function Index({ club , estadios }) {
                                 <td className="border border-gray-300 px-4 py-2">{estadio.capacidad}</td>
                                 <td className="border border-gray-300 px-4 py-2 ">
                                     <Link
-                                        href={route('zonas.index', estadio.id)}
+
+                                        href={route('zonas.index', { estadio: estadio.id })}
                                         as="button"
                                         className="bg-cyan-700 text-white px-3 py-1 rounded hover:bg-green-600"
                                     >

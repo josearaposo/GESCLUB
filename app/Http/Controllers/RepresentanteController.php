@@ -65,7 +65,6 @@ class RepresentanteController extends Controller
      */
     public function edit(Representante $representante)
     {
-
         return Inertia::render('Representantes/Edit', [
             'representante' => $representante,
 
@@ -77,6 +76,7 @@ class RepresentanteController extends Controller
      */
     public function update(Request $request, Representante $representante)
     {
+        dd($representante);
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'primer_apellido' => 'required|string|max:255',

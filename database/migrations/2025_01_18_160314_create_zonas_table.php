@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('asientos', function (Blueprint $table) {
+        Schema::create('zonas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('zona_id')->constrained('zonas');
-            $table->string('numero');
-            $table->enum('estado', ['Libre', 'Reservado', 'Vendido'])->default('libre');
+            $table->string('nombre');
+            $table->decimal('precio', 6, 2);
+            $table->integer('aforo');
+            $table->integer('filas');
+            $table->foreignId('estadio_id')->constrained('estadios');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('asientos');
+        Schema::dropIfExists('zonas');
     }
 };

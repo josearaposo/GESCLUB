@@ -8,7 +8,7 @@ export default function Index({ divisiones }) {
         <>
             <Navigation />
             <div className="container mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-4">Gestión de divisiones</h1>
+            <h1 className="text-2xl font-bold mb-4">Gestión de Divisiones</h1>
 
 
             <div className="flex justify-end mb-4">
@@ -16,7 +16,7 @@ export default function Index({ divisiones }) {
                     href={route('divisiones.create')}
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
-                    Nueva Division
+                    Nuevo Representante
                 </Link>
             </div>
 
@@ -26,7 +26,7 @@ export default function Index({ divisiones }) {
                     <thead className="bg-gray-100">
                         <tr>
                             <th className="border border-gray-300 px-4 py-2">Nombre</th>
-                            <th className="border border-gray-300 px-4 py-2">Equipos</th>
+                            <th className="border border-gray-300 px-4 py-2">Numero de Equipos</th>
                             <th className="border border-gray-300 px-4 py-2">Acciones</th>
                         </tr>
                     </thead>
@@ -36,6 +36,7 @@ export default function Index({ divisiones }) {
                             <tr key={division.id} className="hover:bg-gray-50">
                                 <td className="border border-gray-300 px-4 py-2">{division.nombre}</td>
                                 <td className="border border-gray-300 px-4 py-2">{division.numero_equipos}</td>
+
                                 <td className="border border-gray-300 px-4 py-2 flex space-x-2">
                                     <Link
                                         href={route('divisiones.show', division.id)}
