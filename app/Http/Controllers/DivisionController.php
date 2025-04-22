@@ -57,6 +57,7 @@ class DivisionController extends Controller
      */
     public function edit(Division $division)
     {
+
         return Inertia::render('Divisiones/Edit', [
             'division' => $division,
 
@@ -66,9 +67,16 @@ class DivisionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDivisionRequest $request, Division $division)
+    public function update(Request $request, Division $division)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'numero_equipos' => 'integer',
+        ]);
+
+        $division->update($validated);
+
+        return redirect()->route('divisiones.index');
     }
 
     /**

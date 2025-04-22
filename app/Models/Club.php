@@ -14,4 +14,9 @@ class Club extends Model
     {
         return $this->belongsToMany(User::class, 'club_usuario');
     }
+
+    public function equipos()
+    {
+        return $this->hasMany(Equipo::class);
+    }
 }

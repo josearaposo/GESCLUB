@@ -21,4 +21,9 @@ class Equipo extends Model
        return $this->belongsTo(Club::class);
    }
 
+   public function jugadores()
+   {
+       return $this->hasMany(Jugador::class);
+   }
+
 }

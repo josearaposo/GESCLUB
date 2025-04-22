@@ -1,19 +1,33 @@
 import React from "react";
 import { Link } from "@inertiajs/inertia-react";
 import Navigation from "@/Components/Navigation";
+import { usePage } from "@inertiajs/react";
 
-export default function Index({ jugadores }) {
+export default function Index({ jugadores, equipo }) {
+    const { flash } = usePage().props;
     return (
         <>
             <Navigation />
             <div className="container mx-auto p-6">
+                {/* Mensajes flash */}
+                {flash.success && (
+                    <div className="mb-4 p-4 bg-green-100 text-green-800 border border-green-400 rounded">
+                        {flash.success}
+                    </div>
+                )}
+
+                {flash.error && (
+                    <div className="mb-4 p-4 bg-red-100 text-red-800 border border-red-400 rounded">
+                        {flash.error}
+                    </div>
+                )}
                 <h1 className="text-2xl font-bold mb-4">
                     Gestión de jugadores
                 </h1>
 
                 <div className="flex justify-end mb-4">
                     <Link
-                        href={route("jugadores.create")}
+                        href={route("jugadores.create", { equipo: equipo })}
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
                         Nuevo Jugador
@@ -27,7 +41,9 @@ export default function Index({ jugadores }) {
                             className="bg-white border rounded-lg shadow flex flex-col md:flex-row items-center md:items-start p-4 gap-4"
                         >
                             <img
-                                src={`/storage/${jugador.imagen || "images/default.jpg"}`}
+                                src={`/storage/${
+                                    jugador.imagen || "images/default.jpg"
+                                }`}
                                 alt={`Imagen de ${jugador.nombre}`}
                                 className="w-24 h-24 object-cover rounded-full border"
                             />
@@ -42,14 +58,30 @@ export default function Index({ jugadores }) {
                                 <p className="text-sm text-gray-500">
                                     Posición: {jugador.primera_posicion.nombre}
                                 </p>
+                                <p className="text-sm text-gray-500">
+                                    Edad: {new Date().getFullYear() - jugador.year}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                    Valoración: {jugador.valoracion}
+                                </p>
                             </div>
 
                             <div className="flex gap-2 mt-4 md:mt-0">
                                 <Link
-                                    href={route("jugadores.show", jugador.id)}
+                                    href={route("informes.create", {
+                                        jugador: jugador.id,
+                                    })}
                                     className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
                                 >
-                                    Informe
+                                    Nuevo Informe
+                                </Link>
+                                <Link
+                                    href={route("informes.index", {
+                                        jugador: jugador.id,
+                                    })}
+                                    className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm"
+                                >
+                                    Ver Informes
                                 </Link>
                                 <Link
                                     href={route("jugadores.edit", jugador.id)}
@@ -57,14 +89,17 @@ export default function Index({ jugadores }) {
                                 >
                                     Editar
                                 </Link>
-                                    <Link
-                                        href={route('jugadores.destroy', jugador.id)}
-                                        method="delete"
-                                        as="button"
-                                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                                    >
-                                        Eliminar
-                                    </Link>
+                                <Link
+                                    href={route(
+                                        "jugadores.destroy",
+                                        jugador.id
+                                    )}
+                                    method="delete"
+                                    as="button"
+                                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                                >
+                                    Eliminar
+                                </Link>
                             </div>
                         </div>
                     ))}
@@ -73,4 +108,3 @@ export default function Index({ jugadores }) {
         </>
     );
 }
-

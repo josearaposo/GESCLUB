@@ -39,6 +39,13 @@ export default function Index({ equipos }) {
                                 <td className="border border-gray-300 px-4 py-2">{equipo.division.nombre}</td>
                                 <td className="border border-gray-300 px-4 py-2">{equipo.club.nombre}</td>
                                 <td className="border border-gray-300 px-4 py-2 flex space-x-2">
+                                <Link
+                                        href={route('jugadores.index', {equipo: equipo.id})}
+                                        as="button"
+                                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                                    >
+                                        Jugadores
+                                    </Link>
                                     <Link
                                         href={route('equipos.show', equipo.id)}
                                         as="button"

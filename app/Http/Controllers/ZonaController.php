@@ -15,7 +15,7 @@ class ZonaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index( Request $request)
+    public function index(Request $request)
     {
 
         $estadio_id = $request->input('estadio');
@@ -55,17 +55,20 @@ class ZonaController extends Controller
         $zona = Zona::create($validated);
 
         $capacidad = $validated['aforo'];
+        $filas = $validated['filas'];
+        $asientosPorFila = ceil($capacidad / $filas);
 
         for ($numero = 1; $numero <= $capacidad; $numero++) {
+            $fila = intval(ceil($numero / $asientosPorFila)); // calcula la fila correspondiente
+
             Asiento::create([
                 'zona_id' => $zona->id,
                 'numero' => $numero,
+                'fila' => $fila,
                 'estado' => 'Libre',
             ]);
         }
-
         return redirect()->route('zonas.index', ['estadio' => $validated['estadio_id']]);
-
     }
 
     /**
@@ -101,7 +104,7 @@ class ZonaController extends Controller
     }
 
     public function asientos(Zona $zona)
-{
-    return response()->json($zona->asientos); // <-- esto debe devolver un array
-}
+    {
+        return response()->json($zona->asientos); // <-- esto debe devolver un array
+    }
 }

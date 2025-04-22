@@ -82,15 +82,35 @@ class ClubController extends Controller
      */
     public function edit(Club $club)
     {
-        //
+        return Inertia::render('Clubs/Edit', [
+            'club' => $club,
+
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateClubRequest $request, Club $club)
+    public function update(Request $request, Club $club)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'estadio' => 'required|string|max:255',
+            'presupuesto' => 'required|numeric',
+            'contacto' => 'required|string|max:255',
+            'web' => 'nullable|url',
+            'direccion' => 'nullable|string|max:255',
+            'ciudad' => 'nullable|string|max:255',
+            'pais' => 'nullable|string|max:255',
+            'empleados' => 'nullable|integer',
+            'fundacion' => 'nullable|date',
+        ]);
+
+        $club -> update($validated);
+
+        return redirect()
+        ->route('clubs.index')
+        ->with('success', 'Club modificado correctamente.');
     }
 
     /**
@@ -98,6 +118,13 @@ class ClubController extends Controller
      */
     public function destroy(Club $club)
     {
-        //
+
+        if ($club->equipos()->exists()) {
+            return redirect()->route('clubs.index')->with('error', 'No se puede eliminar el club porque tiene equipos asociados.');
+        }
+
+        $club->delete();
+
+        return redirect()->route('clubs.index');
     }
 }

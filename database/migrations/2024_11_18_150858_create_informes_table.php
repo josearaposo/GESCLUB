@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('informes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('jugador_id')->constrained('jugadores')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users');
             $table->integer('centros');
             $table->integer('regates');
             $table->integer('definicion');
@@ -47,6 +48,7 @@ return new class extends Migration
             $table->integer('vision');
             $table->text('pros');
             $table->text('contras');
+
             $table->timestamps();
         });
     }

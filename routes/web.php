@@ -5,6 +5,7 @@ use App\Http\Controllers\ClubController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\EstadioController;
+use App\Http\Controllers\InformeController;
 use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\PosicionController;
 use App\Http\Controllers\ProfileController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ZonaController;
 use App\Models\Club;
 use App\Models\Estadio;
+use App\Models\Informe;
 use App\Models\Representante;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -51,9 +53,10 @@ Route::middleware('auth')->group(function () {
 Route::resource('equipos', EquipoController::class);
 Route::resource('clubs', ClubController::class);
 Route::resource('representantes', RepresentanteController::class);
-Route::resource('posiciones', PosicionController::class);
-Route::resource('divisiones', DivisionController::class);
-Route::resource('jugadores', JugadorController::class);
+Route::resource('informes', InformeController::class);
+Route::resource('posiciones', PosicionController::class)->parameters(['posiciones' => 'posicion']);
+Route::resource('divisiones', DivisionController::class)->parameters(['divisiones' => 'division']);
+Route::resource('jugadores', JugadorController::class)->parameters(['jugadores' => 'jugador']);
 
 Route::resource('estadios', EstadioController::class);
 

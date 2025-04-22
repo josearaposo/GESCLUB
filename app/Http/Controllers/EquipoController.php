@@ -65,9 +65,11 @@ class EquipoController extends Controller
      */
     public function show(Equipo $equipo)
     {
+        $equipo->load(['division', 'club' , 'jugadores']); // carga las relaciones si las necesitás
         return Inertia::render('Equipos/Show', [
-            'equipo' => $equipo
+            'equipo' => $equipo,
         ]);
+
     }
 
     /**
