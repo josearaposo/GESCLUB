@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/inertia-react";
 import Navigation from "@/Components/Navigation";
 
 
-export default function Index({ equipos }) {
+export default function Index({ equipos, club }) {
     return (
         <>
             <Navigation />
@@ -18,6 +18,12 @@ export default function Index({ equipos }) {
                 >
                     Nuevo Equipo
                 </Link>
+                <Link
+                        href={route("usuarios.index", {club: club})}
+                        className="px-4 py-2 bg-slate-400 text-white rounded hover:bg-slate-600"
+                    >
+                        Informadores
+                    </Link>
             </div>
 
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AsientoController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EquipoController;
@@ -63,6 +64,13 @@ Route::resource('estadios', EstadioController::class);
 Route::resource('zonas', ZonaController::class);
 Route::get('/zonas/{zona}/asientos', [ZonaController::class, 'asientos']);
 Route::post('/reservar', [ReservaController::class, 'reservar'])->name('reservar');
+
+Route::get('/informadores', [RegisteredUserController::class, 'indexInformadores'])->name('usuarios.index');
+Route::get('/usuarios/informador/{club}/crear', [RegisteredUserController::class, 'createInformador'])->name('usuarios.informador.create');
+Route::post('/usuarios/informador', [RegisteredUserController::class, 'storeInformador'])->name('usuarios.informador.store');
+
+
+
 
 // Route::get('/zonas', [ZonaController::class, 'index'])->name('zonas.index');
 
