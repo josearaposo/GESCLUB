@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Informe;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class InformePolicy
 {
@@ -21,7 +22,11 @@ class InformePolicy
      */
     public function view(User $user, Informe $informe): bool
     {
-        //
+        if ($user->rol === 'gestor') {
+            return true;
+        }
+
+        return $user->id === $informe->user_id;
     }
 
     /**
@@ -29,7 +34,7 @@ class InformePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->rol === 'informador' || $user->rol === 'gestor';
     }
 
     /**
@@ -37,15 +42,16 @@ class InformePolicy
      */
     public function update(User $user, Informe $informe): bool
     {
-        //
+        return $user->id === $informe->user_id || $user->rol === 'gestor';
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Informe $informe): bool
+    public function delete(User $user,  Informe $informe): bool
     {
-        //
+
+        return $user->id === $informe->user_id;
     }
 
     /**

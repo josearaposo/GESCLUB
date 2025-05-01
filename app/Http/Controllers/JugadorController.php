@@ -19,7 +19,7 @@ class JugadorController extends Controller
     {
         $equipoId = $request->input('equipo');
 
-        $jugadores = Jugador::with('primera_posicion')
+        $jugadores = Jugador::with('primera_posicion', 'equipo')
             ->when($equipoId, function ($query, $equipoId) {
                 $query->where('equipo_id', $equipoId);
             })
@@ -156,6 +156,8 @@ class JugadorController extends Controller
      */
     public function destroy(Jugador $jugador)
     {
+
+        $this->authorize('delete', $jugador);
 
         if ($jugador->informes()->exists()) {
             return redirect()->route('jugadores.index')->with('error', 'No se puede eliminar el jugador porque tiene informes asociados.');

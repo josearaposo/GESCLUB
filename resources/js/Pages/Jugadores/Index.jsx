@@ -65,6 +65,9 @@ export default function Index({ jugadores, equipo }) {
                                     Valoración: {jugador.valoracion}
                                 </p>
                             </div>
+                            <div>
+                                Equipo: {jugador.equipo.nombre}
+                            </div>
 
                             <div className="flex gap-2 mt-4 md:mt-0">
                                 <Link

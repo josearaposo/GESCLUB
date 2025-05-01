@@ -36,6 +36,7 @@ class EquipoController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Equipo::class);
 
         $divisiones = Division::all();
         $clubs = Club::all();
