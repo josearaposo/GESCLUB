@@ -51,70 +51,68 @@ export default function Index({ informes, jugador }) {
                                 key={informe.id}
                                 className="bg-white border rounded-lg shadow p-4"
                             >
-                                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                                    {informe.titulo}
-                                </h3>
-
-                                <p className="text-gray-600 mb-2">
-                                    {informe.descripcion}
-                                </p>
-
                                 <p className="text-sm text-gray-500 mb-2">
                                     Valoración promedio:{" "}
                                     <strong>{promedio}</strong>/10
                                 </p>
 
                                 <div className="flex justify-between items-center text-sm text-gray-500">
-                                    <span>Autor: {informe.user?.name}</span>
-
-                                    {auth.user.id === informe.user_id && (
-                                        <div className="flex gap-2">
-                                            <Link
-                                                href={route(
-                                                    "informes.show",
-                                                    informe.id
-                                                )}
-                                                as="button"
-                                                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                                            >
-                                                Editar
-                                            </Link>
-                                            <Link
-                                                href={route(
-                                                    "informes.edit",
-                                                    informe.id
-                                                )}
-                                                as="button"
-                                                className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-                                            >
-                                                Editar
-                                            </Link>
-                                            <Link
-                                                href={route(
-                                                    "informes.destroy",
-                                                    informe.id
-                                                )}
-                                                method="delete"
-                                                as="button"
-                                                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                                            >
-                                                Eliminar
-                                            </Link>
-                                        </div>
+                                    {informe.user && (
+                                        <span>Autor: {informe.user.name}</span>
                                     )}
+
+                                    <div className="flex gap-2">
+                                        <Link
+                                            href={route(
+                                                "informes.show",
+                                                informe.id
+                                            )}
+                                            as="button"
+                                            className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                                        >
+                                            Ver
+                                        </Link>
+                                        {auth.user.id === informe.user_id && (
+                                            <>
+                                                <Link
+                                                    href={route(
+                                                        "informes.edit",
+                                                        informe.id
+                                                    )}
+                                                    as="button"
+                                                    className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                                                >
+                                                    Editar
+                                                </Link>
+                                                <Link
+                                                    href={route(
+                                                        "informes.destroy",
+                                                        informe.id
+                                                    )}
+                                                    method="delete"
+                                                    as="button"
+                                                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                                                >
+                                                    Eliminar
+                                                </Link>
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         );
                     })}
                 </div>
                 <div className="mt-8">
-                <Link
-                    href={route('jugadores.index', {equipo: jugador.equipo_id})}
-                    className="inline-block bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800"
-                >
-                    Volver
-                </Link>
-            </div>
+                    <Link
+                        href={route("jugadores.index", {
+                            equipo: jugador.equipo_id,
+                        })}
+                        className="inline-block bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800"
+                    >
+                        Volver
+                    </Link>
+                </div>
             </div>
         </>
     );

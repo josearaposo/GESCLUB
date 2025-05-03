@@ -26,4 +26,14 @@ class Jugador extends Model
     {
         return $this->hasMany(Informe::class);
     }
+
+    public function representante()
+    {
+        return $this->belongsTo(Representante::class);
+    }
+
+    public function equipo()
+    {
+        return $this->belongsTo(Equipo::class);
+    }
 }

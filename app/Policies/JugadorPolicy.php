@@ -45,7 +45,7 @@ class JugadorPolicy
      */
     public function delete(User $user, Jugador $jugador): bool
     {
-        //
+        return $user->rol === 'gestor';
     }
 
     /**
@@ -61,6 +61,6 @@ class JugadorPolicy
      */
     public function forceDelete(User $user, Jugador $jugador): bool
     {
-        //
+
     }
 }

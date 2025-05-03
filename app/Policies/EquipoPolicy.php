@@ -21,7 +21,7 @@ class EquipoPolicy
      */
     public function view(User $user, Equipo $equipo): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class EquipoPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->rol === 'gestor';
     }
 
     /**
