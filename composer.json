@@ -11,6 +11,10 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "paypal/paypal-checkout-sdk": "^1.0",
+        "paypal/paypal-server-sdk": "^1.0",
+        "paypal/rest-api-sdk-php": "^1.6",
+        "srmklive/paypal": "^3.0",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
