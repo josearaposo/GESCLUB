@@ -8,6 +8,7 @@ use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\EstadioController;
 use App\Http\Controllers\InformeController;
 use App\Http\Controllers\JugadorController;
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\PosicionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepresentanteController;
@@ -69,9 +70,17 @@ Route::get('/informadores', [RegisteredUserController::class, 'indexInformadores
 Route::get('/usuarios/informador/{club}/crear', [RegisteredUserController::class, 'createInformador'])->name('usuarios.informador.create');
 Route::post('/usuarios/informador', [RegisteredUserController::class, 'storeInformador'])->name('usuarios.informador.store');
 
+Route::get('/club/crear', function () {
+    return Inertia::render('Clubs/PagoPayPal');
+})->name('clubs.start');
+Route::get('/payment/create', [PaypalController::class, 'createPayment'])->name('payment.club');
+Route::get('/payment/success', [PaypalController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment/cancel', [PaypalController::class, 'paymentCancel'])->name('payment.cancel');
+
+
 
 
 
 // Route::get('/zonas', [ZonaController::class, 'index'])->name('zonas.index');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

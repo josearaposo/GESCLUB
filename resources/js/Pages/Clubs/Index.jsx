@@ -25,7 +25,7 @@ export default function Index({ clubs }) {
                     <h1 className="text-2xl font-bold">Gestión de Clubs</h1>
                     {auth?.user?.rol === "gestor" && (
                         <Link
-                            href={route("clubs.create")}
+                            href={route("payment.club")}
                             className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
                         >
                             Crear Club
@@ -40,7 +40,6 @@ export default function Index({ clubs }) {
                                 key={club.id}
                                 className="relative w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
                             >
-
                                 <Link
                                     href={route("clubs.edit", club.id)}
                                     className="absolute top-2 right-2 text-gray-500 hover:text-blue-600"
@@ -78,14 +77,14 @@ export default function Index({ clubs }) {
                                             Scouting
                                         </Link>
                                         {auth?.user?.rol === "gestor" && (
-                                        <Link
-                                            href={route("estadios.index", {
-                                                club: club.id,
-                                            })}
-                                            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                                        >
-                                            Abonados
-                                        </Link>
+                                            <Link
+                                                href={route("estadios.index", {
+                                                    club: club.id,
+                                                })}
+                                                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                                            >
+                                                Abonados
+                                            </Link>
                                         )}
                                     </div>
                                 </div>
