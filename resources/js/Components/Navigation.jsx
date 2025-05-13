@@ -15,18 +15,23 @@ export default function Navigation(user) {
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         <div className="shrink-0 flex items-center">
-                        <Link href="/"><img src="/imagenes/logo.svg" alt="Logo" className="h-[100px] object-contain" />
-                        </Link>
+                            <Link href="/">
+                                <img
+                                    src="/imagenes/logo.svg"
+                                    alt="Logo"
+                                    className="h-[100px] object-contain"
+                                />
+                            </Link>
                         </div>
 
                         <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-
                             <NavLink
                                 href={route("clubs.index")}
                                 active={route().current("clubs.index")}
                             >
                                 Clubs
                             </NavLink>
+
                             <NavLink
                                 href={route("representantes.index")}
                                 active={route().current("representantes.index")}
@@ -121,13 +126,14 @@ export default function Navigation(user) {
                     (showingNavigationDropdown ? "block" : "hidden") +
                     " sm:hidden"
                 }
+
             >
                 <div className="pt-2 pb-3 space-y-1">
                     <ResponsiveNavLink
                         href={route("dashboard")}
                         active={route().current("dashboard")}
                     >
-                        Dashboard
+                        Clubs
                     </ResponsiveNavLink>
                 </div>
 
@@ -143,14 +149,14 @@ export default function Navigation(user) {
 
                     <div className="mt-3 space-y-1">
                         <ResponsiveNavLink href={route("profile.edit")}>
-                            Profile
+                            Perfil de Usuario
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             method="post"
                             href={route("logout")}
                             as="button"
                         >
-                            Log Out
+                            Cerrar Sesión
                         </ResponsiveNavLink>
                     </div>
                 </div>
