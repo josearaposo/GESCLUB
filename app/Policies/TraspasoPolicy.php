@@ -2,12 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Informe;
+use App\Models\Traspaso;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Auth;
 
-class InformePolicy
+class TraspasoPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -20,13 +19,9 @@ class InformePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Informe $informe): bool
+    public function view(User $user, Traspaso $traspaso): bool
     {
-        if ($user->rol === 'gestor') {
-            return true;
-        }
-
-        return $user->id === $informe->user_id;
+        //
     }
 
     /**
@@ -34,30 +29,29 @@ class InformePolicy
      */
     public function create(User $user): bool
     {
-        return $user->rol === 'informador' || $user->rol === 'gestor';
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Informe $informe): bool
+    public function update(User $user, Traspaso $traspaso): bool
     {
-        return $user->id === $informe->user_id || $user->rol === 'gestor';
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user,  Informe $informe): bool
+    public function delete(User $user, Traspaso $traspaso): bool
     {
-
-        return $user->id === $informe->user_id || $user->rol === 'gestor';
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Informe $informe): bool
+    public function restore(User $user, Traspaso $traspaso): bool
     {
         //
     }
@@ -65,7 +59,7 @@ class InformePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Informe $informe): bool
+    public function forceDelete(User $user, Traspaso $traspaso): bool
     {
         //
     }

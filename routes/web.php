@@ -77,6 +77,9 @@ Route::get('/payment/create', [PaypalController::class, 'createPayment'])->name(
 Route::get('/payment/success', [PaypalController::class, 'paymentSuccess'])->name('payment.success');
 Route::get('/payment/cancel', [PaypalController::class, 'paymentCancel'])->name('payment.cancel');
 
+Route::post('/jugadores/{jugador}/fichar', [JugadorController::class, 'fichar'])->name('jugadores.fichar');
+
+
 
 
 

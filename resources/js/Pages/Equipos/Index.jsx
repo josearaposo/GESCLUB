@@ -78,7 +78,7 @@ export default function Index({ equipos, club }) {
                                     <td className="border border-gray-300 px-4 py-2 flex space-x-2">
                                         <Link
                                             href={route("jugadores.index", {
-                                                equipo: equipo.id,
+                                                equipo: equipo.id, estado: "fichado"
                                             })}
                                             as="button"
                                             className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"

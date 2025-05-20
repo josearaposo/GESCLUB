@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/inertia-react";
 import Navigation from "@/Components/Navigation";
 import { usePage } from "@inertiajs/react";
 
-export default function Index({ jugadores, equipo }) {
+export default function Index({ jugadores, equipo, estado }) {
     const { flash } = usePage().props;
     return (
         <>
@@ -22,15 +22,28 @@ export default function Index({ jugadores, equipo }) {
                     </div>
                 )}
                 <h1 className="text-2xl font-bold mb-4">
-                    Gestión de jugadores
+                    Gestión de Jugadores{" "}
+                    {estado === "fichado" ? "de la plantilla" : "ojeados"}
                 </h1>
 
-                <div className="flex justify-end mb-4">
+                <div className="flex justify-end mb-4 px-3">
                     <Link
-                        href={route("jugadores.create", { equipo: equipo })}
+                        href={route("jugadores.create", {
+                            equipo: equipo,
+                            estado: "fichado",
+                        })}
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
                         Nuevo Jugador
+                    </Link>
+                    <Link
+                        href={route("jugadores.create", {
+                            equipo: equipo,
+                            estado: "ojeado",
+                        })}
+                        className="bg-amber-300 text-white px-4 ml-2 py-2 rounded hover:bg-amber-600"
+                    >
+                        Jugador a Ojear
                     </Link>
                 </div>
 
@@ -49,9 +62,13 @@ export default function Index({ jugadores, equipo }) {
                             />
 
                             <div className="flex-1">
-                                <h3 className="text-xl font-semibold text-gray-800">
-                                    {jugador.apodo}
-                                </h3>
+                                <Link
+                                    href={route("jugadores.show", jugador.id)}
+                                >
+                                    <h3 className="text-xl font-semibold text-gray-800 hover:underline cursor-pointer">
+                                        {jugador.apodo}
+                                    </h3>
+                                </Link>
                                 <p className="text-gray-600">
                                     {jugador.nombre} {jugador.primer_apellido}
                                 </p>
@@ -59,15 +76,16 @@ export default function Index({ jugadores, equipo }) {
                                     Posición: {jugador.primera_posicion.nombre}
                                 </p>
                                 <p className="text-sm text-gray-500">
-                                    Edad: {new Date().getFullYear() - jugador.year}
+                                    Edad:{" "}
+                                    {new Date().getFullYear() - jugador.year}
                                 </p>
                                 <p className="text-sm text-gray-500">
                                     Valoración: {jugador.valoracion}
                                 </p>
                             </div>
-                            <div>
-                                Equipo: {jugador.equipo.nombre}
-                            </div>
+                            {jugador.estado === "ojeado" && (
+                                <div>Equipo: {jugador.equipo_externo}</div>
+                            )}
 
                             <div className="flex gap-2 mt-4 md:mt-0">
                                 <Link

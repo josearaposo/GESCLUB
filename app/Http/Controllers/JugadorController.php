@@ -7,6 +7,7 @@ use App\Models\Equipo;
 use App\Models\Jugador;
 use App\Models\Posicion;
 use App\Models\Representante;
+use App\Models\Traspaso;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,15 +19,19 @@ class JugadorController extends Controller
     public function index(Request $request)
     {
         $equipoId = $request->input('equipo');
+        $estado = $request->input('estado');
 
         $jugadores = Jugador::with('primera_posicion', 'equipo')
-            ->when($equipoId, function ($query, $equipoId) {
-                $query->where('equipo_id', $equipoId);
-            })
-            ->get();
+        ->where('estado', $estado)
+        ->when($equipoId, function ($query, $equipoId) {
+            $query->where('equipo_id', $equipoId);
+        })
+        ->get();
 
         return Inertia::render('Jugadores/Index', [
             'jugadores' => $jugadores,
+            'equipo' => $equipoId,
+            'estado' => $estado,
         ]);
     }
 
@@ -35,13 +40,15 @@ class JugadorController extends Controller
      */
     public function create(Request $request)
     {
+        $estado = $request->input('estado');
         $equipos = Equipo::all();
         $posiciones = Posicion::all();
         $representantes = Representante::all();
         return Inertia::render('Jugadores/Create', [
             'equipos' => $equipos,
             'posiciones' => $posiciones,
-            'representantes' => $representantes
+            'representantes' => $representantes,
+            'estado'=> $estado,
 
         ]);
     }
@@ -51,6 +58,12 @@ class JugadorController extends Controller
      */
     public function store(Request $request)
     {
+        //Evitar cadenas vacias
+        $request->merge([
+            'equipo_externo' => $request->filled('equipo_externo') ? $request->equipo_externo : null,
+            'segundo_apellido' => $request->filled('segundo_apellido') ? $request->segundo_apellido : null,
+            'representante_id' => $request->filled('representante_id') ? $request->representante_id : null,
+        ]);
 
         $equipoId = $request->input('equipo');
         $validated = $request->validate([
@@ -59,6 +72,8 @@ class JugadorController extends Controller
             'primer_apellido' => 'required|string|max:255',
             'segundo_apellido' => 'nullable|string|max:255',
             'equipo_id' => 'required|exists:equipos,id',
+            'equipo_externo' => 'nullable|string|max:255',
+            'estado' => 'required',
             'year' => 'required|integer',
             'ciudad' => 'required|string|max:255',
             'provincia' => 'required|string|max:255',
@@ -69,11 +84,9 @@ class JugadorController extends Controller
             'internacional' => 'required|boolean',
             'primera_posicion' => 'required|exists:posiciones,id',
             'segunda_posicion' => 'nullable|exists:posiciones,id',
-            'representante' => 'nullable|exists:representantes,id',
+            'representante_id' => 'nullable|exists:representantes,id',
             'salario' => 'nullable|integer',
             'valor_mercado' => 'nullable|integer',
-            'fortalezas' => 'nullable|string',
-            'debilidades' => 'nullable|string',
             'valoracion' => 'nullable|numeric|min:0|max:10',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -94,7 +107,14 @@ class JugadorController extends Controller
      */
     public function show(Jugador $jugador)
     {
-        //
+        $equipos = Equipo::all();
+        $traspasos = $jugador->traspasos()->with(['equipoOrigen', 'equipoDestino'])->get();
+
+        return Inertia::render('Jugadores/Show', [
+            'jugador' => $jugador,
+            'equipos' => $equipos,
+            'traspasos' =>$traspasos,
+        ]);
     }
 
     /**
@@ -126,6 +146,7 @@ class JugadorController extends Controller
             'primer_apellido' => 'required|string|max:255',
             'segundo_apellido' => 'nullable|string|max:255',
             'equipo_id' => 'required|exists:equipos,id',
+            'equipo_externo' => 'nullable|string|max:255',
             'year' => 'required|integer',
             'ciudad' => 'required|string|max:255',
             'provincia' => 'required|string|max:255',
@@ -139,8 +160,6 @@ class JugadorController extends Controller
             'representante' => 'nullable|exists:representantes,id',
             'salario' => 'nullable|integer',
             'valor_mercado' => 'nullable|integer',
-            'fortalezas' => 'nullable|string',
-            'debilidades' => 'nullable|string',
             'valoracion' => 'nullable|numeric|min:0|max:10',
             'imagen' => 'nullable|string|max:255',
         ]);
@@ -167,4 +186,45 @@ class JugadorController extends Controller
 
         return redirect()->route('jugadores.index')->with('success', 'Jugador eliminado correctamente.');
     }
+
+    public function fichar(Request $request, Jugador $jugador)
+{
+    // Verifica que el jugador esté ojeado antes de ficharlo
+
+    if ($jugador->estado === 'ojeado') {
+        $jugador->estado = 'fichado';
+        $jugador->equipo_id = $request->equipo_id;
+
+        Traspaso::create([
+            'jugador_id' => $jugador->id,
+            'equipo_origen_id' => null,
+            'equipo_destino_id' => $request->equipo_id,
+            'equipo_destino_externo' => $jugador->equipo_externo,
+            'fecha_traspaso' => now(),
+            'tipo' => $request->tipo,
+        ]);
+
+        $jugador->save();
+
+    } else {
+        $jugador->estado = 'ojeado';
+        $jugador->equipo_externo = $request->equipo_destino_externo;
+        $jugador->save();
+
+        Traspaso::create([
+            'jugador_id' => $jugador->id,
+            'equipo_origen_id' => $jugador->equipo_id,
+            'equipo_destino_id' => $request->equipo_id,
+            'equipo_destino_externo' => $request->equipo_destino_externo,
+            'fecha_traspaso' => now(),
+            'tipo' => $request->tipo,
+        ]);
+    }
+
+
+
+
+
+    return redirect()->route('jugadores.index')->with('success', 'Jugador fichado correctamente.');
+}
 }

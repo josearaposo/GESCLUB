@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 
-export default function Create({ equipos, posiciones, representantes }) {
+export default function Create({
+    equipos,
+    posiciones,
+    representantes,
+    estado,
+}) {
     const [apodo, setApodo] = useState("");
     const [nombre, setNombre] = useState("");
     const [primer_apellido, setPrimerApellido] = useState("");
     const [segundo_apellido, setSegundoApellido] = useState("");
     const [equipo_id, setEquipoId] = useState("");
+    const [equipo_externo, setEquipoExterno] = useState("");
     const [year, setYear] = useState("");
     const [ciudad, setCiudad] = useState("");
     const [provincia, setProvincia] = useState("");
@@ -17,16 +23,13 @@ export default function Create({ equipos, posiciones, representantes }) {
     const [internacional, setInternacional] = useState("");
     const [primera_posicion, setPrimeraPosicion] = useState("");
     const [segunda_posicion, setSegundaPosicion] = useState("");
-    const [representante, setRepresentanteId] = useState("");
+    const [representante_id, setRepresentanteId] = useState("");
     const [salario, setSalario] = useState("");
     const [valor_mercado, setValorMercado] = useState("");
-    const [fortalezas, setFortalezas] = useState("");
-    const [debilidades, setDebilidades] = useState("");
     const [imagen, setImagen] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
 
         const formData = new FormData();
         formData.append("apodo", apodo);
@@ -34,6 +37,8 @@ export default function Create({ equipos, posiciones, representantes }) {
         formData.append("primer_apellido", primer_apellido);
         formData.append("segundo_apellido", segundo_apellido || "");
         formData.append("equipo_id", equipo_id);
+        formData.append("equipo_externo", equipo_externo);
+        formData.append("estado", estado);
         formData.append("year", year);
         formData.append("ciudad", ciudad);
         formData.append("provincia", provincia);
@@ -44,12 +49,10 @@ export default function Create({ equipos, posiciones, representantes }) {
         formData.append("internacional", internacional ? 1 : 0);
         formData.append("primera_posicion", primera_posicion);
         formData.append("segunda_posicion", segunda_posicion || "");
-        formData.append("representante", representante || "");
+        formData.append("representante_id", representante_id || "");
         formData.append("salario", salario || "");
         formData.append("valor_mercado", valor_mercado || "");
-        formData.append("fortalezas", fortalezas || "");
-        formData.append("debilidades", debilidades || "");
-        formData.append("valoracion", 0.00);
+        formData.append("valoracion", 0.0);
         formData.append("imagen", imagen || "");
 
         Inertia.post("/jugadores", formData, {
@@ -159,6 +162,22 @@ export default function Create({ equipos, posiciones, representantes }) {
                             </option>
                         ))}
                     </select>
+                </div>
+
+                <div>
+                    <label
+                        htmlFor="equipo_externo"
+                        className="block text-sm font-medium text-gray-700"
+                    >
+                        Equipo Externo
+                    </label>
+                    <input
+                        type="text"
+                        id="equipo_externo"
+                        value={equipo_externo}
+                        onChange={(e) => setEquipoExterno(e.target.value)}
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                    />
                 </div>
 
                 <div>
@@ -314,7 +333,6 @@ export default function Create({ equipos, posiciones, representantes }) {
                             </option>
                         ))}
                     </select>
-
                 </div>
                 <div className="mb-6">
                     <label
@@ -328,7 +346,6 @@ export default function Create({ equipos, posiciones, representantes }) {
                         name="segunda_posicion"
                         value={segunda_posicion}
                         onChange={(e) => setSegundaPosicion(e.target.value)}
-                        required
                         className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                     >
                         <option value="">Posiciones</option>
@@ -342,37 +359,39 @@ export default function Create({ equipos, posiciones, representantes }) {
 
                 <div className="mb-6">
                     <label
-                        htmlFor="representante"
+                        htmlFor="representante_id"
                         className="block text-gray-700 text-sm font-bold mb-2"
                     >
                         Representante:
                     </label>
                     <div className="flex gap-2">
-                    <select
-                        id="representante"
-                        name="representante"
-                        value={representante}
-                        onChange={(e) => setRepresentanteId(e.target.value)}
-                        className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                    >
-                        <option value="">Representante</option>
-                        {representantes.map((representante) => (
-                            <option
-                                key={representante.id}
-                                value={representante.id}
-                            >
-                                {representante.nombre}
-                            </option>
-                        ))}
-                    </select>
-                    <button
-                                                    type="button"
-                                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                                    onClick={() => Inertia.get('/representantes/create')}
-                                                >
-                                                    +
-                                                </button>
-                </div>
+                        <select
+                            id="representante_id"
+                            name="representante_id"
+                            value={representante_id}
+                            onChange={(e) => setRepresentanteId(e.target.value)}
+                            className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                        >
+                            <option value="">Representante</option>
+                            {representantes.map((representante) => (
+                                <option
+                                    key={representante.id}
+                                    value={representante.id}
+                                >
+                                    {representante.nombre}
+                                </option>
+                            ))}
+                        </select>
+                        <button
+                            type="button"
+                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            onClick={() =>
+                                Inertia.get("/representantes/create")
+                            }
+                        >
+                            +
+                        </button>
+                    </div>
                 </div>
 
                 <div>
@@ -403,36 +422,6 @@ export default function Create({ equipos, posiciones, representantes }) {
                         id="valor_mercado"
                         value={valor_mercado}
                         onChange={(e) => setValorMercado(e.target.value)}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                    />
-                </div>
-
-                <div>
-                    <label
-                        htmlFor="fortalezas"
-                        className="block text-sm font-medium text-gray-700"
-                    >
-                        Fortalezas
-                    </label>
-                    <textarea
-                        id="fortalezas"
-                        value={fortalezas}
-                        onChange={(e) => setFortalezas(e.target.value)}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                    />
-                </div>
-
-                <div>
-                    <label
-                        htmlFor="debilidades"
-                        className="block text-sm font-medium text-gray-700"
-                    >
-                        Debilidades
-                    </label>
-                    <textarea
-                        id="debilidades"
-                        value={debilidades}
-                        onChange={(e) => setDebilidades(e.target.value)}
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                     />
                 </div>

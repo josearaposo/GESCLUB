@@ -72,7 +72,7 @@ export default function Index({ informes, jugador }) {
                                         >
                                             Ver
                                         </Link>
-                                        {auth.user.id === informe.user_id && (
+                                        {(auth.user.id === informe.user_id || auth.user.rol === 'gestor') && (
                                             <>
                                                 <Link
                                                     href={route(
