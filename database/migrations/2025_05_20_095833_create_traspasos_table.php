@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('jugador_id')->constrained('jugadores')->onDelete('cascade');
             $table->foreignId('equipo_origen_id')->nullable()->constrained('equipos')->nullOnDelete();
             $table->foreignId('equipo_destino_id')->nullable()->constrained('equipos')->nullOnDelete();
+            $table->string('equipo_origen_externo')->nullable();
             $table->string('equipo_destino_externo')->nullable();
             $table->date('fecha_traspaso');
             $table->enum('tipo', ['fichaje', 'cesion', 'libre', 'filial'])->default('fichaje');

@@ -11,6 +11,7 @@ class Traspaso extends Model
     'jugador_id',
     'equipo_origen_id',
     'equipo_destino_id',
+    'equipo_origen_externo',
     'equipo_destino_externo',
     'fecha_traspaso',
     'tipo'];

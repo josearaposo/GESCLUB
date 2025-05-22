@@ -141,6 +141,10 @@ class InformeController extends Controller
         return Inertia::render('Informes/Show', [
             'informe' => $informe,
             'jugador' => $informe->jugador,
+            'informesDisponibles' => Informe::where('jugador_id', $informe->jugador_id)
+            ->where('id', '!=', $informe->id)
+            ->with('jugador')
+            ->get(),
         ]);
     }
 
@@ -262,5 +266,25 @@ class InformeController extends Controller
         $jugador->save();
 
         return redirect()->route('informes.index', ['jugador' => $jugador])->with('success', 'Informe eliminado correctamente.');
+    }
+
+    public function comparar()
+    {
+        $jugadores = Jugador::with('informes')->get();
+
+        return Inertia::render('Informes/Comparar', [
+            'jugadores' => $jugadores,
+        ]);
+    }
+
+    public function comparacion(Request $request)
+    {
+        $informe1 = Informe::with('jugador' , 'user')->findOrFail($request->informe1);
+        $informe2 = Informe::with('jugador', 'user')->findOrFail($request->informe2);
+
+        return Inertia::render('Informes/CompararInformes', [
+            'informe1' => $informe1,
+            'informe2' => $informe2,
+        ]);
     }
 }

@@ -54,7 +54,7 @@ export default function Navigation(user) {
                                 href={route("jugadores.index", { estado: "ojeado" })}
                                 active={route().current("jugadores.index")}
                             >
-                                Jugadores
+                                Seguimiento
                             </NavLink>
                         </div>
                     </div>

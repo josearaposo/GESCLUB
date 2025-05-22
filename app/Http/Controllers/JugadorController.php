@@ -22,11 +22,11 @@ class JugadorController extends Controller
         $estado = $request->input('estado');
 
         $jugadores = Jugador::with('primera_posicion', 'equipo')
-        ->where('estado', $estado)
-        ->when($equipoId, function ($query, $equipoId) {
-            $query->where('equipo_id', $equipoId);
-        })
-        ->get();
+            ->where('estado', $estado)
+            ->when($equipoId, function ($query, $equipoId) {
+                $query->where('equipo_id', $equipoId);
+            })
+            ->get();
 
         return Inertia::render('Jugadores/Index', [
             'jugadores' => $jugadores,
@@ -48,7 +48,7 @@ class JugadorController extends Controller
             'equipos' => $equipos,
             'posiciones' => $posiciones,
             'representantes' => $representantes,
-            'estado'=> $estado,
+            'estado' => $estado,
 
         ]);
     }
@@ -113,7 +113,7 @@ class JugadorController extends Controller
         return Inertia::render('Jugadores/Show', [
             'jugador' => $jugador,
             'equipos' => $equipos,
-            'traspasos' =>$traspasos,
+            'traspasos' => $traspasos,
         ]);
     }
 
@@ -167,7 +167,7 @@ class JugadorController extends Controller
 
         $jugador->update($validated);
 
-        return redirect()->route('jugadores.index') ->with('success', 'Jugador modificado correctamente.');
+        return redirect()->route('jugadores.index')->with('success', 'Jugador modificado correctamente.');
     }
 
     /**
@@ -188,43 +188,86 @@ class JugadorController extends Controller
     }
 
     public function fichar(Request $request, Jugador $jugador)
-{
-    // Verifica que el jugador esté ojeado antes de ficharlo
+    {
+        // Verifica que el jugador esté ojeado antes de ficharlo
 
-    if ($jugador->estado === 'ojeado') {
-        $jugador->estado = 'fichado';
-        $jugador->equipo_id = $request->equipo_id;
+        if ($jugador->estado === 'ojeado') {
+            if ($request->equipo_id != null) {
 
-        Traspaso::create([
-            'jugador_id' => $jugador->id,
-            'equipo_origen_id' => null,
-            'equipo_destino_id' => $request->equipo_id,
-            'equipo_destino_externo' => $jugador->equipo_externo,
-            'fecha_traspaso' => now(),
-            'tipo' => $request->tipo,
-        ]);
+                $jugador->estado = 'fichado';
+                $jugador->equipo_id = $request->equipo_id;
 
-        $jugador->save();
+                Traspaso::create([
+                    'jugador_id' => $jugador->id,
+                    'equipo_origen_id' => null,
+                    'equipo_destino_id' => $request->equipo_id,
+                    'equipo_origen_externo' => $jugador->equipo_externo,
+                    'equipo_destino_externo' => null,
+                    'fecha_traspaso' => now(),
+                    'tipo' => $request->tipo,
+                ]);
+            } else {
+                if ($request->equipo_destino_externo != "") {
 
-    } else {
-        $jugador->estado = 'ojeado';
-        $jugador->equipo_externo = $request->equipo_destino_externo;
-        $jugador->save();
+                    $anteriorEquipo = $jugador->equipo_externo;
+                    $jugador->equipo_externo = $request->equipo_destino_externo;
+                    $jugador->save();
 
-        Traspaso::create([
-            'jugador_id' => $jugador->id,
-            'equipo_origen_id' => $jugador->equipo_id,
-            'equipo_destino_id' => $request->equipo_id,
-            'equipo_destino_externo' => $request->equipo_destino_externo,
-            'fecha_traspaso' => now(),
-            'tipo' => $request->tipo,
-        ]);
+                    Traspaso::create([
+                        'jugador_id' => $jugador->id,
+                        'equipo_origen_id' => null,
+                        'equipo_destino_id' => null,
+                        'equipo_origen_externo' => $anteriorEquipo,
+                        'equipo_destino_externo' => $request->equipo_destino_externo,
+                        'fecha_traspaso' => now(),
+                        'tipo' => $request->tipo,
+                    ]);
+
+                    return redirect()->route('jugadores.index', [
+                        'equipo' => $jugador->equipo->id,
+                        'estado' => 'ojeado',
+                    ])->with('success', 'Traspaso registrado correctamente.');
+
+                }
+                return redirect()->route('jugadores.index', [
+                    'equipo' => $jugador->equipo->id,
+                    'estado' => 'ojeado',
+                ])->with('error', 'Equipo no válido.');
+            }
+
+
+            $jugador->save();
+        } else {
+            if ($jugador->equipo_id != $request->equipo_id && $request->equipo_destino_externo != "") {
+                $jugador->estado = 'ojeado';
+                $jugador->equipo_externo = $request->equipo_destino_externo;
+                $jugador->save();
+
+                Traspaso::create([
+                    'jugador_id' => $jugador->id,
+                    'equipo_origen_id' => $jugador->equipo_id,
+                    'equipo_destino_id' => $request->equipo_id,
+                    'equipo_origen_externo' => null,
+                    'equipo_destino_externo' => $request->equipo_destino_externo,
+                    'fecha_traspaso' => now(),
+                    'tipo' => $request->tipo,
+                ]);
+            } else {
+
+                return redirect()->route('jugadores.index', [
+                    'equipo' => $jugador->equipo->id,
+                    'estado' => 'fichado',
+                ])->with('error', 'Equipo no válido.');
+            }
+        }
+
+
+
+
+
+        return redirect()->route('jugadores.index', [
+            'equipo' => $jugador->equipo->id,
+            'estado' => 'fichado',
+        ])->with('success', 'Jugador fichado correctamente.');
     }
-
-
-
-
-
-    return redirect()->route('jugadores.index')->with('success', 'Jugador fichado correctamente.');
-}
 }

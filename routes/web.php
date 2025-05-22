@@ -55,7 +55,11 @@ Route::middleware('auth')->group(function () {
 Route::resource('equipos', EquipoController::class);
 Route::resource('clubs', ClubController::class);
 Route::resource('representantes', RepresentanteController::class);
+
+Route::get('/informes/comparacion', [InformeController::class, 'comparacion'])->name('informes.comparacion');
 Route::resource('informes', InformeController::class);
+
+
 Route::resource('posiciones', PosicionController::class)->parameters(['posiciones' => 'posicion']);
 Route::resource('divisiones', DivisionController::class)->parameters(['divisiones' => 'division']);
 Route::resource('jugadores', JugadorController::class)->parameters(['jugadores' => 'jugador']);

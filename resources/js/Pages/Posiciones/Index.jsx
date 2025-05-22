@@ -4,7 +4,7 @@ import { Link } from "@inertiajs/inertia-react";
 import Navigation from "@/Components/Navigation";
 
 export default function Index({ posiciones }) {
-    const [hoveredPosicion, setHoveredPosicion] = useState(null);
+    const [obtenerPosicion, setObtenerPosicion] = useState(null);
 
 
     const posicionCoordenadas = {
@@ -53,8 +53,8 @@ export default function Index({ posiciones }) {
                                 {posiciones.map((posicion) => (
                                     <tr
                                         key={posicion.id}
-                                        onMouseEnter={() => setHoveredPosicion(posicion.nombre)}
-                                        onMouseLeave={() => setHoveredPosicion(null)}
+                                        onMouseEnter={() => setObtenerPosicion(posicion.nombre)}
+                                        onMouseLeave={() => setObtenerPosicion(null)}
                                         className="hover:bg-gray-50"
                                     >
                                         <td className="border border-gray-300 px-4 py-2">
@@ -102,7 +102,7 @@ export default function Index({ posiciones }) {
                             <div
                                 key={nombre}
                                 className={`absolute w-4 h-4 rounded-full ${
-                                    hoveredPosicion === nombre
+                                    obtenerPosicion === nombre
                                         ? "bg-red-500 scale-125"
                                         : "bg-white"
                                 }`}

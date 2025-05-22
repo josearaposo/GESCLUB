@@ -58,7 +58,7 @@ export default function FicharJugador({ jugador, equipos }) {
           onChange={(e) => setTipo(e.target.value)}
         >
           <option value="fichaje">Fichaje</option>
-          <option value="cesión">Cesión</option>
+          <option value="cesion">Cesión</option>
           <option value="libre">Libre</option>
           <option value="filial">Filial</option>
         </select>
