@@ -62,11 +62,14 @@ export default function Show({ informe }) {
                 .replace(/\b\w/g, (l) => l.toUpperCase()),
             valor: informe[key],
         }));
-        console.log(informe)
-        console.log(
-            'URL comparación:',
-            route('informes.comparacion', { informe1: informe.id, informe2: data.informe2 })
-          );
+    console.log(informe);
+    console.log(
+        "URL comparación:",
+        route("informes.comparacion", {
+            informe1: informe.id,
+            informe2: data.informe2,
+        })
+    );
 
     return (
         <div className="container mx-auto p-6">
@@ -133,17 +136,21 @@ export default function Show({ informe }) {
                     </select>
 
                     <button
-  onClick={() =>
-    get(route("informes.comparacion", {
-      informe1: informe.id,
-      informe2: data.informe2,
-    }))
-  }
-  disabled={!data.informe2}
-  className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
->
-  Comparar
-</button>
+                        onClick={() =>
+                            get(
+                                route("informes.comparacion", {
+                                    informe1: informe.id,
+                                    informe2: data.informe2,
+                                })
+                            )
+                        }
+                        disabled={!data.informe2}
+                        className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                    >
+                        Comparar
+                    </button>
+
+
                 </div>
             </div>
         </div>

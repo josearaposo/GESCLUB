@@ -26,7 +26,7 @@ export default function Comparar({ jugadores }) {
                 {jugadores.map((jugador) =>
                     jugador.informes.map((informe) => (
                         <option key={informe.id} value={informe.id}>
-                            {jugador.nombre} - {informe.created_at}
+                            {jugador.nombre} - {new Date(informe.created_at).toLocaleDateString()}
                         </option>
                     ))
                 )}

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('posiciones', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->decimal('x')->nullable();
+            $table->decimal('y')->nullable();
             $table->timestamps();
         });
     }

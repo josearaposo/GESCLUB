@@ -57,6 +57,7 @@ Route::resource('clubs', ClubController::class);
 Route::resource('representantes', RepresentanteController::class);
 
 Route::get('/informes/comparacion', [InformeController::class, 'comparacion'])->name('informes.comparacion');
+Route::get('/informes/comparar', [InformeController::class, 'comparar'])->name('informes.comparar');
 Route::resource('informes', InformeController::class);
 
 

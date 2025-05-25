@@ -9,7 +9,7 @@ class Posicion extends Model
 {
     protected $table = 'posiciones';
 
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'x', 'y'];
 
     use HasFactory;
 

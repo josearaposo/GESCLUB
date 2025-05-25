@@ -1,3 +1,4 @@
+import Navigation from "@/Components/Navigation";
 import React from "react";
 import {
     Radar,
@@ -59,6 +60,8 @@ export default function CompararInformes({ informe1, informe2 }) {
         }));
 
     return (
+        <>
+        <Navigation />
         <div className="container mx-auto p-6">
             <h1 className="text-2xl font-bold mb-6">Comparación de Informes</h1>
 
@@ -97,7 +100,7 @@ export default function CompararInformes({ informe1, informe2 }) {
             </div>
 
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-gray-100 rounded shadow">
+                <div className="p-4 bg-green-100 rounded shadow">
                 <h2>Realizado por {informe1.user.name}</h2>
                     <h3 className="font-bold text-lg mb-2">
                         Pros {informe1.jugador.nombre}
@@ -107,7 +110,7 @@ export default function CompararInformes({ informe1, informe2 }) {
                     <p>{informe1.contras || "No especificados."}</p>
                 </div>
 
-                <div className="p-4 bg-gray-100 rounded shadow">
+                <div className="p-4 bg-blue-100 rounded shadow">
                     <h2>Realizado por {informe2.user.name}</h2>
                     <h3 className="font-bold text-lg mb-2">
                         Pros {informe2.jugador.nombre}
@@ -118,6 +121,7 @@ export default function CompararInformes({ informe1, informe2 }) {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

@@ -14,19 +14,20 @@ class PosicionSeeder extends Seeder
     public function run(): void
     {
         $posiciones = [
-            ['nombre' => 'Portero'],
-            ['nombre' => 'Lateral Derecho'],
-            ['nombre' => 'Lateral Izquierdo'],
-            ['nombre' => 'Carrilero Izquierdo'],
-            ['nombre' => 'Carrilero Derecho'],
-            ['nombre' => 'Mediocentro'],
-            ['nombre' => 'Pivote Defensivo'],
-            ['nombre' => 'Interior Izquierdo'],
-            ['nombre' => 'Interior Derecho'],
-            ['nombre' => 'Extremo Izquierdo'],
-            ['nombre' => 'Extremo Derecho'],
-            ['nombre' => 'Mediapunta'],
-            ['nombre' => 'Delantero']
+            ['nombre' => 'Portero', 'x'=> 15, 'y' => 50 ],
+            ['nombre' => 'Lateral Derecho', 'x'=> 25, 'y' => 80 ],
+            ['nombre' => 'Lateral Izquierdo' , 'x'=> 25, 'y' => 20],
+            ['nombre' => 'Central' , 'x'=> 25, 'y' => 50],
+            ['nombre' => 'Carrilero Izquierdo' , 'x'=> 35, 'y' => 20],
+            ['nombre' => 'Carrilero Derecho', 'x'=> 35, 'y' => 80],
+            ['nombre' => 'Mediocentro' , 'x'=> 50, 'y' => 50],
+            ['nombre' => 'Pivote Defensivo' , 'x'=> 40, 'y' => 50],
+            ['nombre' => 'Interior Izquierdo' , 'x'=> 60, 'y' => 20],
+            ['nombre' => 'Interior Derecho' , 'x'=> 60, 'y' => 80],
+            ['nombre' => 'Extremo Izquierdo' , 'x'=> 75, 'y' => 20],
+            ['nombre' => 'Extremo Derecho' , 'x'=> 75, 'y' => 80],
+            ['nombre' => 'Mediapunta' , 'x'=> 70, 'y' => 50],
+            ['nombre' => 'Delantero', 'x'=> 80, 'y' => 50]
         ];
 
         DB::table('posiciones')->insert($posiciones);

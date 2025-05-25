@@ -1,56 +1,83 @@
-import React, { useState } from "react";
-import { Inertia } from "@inertiajs/inertia";
+import React from "react";
+import { useForm } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
 
 export default function Edit({ posicion }) {
-    const [nombre, setNombre] = useState(posicion.nombre);
+    const { data, setData, put, processing, errors } = useForm({
+        nombre: posicion.nombre || "",
+        x: posicion.x ?? "",
+        y: posicion.y ?? "",
+    });
+
+    const handleClick = (e) => {
+        const rect = e.target.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        setData({ ...data, x: Math.round(x), y: Math.round(y) });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.put(`/posiciones/${posicion.id}`, {nombre});
+        put(route("posiciones.update", posicion.id));
     };
-    console.log(posicion.nombre);
 
     return (
         <>
-
             <Navigation />
-            <div>
-                <form
-                    onSubmit={handleSubmit}
-                    className="bg-white p-6 shadow-md rounded-md max-w-lg mx-auto"
-                >
-                    <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">
-                        Editar Posicion
-                    </h2>
+            <div className="container mx-auto p-6 space-y-6">
+                <h1 className="text-2xl font-bold">Editar Posición</h1>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="nombre"
-                            className="block text-gray-700 font-medium mb-1"
-                        >
-                            Nombre:
-                        </label>
-
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label className="block font-medium">Nombre</label>
                         <input
                             type="text"
-                            id="nombre"
-                            name="nombre"
-                            value={nombre}
-                            onChange={(e) => setNombre(e.target.value)}
-                            required
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+                            value={data.nombre}
+                            onChange={(e) => setData("nombre", e.target.value)}
+                            className="border rounded px-3 py-2 w-full"
                         />
+                        {errors.nombre && <div className="text-red-500">{errors.nombre}</div>}
                     </div>
 
-                    <div className="text-center">
-                        <button
-                            type="submit"
-                            className="bg-blue-500 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                    <div>
+                        <label className="block font-medium mb-1">Haz clic para cambiar la posición en el campo</label>
+                        <div
+                            className="relative w-1/2 h-96 rounded cursor-crosshair"
+                            onClick={handleClick}
+                            style={{
+                                backgroundImage: "url('/imagenes/campofutbol.jpg')",
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat",
+                            }}
                         >
-                            Actualizar
-                        </button>
+                            {data.x !== "" && data.y !== "" && (
+                                <div
+                                    className="absolute w-4 h-4 bg-red-500 rounded-full"
+                                    style={{
+                                        left: `${data.x}%`,
+                                        top: `${data.y}%`,
+                                        transform: "translate(-50%, -50%)",
+                                    }}
+                                />
+                            )}
+                        </div>
+                        <p className="text-sm text-gray-600 mt-2">Coordenadas: {data.x}%, {data.y}%</p>
+                        {(errors.x || errors.y) && (
+                            <div className="text-red-500">
+                                {errors.x && <div>{errors.x}</div>}
+                                {errors.y && <div>{errors.y}</div>}
+                            </div>
+                        )}
                     </div>
+
+                    <button
+                        type="submit"
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        disabled={processing}
+                    >
+                        Guardar Cambios
+                    </button>
                 </form>
             </div>
         </>

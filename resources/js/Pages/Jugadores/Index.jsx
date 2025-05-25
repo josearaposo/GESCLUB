@@ -45,6 +45,13 @@ export default function Index({ jugadores, equipo, estado }) {
                     >
                         Jugador a Ojear
                     </Link>
+
+                    <Link
+                        href={route("informes.comparar")}
+                        className="bg-purple-300 text-white px-4 ml-2 py-2 rounded hover:bg-purple-600"
+                    >
+                        Comparar
+                    </Link>
                 </div>
 
                 <div className="space-y-4">

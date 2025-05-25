@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jugador;
 use App\Models\Posicion;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -32,13 +33,20 @@ class PosicionController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+
+        $request->validate([
             'nombre' => 'required|string|max:255',
+            'x' => 'nullable|numeric|min:0|max:100',
+            'y' => 'nullable|numeric|min:0|max:100',
         ]);
 
-        Posicion::create($validated);
+        Posicion::create([
+            'nombre' => $request->nombre,
+            'x' => $request->x,
+            'y' => $request->y,
+        ]);
 
-        return redirect()->route('posiciones.index');
+        return redirect()->route('posiciones.index')->with('success', 'Posición creada correctamente');
     }
 
     /**
@@ -54,18 +62,26 @@ class PosicionController extends Controller
      */
     public function edit(Posicion $posicion)
     {
-
         return Inertia::render('Posiciones/Edit', [
             'posicion' => $posicion,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Posicion $posicion)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'x' => 'nullable|numeric|min:0|max:100',
+            'y' => 'nullable|numeric|min:0|max:100',
+        ]);
+
+        $posicion->update([
+            'nombre' => $request->nombre,
+            'x' => $request->x,
+            'y' => $request->y,
+        ]);
+
+        return redirect()->route('posiciones.index')->with('success', 'Posición actualizada correctamente');
     }
 
     /**
@@ -73,6 +89,18 @@ class PosicionController extends Controller
      */
     public function destroy(Posicion $posicion)
     {
-        //
+
+        if (
+            Jugador::where('primera_posicion', $posicion->id)->exists() ||
+            Jugador::where('segunda_posicion', $posicion->id)->exists()
+        ) {
+
+            return redirect()->route('posiciones.index')
+                ->with('error', 'No se puede eliminar la posición. Hay jugadores que la utilizan.');
+        }
+
+        $posicion->delete();
+
+        return redirect()->route('posiciones.index')->with('success', 'Posicion eliminada correctamente.');
     }
 }
