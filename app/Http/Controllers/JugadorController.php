@@ -41,11 +41,13 @@ class JugadorController extends Controller
     public function create(Request $request)
     {
         $estado = $request->input('estado');
-        $equipos = Equipo::all();
+
+        $equipoId = $request->input('equipo');
+        $equipo = Equipo::findOrFail($equipoId);
         $posiciones = Posicion::all();
         $representantes = Representante::all();
         return Inertia::render('Jugadores/Create', [
-            'equipos' => $equipos,
+            'equipo' => $equipo,
             'posiciones' => $posiciones,
             'representantes' => $representantes,
             'estado' => $estado,
@@ -99,7 +101,19 @@ class JugadorController extends Controller
         }
         Jugador::create($validated);
 
-        return redirect()->route('jugadores.index', $equipoId)->with('success', 'Jugador creado correctamente.');
+        //vista segun jugador creado, o ojeados o de plantilla
+        if ($request->equipo_externo == null) {
+            return redirect()->route('jugadores.index', [
+                'equipo' => $equipoId,
+                'estado' => 'fichado',
+            ])->with('success', 'Jugador creado correctamente.');
+        } else {
+            return redirect()->route('jugadores.index', [
+                'equipo' => $equipoId,
+                'estado' => 'ojeado',
+            ])->with('success', 'Jugador creado correctamente.');
+        }
+
     }
 
     /**

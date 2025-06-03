@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 
 export default function Create({
-    equipos,
+    equipo,
     posiciones,
     representantes,
     estado,
@@ -11,7 +11,7 @@ export default function Create({
     const [nombre, setNombre] = useState("");
     const [primer_apellido, setPrimerApellido] = useState("");
     const [segundo_apellido, setSegundoApellido] = useState("");
-    const [equipo_id, setEquipoId] = useState("");
+     const [equipo_id, setEquipoId] = useState(equipo.nombre);
     const [equipo_externo, setEquipoExterno] = useState("");
     const [year, setYear] = useState("");
     const [ciudad, setCiudad] = useState("");
@@ -36,7 +36,7 @@ export default function Create({
         formData.append("nombre", nombre);
         formData.append("primer_apellido", primer_apellido);
         formData.append("segundo_apellido", segundo_apellido || "");
-        formData.append("equipo_id", equipo_id);
+        formData.append("equipo_id", equipo.id);
         formData.append("equipo_externo", equipo_externo);
         formData.append("estado", estado);
         formData.append("year", year);
@@ -147,21 +147,15 @@ export default function Create({
                     >
                         Equipo:
                     </label>
-                    <select
+                    <input
                         id="equipo_id"
                         name="equipo_id"
                         value={equipo_id}
                         onChange={(e) => setEquipoId(e.target.value)}
                         required
+                        disabled
                         className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                    >
-                        <option value="">Equipo</option>
-                        {equipos.map((equipo) => (
-                            <option key={equipo.id} value={equipo.id}>
-                                {equipo.nombre}
-                            </option>
-                        ))}
-                    </select>
+                    />
                 </div>
 
                 <div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDivisionRequest;
 use App\Http\Requests\UpdateDivisionRequest;
 use App\Models\Division;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,7 +16,12 @@ class DivisionController extends Controller
      */
     public function index()
     {
-        $divisiones = Division::all();
+
+        $clubs = auth()->user()->clubes->pluck('id');
+        $divisiones = Division::whereHas('equipos', function ($query) use ($clubs) {
+            $query->whereIn('club_id', $clubs);
+        })->get();
+
         return Inertia::render('Divisiones/Index', [
             'divisiones' => $divisiones
         ]);

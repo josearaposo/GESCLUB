@@ -16,7 +16,13 @@ class RepresentanteController extends Controller
      */
     public function index()
     {
-        $representantes = Representante::all();
+        $clubs = auth()->user()->clubes->pluck('id');
+
+        $representantes = Representante::whereHas('jugadores.equipo', function ($query) use ($clubs) {
+            $query->whereIn('club_id', $clubs);
+        })->with('jugadores')->get();
+
+
         return Inertia::render('Representantes/Index', [
             'representantes' => $representantes
         ]);

@@ -6,8 +6,10 @@ use App\Http\Controllers\ClubController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\EstadioController;
+use App\Http\Controllers\EstadisticaController;
 use App\Http\Controllers\InformeController;
 use App\Http\Controllers\JugadorController;
+use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\PosicionController;
 use App\Http\Controllers\ProfileController;
@@ -83,6 +85,13 @@ Route::get('/payment/success', [PaypalController::class, 'paymentSuccess'])->nam
 Route::get('/payment/cancel', [PaypalController::class, 'paymentCancel'])->name('payment.cancel');
 
 Route::post('/jugadores/{jugador}/fichar', [JugadorController::class, 'fichar'])->name('jugadores.fichar');
+
+Route::resource('partidos', PartidoController::class);
+
+Route::post('/partidos/{partido}/estadisticas', [PartidoController::class, 'guardarEstadistica'])->name('partidos.estadisticas.guardar');
+
+Route::post('estadisticas', [EstadisticaController::class, 'store'])->name('estadisticas.store');
+
 
 
 

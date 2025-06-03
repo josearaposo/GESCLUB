@@ -6,7 +6,6 @@ import { usePage } from "@inertiajs/react";
 export default function Index({ posiciones }) {
     const { flash } = usePage().props;
     const [obtenerPosicion, setObtenerPosicion] = useState(null);
-    console.log(flash);
     return (
         <>
             <Navigation />

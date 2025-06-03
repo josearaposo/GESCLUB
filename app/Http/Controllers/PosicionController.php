@@ -34,17 +34,13 @@ class PosicionController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
+        $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'x' => 'nullable|numeric|min:0|max:100',
             'y' => 'nullable|numeric|min:0|max:100',
         ]);
 
-        Posicion::create([
-            'nombre' => $request->nombre,
-            'x' => $request->x,
-            'y' => $request->y,
-        ]);
+        Posicion::create($validated);
 
         return redirect()->route('posiciones.index')->with('success', 'Posición creada correctamente');
     }
@@ -69,17 +65,13 @@ class PosicionController extends Controller
 
     public function update(Request $request, Posicion $posicion)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'x' => 'nullable|numeric|min:0|max:100',
             'y' => 'nullable|numeric|min:0|max:100',
         ]);
 
-        $posicion->update([
-            'nombre' => $request->nombre,
-            'x' => $request->x,
-            'y' => $request->y,
-        ]);
+        $posicion->update($validated);
 
         return redirect()->route('posiciones.index')->with('success', 'Posición actualizada correctamente');
     }

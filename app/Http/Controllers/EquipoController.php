@@ -37,9 +37,15 @@ class EquipoController extends Controller
     public function create()
     {
         $this->authorize('create', Equipo::class);
+        //Id de los clubes del usuario busqueda de diisiones que tengan los equipos del usuario logeado.
+        $clubsId = auth()->user()->clubes->pluck('id');
+        $divisiones = Division::whereHas('equipos', function ($query) use ($clubsId) {
+            $query->whereIn('club_id', $clubsId);
+        })->get();
 
-        $divisiones = Division::all();
-        $clubs = Club::all();
+        //Clubes del usuario
+        $clubs = auth()->user()->clubes;
+
         return Inertia::render('Equipos/Create', [
             'divisiones' => $divisiones,
             'clubs' => $clubs
