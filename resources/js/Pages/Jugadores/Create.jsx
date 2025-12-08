@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Inertia } from "@inertiajs/inertia";
+import { router } from "@inertiajs/react";
 
 export default function Create({
     equipos,
@@ -55,7 +55,7 @@ export default function Create({
         formData.append("valoracion", 0.0);
         formData.append("imagen", imagen || "");
 
-        Inertia.post("/jugadores", formData, {
+        router.post("/jugadores", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -152,7 +152,6 @@ export default function Create({
                         name="equipo_id"
                         value={equipo_id}
                         onChange={(e) => setEquipoId(e.target.value)}
-                        required
                         className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                     >
                         <option value="">Equipo</option>
@@ -386,7 +385,7 @@ export default function Create({
                             type="button"
                             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             onClick={() =>
-                                Inertia.get("/representantes/create")
+                                router.get("/representantes/create")
                             }
                         >
                             +

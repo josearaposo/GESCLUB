@@ -54,9 +54,9 @@ class ClubController extends Controller
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-       if ($request->hasFile('imagen')) {
+        if ($request->hasFile('imagen')) {
 
-             $validated['imagen'] = $request->file('imagen')->store('images', 'public');
+            $validated['imagen'] = $request->file('imagen')->store('images', 'public');
         }
 
         $club = Club::create($validated);
@@ -106,11 +106,11 @@ class ClubController extends Controller
             'fundacion' => 'nullable|date',
         ]);
 
-        $club -> update($validated);
+        $club->update($validated);
 
         return redirect()
-        ->route('clubs.index')
-        ->with('success', 'Club modificado correctamente.');
+            ->route('clubs.index')
+            ->with('success', 'Club modificado correctamente.');
     }
 
     /**
@@ -124,6 +124,19 @@ class ClubController extends Controller
         }
 
         $club->delete();
+
+        return redirect()->route('clubs.index');
+    }
+    public function acceder(Club $club)
+    {
+        session(['club' => $club]);
+
+        return redirect()->route('equipos.index');
+    }
+
+    public function salir(Club $club)
+    {
+        session()->forget('club');
 
         return redirect()->route('clubs.index');
     }

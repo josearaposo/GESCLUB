@@ -30,7 +30,7 @@ return new class extends Migration
             $table->boolean('internacional');
             $table->foreignId('primera_posicion')->constrained('posiciones');
             $table->foreignId('segunda_posicion')->nullable()->constrained('posiciones');
-            $table->foreignId('representante_id')->nullable()->constrained('representantes');
+            $table->foreignId('representante_id')->nullable()->constrained('representantes')->onDelete('set null');
             $table->integer('salario')->nullable();
             $table->integer('valor_mercado')->nullable();
             $table->decimal('valoracion', 4, 2)->nullable();

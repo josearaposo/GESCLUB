@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "@inertiajs/inertia-react";
 import Navigation from "@/Components/Navigation";
-import { usePage } from "@inertiajs/react";
+import { usePage, Link } from "@inertiajs/react";
 
 export default function Index({ clubs }) {
     const { flash, auth } = usePage().props;
@@ -25,7 +24,7 @@ export default function Index({ clubs }) {
                     <h1 className="text-2xl font-bold">Gestión de Clubs</h1>
                     {auth?.user?.rol === "gestor" && (
                         <Link
-                            href={route("payment.club")}
+                            href={route("clubs.create")}
                             className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                         >
                             Crear Club
@@ -33,13 +32,13 @@ export default function Index({ clubs }) {
                     )}
                 </div>
                 {clubs.length === 0 && (
-    <div className="flex flex-col items-center justify-center p-6 bg-white rounded shadow-md text-center">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">¡Aún no has creado ningún club!</h2>
-        <p className="text-gray-600 mb-4">
-            Para comenzar a crear tu club, realiza un pago único de <span className="font-bold text-purple-600">100.00€</span>.
-        </p>
-    </div>
-)}
+                    <div className="flex flex-col items-center justify-center p-6 bg-white rounded shadow-md text-center">
+                        <h2 className="text-2xl font-semibold text-gray-800 mb-2">¡Aún no has creado ningún club!</h2>
+                        <p className="text-gray-600 mb-4">
+                            Para comenzar a crear tu club, realiza un pago único de <span className="font-bold text-purple-600">100.00€</span>.
+                        </p>
+                    </div>
+                )}
                 <div className="overflow-x-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {clubs.map((club) => (

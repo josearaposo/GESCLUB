@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Inertia } from '@inertiajs/inertia';
 import Navigation from '@/Components/Navigation';
+import { router } from '@inertiajs/react';
 
 export default function Create() {
     const [nombre, setNombre] = useState('');
@@ -9,7 +9,7 @@ export default function Create() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.post('/divisiones', { nombre, numero_equipos});
+        router.post('/divisiones', { nombre, numero_equipos });
     };
 
     return (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Inertia } from "@inertiajs/inertia";
+import { router } from '@inertiajs/react';
 import Navigation from "@/Components/Navigation";
 
 export default function Edit({ division }) {
@@ -10,7 +10,7 @@ export default function Edit({ division }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.put(`/divisiones/${division.id}`, {
+        router.put(`/divisiones/${division.id}`, {
             nombre,
             numero_equipos,
         });

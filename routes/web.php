@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('equipos', EquipoController::class);
+Route::get('/clubs/{club}/acceder', [ClubController::class, 'acceder'])->name('clubs.acceder');
+Route::get('/clubs/salir', [ClubController::class, 'salir'])->name('clubs.salir');
 Route::resource('clubs', ClubController::class);
 Route::resource('representantes', RepresentanteController::class);
 

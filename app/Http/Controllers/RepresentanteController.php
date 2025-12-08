@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRepresentanteRequest;
 use App\Http\Requests\UpdateRepresentanteRequest;
+use App\Models\Club;
 use App\Models\Representante;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
@@ -16,7 +17,13 @@ class RepresentanteController extends Controller
      */
     public function index()
     {
-        $representantes = Representante::all();
+        $clubId = session('club');
+        $club = Club::find($clubId);
+
+        $representantes = $club->representantes()
+            ->orderBy('nombre')
+            ->get();
+
         return Inertia::render('Representantes/Index', [
             'representantes' => $representantes
         ]);
@@ -46,6 +53,7 @@ class RepresentanteController extends Controller
             'pais' => 'required|string|max:255',
 
         ]);
+        $validated['club_id'] = session('club');
 
         Representante::create($validated);
 
@@ -88,7 +96,7 @@ class RepresentanteController extends Controller
 
         ]);
 
-        $representante -> update($validated);
+        $representante->update($validated);
 
         return redirect()->route('representantes.index');
     }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
 import { usePage } from "@inertiajs/react";
 
@@ -117,11 +117,10 @@ export default function Index({ posiciones }) {
                                 posicion.y !== null && (
                                     <div
                                         key={posicion.id}
-                                        className={`absolute w-4 h-4 rounded-full ${
-                                            obtenerPosicion === posicion.nombre
+                                        className={`absolute w-4 h-4 rounded-full ${obtenerPosicion === posicion.nombre
                                                 ? "bg-red-500 scale-125"
                                                 : "bg-white"
-                                        }`}
+                                            }`}
                                         style={{
                                             left: `${posicion.x}%`,
                                             top: `${posicion.y}%`,

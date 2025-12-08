@@ -1,14 +1,48 @@
 import React from "react";
 import { useState } from "react";
-import ApplicationLogo from "@/Components/ApplicationLogo";
-import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { Link } from "@inertiajs/inertia-react";
+import { Link, usePage } from "@inertiajs/react";
 
 export default function Navigation(user) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+    const { club } = usePage().props;
+    const existeClub = club !== undefined && club !== null;
+    const linkClubs = existeClub ? (
+        <>
+            <NavLink
+                href={route("equipos.index")}
+                active={route().current("equipos.index")}
+            >
+                Equipos
+            </NavLink>
+
+            <NavLink
+                // Usamos la ruta anidada para el club actual
+                href={route("representantes.index", { club: club.id })}
+                active={route().current("representantes.index")}
+            >
+                Representantes
+            </NavLink>
+
+            <NavLink
+                href={route("divisiones.index")}
+                active={route().current("divisiones.index")}
+            >
+                Divisiones
+            </NavLink>
+            <NavLink
+                href={route("jugadores.index", { estado: "ojeado" })}
+                active={route().current("jugadores.index")}
+            >
+                Seguimiento
+            </NavLink>
+            {/* Otros enlaces anidados... */}
+        </>
+    ) : null;
+
     return (
         <nav className="bg-white border-b border-gray-100">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,36 +60,15 @@ export default function Navigation(user) {
 
                         <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <NavLink
-                                href={route("clubs.index")}
+
+                                href={route("clubs.salir")}
                                 active={route().current("clubs.index")}
+
                             >
                                 Clubs
                             </NavLink>
 
-                            <NavLink
-                                href={route("representantes.index")}
-                                active={route().current("representantes.index")}
-                            >
-                                Representantes
-                            </NavLink>
-                            <NavLink
-                                href={route("posiciones.index")}
-                                active={route().current("posiciones.index")}
-                            >
-                                Posiciones
-                            </NavLink>
-                            <NavLink
-                                href={route("divisiones.index")}
-                                active={route().current("divisiones.index")}
-                            >
-                                Divisiones
-                            </NavLink>
-                            <NavLink
-                                href={route("jugadores.index", { estado: "ojeado" })}
-                                active={route().current("jugadores.index")}
-                            >
-                                Seguimiento
-                            </NavLink>
+                            {linkClubs}
                         </div>
                     </div>
 

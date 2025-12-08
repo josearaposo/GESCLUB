@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
 import { usePage } from "@inertiajs/react";
 
@@ -61,9 +61,8 @@ export default function Index({ jugadores, equipo, estado }) {
                             className="bg-white border rounded-lg shadow flex flex-col md:flex-row items-center md:items-start p-4 gap-4"
                         >
                             <img
-                                src={`/storage/${
-                                    jugador.imagen || "images/default.jpg"
-                                }`}
+                                src={`/storage/${jugador.imagen || "images/default.jpg"
+                                    }`}
                                 alt={`Imagen de ${jugador.nombre}`}
                                 className="w-24 h-24 object-cover rounded-full border"
                             />

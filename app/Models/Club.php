@@ -19,4 +19,8 @@ class Club extends Model
     {
         return $this->hasMany(Equipo::class);
     }
+    public function representantes()
+    {
+        return $this->hasMany(Representante::class);
+    }
 }

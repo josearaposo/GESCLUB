@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "@inertiajs/inertia-react";
 import Navigation from "@/Components/Navigation";
-import { usePage } from "@inertiajs/react";
+import { usePage, Link } from "@inertiajs/react";
 
 export default function Index({ divisiones }) {
     const { flash } = usePage().props;

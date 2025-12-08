@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Inertia } from "@inertiajs/inertia";
 import Navigation from "@/Components/Navigation";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 export default function Edit({ club }) {
     const [nombre, setNombre] = useState(club.nombre);
@@ -18,7 +17,7 @@ export default function Edit({ club }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.put(`/clubs/${club.id}`, {
+        router.put(`/clubs/${club.id}`, {
             nombre,
             imagen,
             estadio,
@@ -44,14 +43,14 @@ export default function Edit({ club }) {
                     <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">
                         Editar Club
                     </h2>
-                                    <Link
-                                        href={route('clubs.destroy', club.id)}
-                                        method="delete"
-                                        as="button"
-                                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                                    >
-                                        Eliminar
-                                    </Link>
+                    <Link
+                        href={route('clubs.destroy', club.id)}
+                        method="delete"
+                        as="button"
+                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                        Eliminar
+                    </Link>
                     <div className="mb-4">
                         <label
                             htmlFor="nombre"
