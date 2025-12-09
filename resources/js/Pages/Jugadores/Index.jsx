@@ -28,6 +28,14 @@ export default function Index({ jugadores, equipo, estado }) {
 
                 <div className="flex justify-end mb-4 px-3">
                     <Link
+                        href={route("jugadores.index", {
+                            estado: "ojeado",
+                        })}
+                        className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-800"
+                    >
+                        Jugadores Seguidos
+                    </Link>
+                    <Link
                         href={route("jugadores.create", {
                             equipo: equipo,
                             estado: "fichado",

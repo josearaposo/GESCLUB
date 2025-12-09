@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDivisionRequest;
 use App\Http\Requests\UpdateDivisionRequest;
+use App\Models\Club;
 use App\Models\Division;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Session;
 
 class DivisionController extends Controller
 {
@@ -15,7 +17,16 @@ class DivisionController extends Controller
      */
     public function index()
     {
-        $divisiones = Division::all();
+        $clubId = Session::get('club');
+
+        $club = Club::findOrFail($clubId);
+
+        $divisiones = $club->equipos() // Obtener los equipos del club
+            ->with('division') // Cargar la relación de division en cada equipo
+            ->get()
+            ->pluck('division')
+            ->values();
+
         return Inertia::render('Divisiones/Index', [
             'divisiones' => $divisiones
         ]);
