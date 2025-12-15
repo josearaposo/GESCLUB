@@ -14,6 +14,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepresentanteController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ZonaController;
+use App\Http\Controllers\PartidoController;
+use App\Http\Controllers\EstadisticaController;
 use App\Models\Club;
 use App\Models\Estadio;
 use App\Models\Informe;
@@ -86,8 +88,20 @@ Route::get('/payment/cancel', [PaypalController::class, 'paymentCancel'])->name(
 
 Route::post('/jugadores/{jugador}/fichar', [JugadorController::class, 'fichar'])->name('jugadores.fichar');
 
-
-
+//Ruta para gestion de estadisticas de partidos
+Route::resource('partidos', PartidoController::class);
+Route::post('/estadisticas', [EstadisticaController::class, 'store'])->name('estadisticas.store');
+Route::post(
+    '/partidos/{partido}/estadisticas',
+    [EstadisticaController::class, 'store']
+)->name('partidos.estadisticas.store');
+Route::delete(
+    '/estadisticas/{estadistica}',
+    [EstadisticaController::class, 'destroy']
+)->name('estadisticas.destroy');
+Route::get('/estadisticas/{estadistica}', [EstadisticaController::class, 'show'])
+    ->name('estadisticas.show');
+Route::put('/estadisticas/{estadistica}', [EstadisticaController::class, 'update'])->name('estadisticas.update');
 
 
 
