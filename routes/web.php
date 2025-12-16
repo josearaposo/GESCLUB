@@ -103,7 +103,8 @@ Route::get('/estadisticas/{estadistica}', [EstadisticaController::class, 'show']
     ->name('estadisticas.show');
 Route::put('/estadisticas/{estadistica}', [EstadisticaController::class, 'update'])->name('estadisticas.update');
 
-
+Route::post('/posiciones/{posicion}/toggle-activo', [PosicionController::class, 'toggleActivo'])
+    ->name('posiciones.toggleActivo');
 
 // Route::get('/zonas', [ZonaController::class, 'index'])->name('zonas.index');
 

@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alineacions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('posiciones', function (Blueprint $table) {
+            $table->boolean('activo')->default(true)->after('y');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alineacions');
+        Schema::table('posiciones', function (Blueprint $table) {
+            $table->dropColumn('activo');
+        });
     }
 };

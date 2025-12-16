@@ -7,6 +7,7 @@ export default function Edit({ posicion }) {
         nombre: posicion.nombre || "",
         x: posicion.x ?? "",
         y: posicion.y ?? "",
+        activo: posicion.activo ?? true, // <-- Nuevo campo
     });
 
     const handleClick = (e) => {
@@ -69,6 +70,16 @@ export default function Edit({ posicion }) {
                                 {errors.y && <div>{errors.y}</div>}
                             </div>
                         )}
+                    </div>
+
+                    {/* Checkbox activo */}
+                    <div className="flex items-center gap-2 mt-2">
+                        <input
+                            type="checkbox"
+                            checked={data.activo}
+                            onChange={(e) => setData("activo", e.target.checked)}
+                        />
+                        <label className="font-medium">Activo</label>
                     </div>
 
                     <button
