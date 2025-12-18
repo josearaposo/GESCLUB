@@ -16,10 +16,6 @@ use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ZonaController;
 use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\EstadisticaController;
-use App\Models\Club;
-use App\Models\Estadio;
-use App\Models\Informe;
-use App\Models\Representante;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -58,6 +54,8 @@ Route::resource('equipos', EquipoController::class);
 Route::get('/clubs/{club}/acceder', [ClubController::class, 'acceder'])->name('clubs.acceder');
 Route::get('/clubs/salir', [ClubController::class, 'salir'])->name('clubs.salir');
 Route::resource('clubs', ClubController::class);
+Route::post('clubs/{id}/restore', [ClubController::class, 'restore'])->name('clubs.restore');
+
 Route::resource('representantes', RepresentanteController::class);
 
 Route::get('/informes/comparacion', [InformeController::class, 'comparacion'])->name('informes.comparacion');

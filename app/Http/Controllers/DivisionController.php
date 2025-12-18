@@ -52,7 +52,7 @@ class DivisionController extends Controller
 
         Division::create($validated);
 
-        return redirect()->route('divisiones.index');
+        return redirect()->route('equipos.index');
     }
 
     /**

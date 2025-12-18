@@ -120,7 +120,7 @@ export default function Create({ divisiones, equipos, jugadores, posiciones }) {
             {/* Titulares */}
             <div>
                 <h2 className="text-xl font-semibold mt-4 mb-2">Titulares</h2>
-                <div className="relative w-6/8 h-96"
+                <div className="relative w-4/8 h-96"
                     style={{
                         backgroundImage: "url('/imagenes/campofutbol.jpg')",
                         backgroundSize: "cover",

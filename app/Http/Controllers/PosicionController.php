@@ -14,7 +14,8 @@ class PosicionController extends Controller
      */
     public function index()
     {
-        $posiciones = Posicion::all();
+        $posiciones = Posicion::orderBy('id')->get();
+
         return Inertia::render('Posiciones/Index', [
             'posiciones' => $posiciones
         ]);

@@ -116,26 +116,29 @@ export default function Index({ posiciones }) {
                             backgroundRepeat: "no-repeat",
                         }}
                     >
-                        {posiciones.map(
-                            (posicion) =>
+                        {posiciones
+                            .slice() // hacemos copia para no mutar el array original
+                            .sort((a, b) => a.id - b.id) // 🔹 Orden fijo por ID (o cualquier criterio estable)
+                            .map((posicion) =>
                                 posicion.x !== null &&
                                 posicion.y !== null && (
                                     <div
                                         key={posicion.id}
-                                        className={`absolute w-4 h-4 rounded-full ${obtenerPosicion === posicion.nombre
-                                            ? "scale-125"
-                                            : ""
-                                            }`}
+                                        className={`absolute w-4 h-4 rounded-full ${obtenerPosicion === posicion.nombre ? "scale-125" : ""}`}
                                         style={{
                                             left: `${posicion.x}%`,
                                             top: `${posicion.y}%`,
                                             transform: "translate(-50%, -50%)",
-                                            backgroundColor: posicion.activo ? "white" : "gray",
+                                            backgroundColor: obtenerPosicion === posicion.nombre
+                                                ? "red"   // 🔹 resalta en rojo al pasar el mouse
+                                                : posicion.activo
+                                                    ? "white" // activo
+                                                    : "gray", // inactivo
                                             transition: "transform 0.2s, background-color 0.2s",
                                         }}
                                     ></div>
                                 )
-                        )}
+                            )}
                     </div>
                 </div>
             </div>
