@@ -14,7 +14,8 @@ class PosicionController extends Controller
      */
     public function index()
     {
-        $posiciones = Posicion::all();
+        $posiciones = Posicion::orderBy('id')->get();
+
         return Inertia::render('Posiciones/Index', [
             'posiciones' => $posiciones
         ]);
@@ -38,12 +39,14 @@ class PosicionController extends Controller
             'nombre' => 'required|string|max:255',
             'x' => 'nullable|numeric|min:0|max:100',
             'y' => 'nullable|numeric|min:0|max:100',
+            'activo' => 'sometimes|boolean',
         ]);
 
         Posicion::create([
             'nombre' => $request->nombre,
             'x' => $request->x,
             'y' => $request->y,
+            'activo' => $request->has('activo') ? $request->activo : true,
         ]);
 
         return redirect()->route('posiciones.index')->with('success', 'Posición creada correctamente');
@@ -73,12 +76,14 @@ class PosicionController extends Controller
             'nombre' => 'required|string|max:255',
             'x' => 'nullable|numeric|min:0|max:100',
             'y' => 'nullable|numeric|min:0|max:100',
+            'activo' => 'sometimes|boolean'
         ]);
 
         $posicion->update([
             'nombre' => $request->nombre,
             'x' => $request->x,
             'y' => $request->y,
+            'activo' => $request->has('activo') ? $request->activo : !$posicion->activo,
         ]);
 
         return redirect()->route('posiciones.index')->with('success', 'Posición actualizada correctamente');
@@ -102,5 +107,15 @@ class PosicionController extends Controller
         $posicion->delete();
 
         return redirect()->route('posiciones.index')->with('success', 'Posicion eliminada correctamente.');
+    }
+
+    public function toggleActivo(Posicion $posicion)
+    {
+        // Cambiar el estado activo
+        $posicion->activo = !$posicion->activo;
+        $posicion->save();
+
+        // Retornar un mensaje flash o JSON
+        return redirect()->back()->with('success', 'Estado de la posición actualizado correctamente.');
     }
 }

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('pais');
             $table->integer('empleados')->nullable();
             $table->date('fundacion')->nullable();
+            $table->softDeletes(); // Añade la columna deleted_at para soft deletes
             $table->timestamps();
         });
     }

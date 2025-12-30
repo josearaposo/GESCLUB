@@ -16,12 +16,27 @@ class ClubController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clubs = Auth::user()->clubes;
+
+
+        $user = auth()->user();
+        $filtro = $request->get('estado', 'activos');
+
+        $clubs = Auth::user()
+            ->clubes()
+            ->when($filtro === 'eliminados', function ($query) {
+                $query->onlyTrashed();
+            })
+            ->when($filtro === 'activos', function ($query) {
+                $query->whereNull('deleted_at');
+            })
+            ->orderBy('nombre')
+            ->get();
 
         return Inertia::render('Clubs/Index', [
-            'clubs' => $clubs
+            'clubs' => $clubs,
+            'estado' => $filtro,
         ]);
     }
 
@@ -119,14 +134,25 @@ class ClubController extends Controller
     public function destroy(Club $club)
     {
 
-        if ($club->equipos()->exists()) {
-            return redirect()->route('clubs.index')->with('error', 'No se puede eliminar el club porque tiene equipos asociados.');
-        }
+        //if ($club->equipos()->exists()) {
+        // return redirect()->route('clubs.index')->with('error', 'No se puede eliminar el club porque tiene equipos asociados.');
+        // }
 
         $club->delete();
 
         return redirect()->route('clubs.index');
     }
+
+    public function restore($id)
+    {
+        $club = Club::withTrashed()->findOrFail($id);
+        $club->restore();
+
+        return redirect()
+            ->route('clubs.index')
+            ->with('success', 'Club restaurado correctamente.');
+    }
+
     public function acceder(Club $club)
     {
         session(['club' => $club]);

@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateEquipoRequest;
 use App\Models\Club;
 use App\Models\Division;
 use App\Models\Equipo;
+use App\Models\Partido;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Session;
@@ -26,7 +27,7 @@ class EquipoController extends Controller
         }
         $club = session('club');
 
-        // Control de rror si no hay club seleccionado
+        // Control de error si no hay club seleccionado
         if (!$club) {
             return redirect()->route('clubs.index')
                 ->with('error', 'Debes seleccionar un club primero.');
@@ -49,11 +50,14 @@ class EquipoController extends Controller
     public function create()
     {
         $this->authorize('create', Equipo::class);
-        $divisiones = Division::all();
         $clubId = Session::get('club');
 
+        $divisiones = Division::whereHas('equipos', function ($query) use ($clubId) {
+            $query->where('club_id', $clubId);
+        })->get();
+
         $club = Club::findOrFail($clubId);
-        $clubs = Club::all();
+
         return Inertia::render('Equipos/Create', [
             'divisiones' => $divisiones,
             'club' => $club
@@ -82,9 +86,16 @@ class EquipoController extends Controller
     public function show(Equipo $equipo)
     {
 
-        $equipo->load(['division', 'club', 'jugadores']);
+        $equipo->load('division', 'club', 'jugadores');
+
+        $partidos = Partido::with('division')
+            ->where('equipo_id', $equipo->id)
+            ->orderBy('fecha', 'desc')
+            ->get();
+
         return Inertia::render('Equipos/Show', [
             'equipo' => $equipo,
+            'partidos' => $partidos,
         ]);
     }
 

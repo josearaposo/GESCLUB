@@ -3,7 +3,7 @@ import { Inertia } from '@inertiajs/inertia';
 import Navigation from '@/Components/Navigation';
 import { router } from '@inertiajs/react';
 
-export default function Edit({ jugador, equipos, posiciones, representantes }) {
+export default function Edit({ jugador, posiciones, representantes }) {
     const [apodo, setApodo] = useState(jugador.apodo);
     const [nombre, setNombre] = useState(jugador.nombre);
     const [primer_apellido, setPrimerApellido] = useState(jugador.primer_apellido);
@@ -19,21 +19,51 @@ export default function Edit({ jugador, equipos, posiciones, representantes }) {
     const [internacional, setInternacional] = useState(jugador.internacional);
     const [primera_posicion, setPrimeraPosicion] = useState(jugador.primera_posicion);
     const [segunda_posicion, setSegundaPosicion] = useState(jugador.segunda_posicion);
-    const [representante, setRepresentanteId] = useState(jugador.representante);
+    const [representante_id, setRepresentanteId] = useState(jugador.representante_id);
     const [salario, setSalario] = useState(jugador.salario);
     const [valor_mercado, setValorMercado] = useState(jugador.valor_mercado);
-    const [fortalezas, setFortalezas] = useState(jugador.fortalezas);
-    const [debilidades, setDebilidades] = useState(jugador.debilidades);
+    const [equipo_externo, setEquipoExterno] = useState(jugador.equipo_externo);
+    const [imagen, setImagen] = useState(null);
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        router.put(`/jugadores/${jugador.id}`, {
-            apodo, nombre, primer_apellido, segundo_apellido, equipo_id, year, ciudad, provincia,
-            pais, lateralidad, altura, besoccer, internacional, primera_posicion, segunda_posicion, representante,
-            salario, valor_mercado, fortalezas, debilidades
+
+        const formData = new FormData();
+        formData.append("_method", "put");
+
+        formData.append("apodo", apodo);
+        formData.append("nombre", nombre);
+        formData.append("primer_apellido", primer_apellido);
+        formData.append("segundo_apellido", segundo_apellido || "");
+        formData.append("equipo_id", jugador.equipo_id);
+        formData.append("equipo_externo", equipo_externo || "");
+        formData.append("estado", jugador.estado);
+        formData.append("year", year);
+        formData.append("ciudad", ciudad || "");
+        formData.append("provincia", provincia || "");
+        formData.append("pais", pais || "");
+        formData.append("lateralidad", lateralidad || "");
+        formData.append("altura", altura || "");
+        formData.append("besoccer", besoccer || "");
+        formData.append("internacional", internacional ? 1 : 0);
+        formData.append("primera_posicion", primera_posicion);
+        formData.append("segunda_posicion", segunda_posicion || "");
+        formData.append("representante_id", representante_id || "");
+        formData.append("salario", salario || "");
+        formData.append("valor_mercado", valor_mercado || "");
+
+        if (imagen) {
+            formData.append("imagen", imagen);
+        }
+
+        router.post(route("jugadores.update", jugador.id), formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
         });
     };
+
 
     return (
         <>
@@ -109,7 +139,6 @@ export default function Edit({ jugador, equipos, posiciones, representantes }) {
                             id="segundo_apellido"
                             value={segundo_apellido}
                             onChange={(e) => setSegundoApellido(e.target.value)}
-                            required
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                         />
                     </div>
@@ -121,21 +150,17 @@ export default function Edit({ jugador, equipos, posiciones, representantes }) {
                         >
                             Equipo:
                         </label>
-                        <select
+                        <input
                             id="equipo_id"
-                            name="equipo_id"
-                            value={equipo_id}
+                            type="text"
+                            value={jugador.equipo_id}
                             onChange={(e) => setEquipoId(e.target.value)}
-                            required
-                            className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                        >
-                            <option value="">Equipo</option>
-                            {equipos.map((equipo) => (
-                                <option key={equipo.id} value={equipo.id}>
-                                    {equipo.nombre}
-                                </option>
-                            ))}
-                        </select>
+                            disabled
+                            className="mt-1 block w-full bg-gray-100 border border-gray-300 rounded py-2 px-3 text-gray-700"
+                        />
+
+
+                        <input type="hidden" name="equipo_id" value={jugador.equipo_id} />
                     </div>
 
                     <div>
@@ -279,7 +304,7 @@ export default function Edit({ jugador, equipos, posiciones, representantes }) {
                         <select
                             id="primera_posicion"
                             name="primera_posicion"
-                            value={primera_posicion}
+                            value={primera_posicion ?? ""}
                             onChange={(e) => setPrimeraPosicion(e.target.value)}
                             required
                             className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
@@ -303,7 +328,7 @@ export default function Edit({ jugador, equipos, posiciones, representantes }) {
                         <select
                             id="segunda_posicion"
                             name="segunda_posicion"
-                            value={segunda_posicion}
+                            value={segunda_posicion ?? ""}
                             onChange={(e) => setSegundaPosicion(e.target.value)}
                             required
                             className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
@@ -328,9 +353,8 @@ export default function Edit({ jugador, equipos, posiciones, representantes }) {
                             <select
                                 id="representante"
                                 name="representante"
-                                value={representante}
+                                value={representante_id ?? ""}
                                 onChange={(e) => setRepresentanteId(e.target.value)}
-                                required
                                 className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                             >
                                 <option value="">Representante</option>
@@ -385,35 +409,27 @@ export default function Edit({ jugador, equipos, posiciones, representantes }) {
                         />
                     </div>
 
+                    {jugador.imagen && (
+                        <div className="mb-4">
+                            <p className="text-sm text-gray-600">Imagen actual</p>
+                            <img
+                                src={`/storage/${jugador.imagen}`}
+                                className="w-24 h-24 rounded-full object-cover border"
+                            />
+                        </div>
+                    )}
+
                     <div>
-                        <label
-                            htmlFor="fortalezas"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            Fortalezas
+                        <label className="block text-sm font-medium text-gray-700">
+                            Nueva imagen
                         </label>
-                        <textarea
-                            id="fortalezas"
-                            value={fortalezas}
-                            onChange={(e) => setFortalezas(e.target.value)}
+                        <input
+                            type="file"
+                            onChange={(e) => setImagen(e.target.files[0])}
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                         />
                     </div>
 
-                    <div>
-                        <label
-                            htmlFor="debilidades"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            Debilidades
-                        </label>
-                        <textarea
-                            id="debilidades"
-                            value={debilidades}
-                            onChange={(e) => setDebilidades(e.target.value)}
-                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                        />
-                    </div>
 
                     <div className="flex items-center justify-between">
                         <button

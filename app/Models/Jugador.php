@@ -9,7 +9,7 @@ class Jugador extends Model
 {
     protected $table = 'jugadores';
 
-    protected $fillable = ['apodo', 'nombre', 'primer_apellido' , 'segundo_apellido', 'equipo_id','equipo_externo', 'estado', 'year', 'ciudad','provincia', 'pais', 'lateralidad', 'altura', 'besoccer', 'internacional', 'primera_posicion', 'segunda_posicion','representante_id', 'salario', 'valor_mercado', 'valoracion', 'imagen'];
+    protected $fillable = ['apodo', 'nombre', 'primer_apellido', 'segundo_apellido', 'equipo_id', 'equipo_externo', 'estado', 'year', 'ciudad', 'provincia', 'pais', 'lateralidad', 'altura', 'besoccer', 'internacional', 'primera_posicion', 'segunda_posicion', 'representante_id', 'salario', 'valor_mercado', 'valoracion', 'imagen'];
 
     use HasFactory;
 
@@ -38,7 +38,14 @@ class Jugador extends Model
     }
 
     public function traspasos()
-{
-    return $this->hasMany(Traspaso::class);
-}
+    {
+        return $this->hasMany(Traspaso::class);
+    }
+
+    public function partidos()
+    {
+        return $this->belongsToMany(Partido::class, 'alineaciones')
+            ->withPivot('rol')
+            ->withTimestamps();
+    }
 }

@@ -21,47 +21,63 @@ export default function Index({ jugadores, equipo, estado }) {
                         {flash.error}
                     </div>
                 )}
-                <h1 className="text-2xl font-bold mb-4">
-                    Gestión de Jugadores{" "}
-                    {estado === "fichado" ? "de la plantilla" : "ojeados"}
-                </h1>
 
-                <div className="flex justify-end mb-4 px-3">
-                    <Link
-                        href={route("jugadores.index", {
-                            estado: "ojeado",
-                        })}
-                        className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-800"
-                    >
-                        Jugadores Seguidos
-                    </Link>
-                    <Link
-                        href={route("jugadores.create", {
-                            equipo: equipo,
-                            estado: "fichado",
-                        })}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    >
-                        Nuevo Jugador
-                    </Link>
-                    <Link
-                        href={route("jugadores.create", {
-                            equipo: equipo,
-                            estado: "ojeado",
-                        })}
-                        className="bg-amber-300 text-white px-4 ml-2 py-2 rounded hover:bg-amber-600"
-                    >
-                        Jugador a Ojear
-                    </Link>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
+                    <div>
+                        <h1 className="text-2xl font-bold">
+                            Gestión de Jugadores
+                            <span className="ml-2 text-sm text-gray-500">
+                                ({estado === "fichado" ? "Plantilla" : "Ojeados"})
+                            </span>
+                        </h1>
+                    </div>
 
-                    <Link
-                        href={route("informes.comparar")}
-                        className="bg-purple-300 text-white px-4 ml-2 py-2 rounded hover:bg-purple-600"
-                    >
-                        Comparar
-                    </Link>
+                    <div className="flex flex-wrap gap-2">
+                        {estado === 'ojeado' && (
+                            <Link
+                                href={route("jugadores.index", { estado: "fichado", equipo: equipo })}
+                                className="bg-indigo-100 text-indigo-700 px-3 py-2 rounded hover:bg-indigo-200 text-sm"
+                            >
+                                Jugadores Plantilla
+                            </Link>
+                        )}
+
+                        {estado === 'fichado' && (
+                            <Link
+                                href={route("jugadores.index", { estado: "ojeado", equipo: equipo })}
+                                className="bg-indigo-100 text-indigo-700 px-3 py-2 rounded hover:bg-indigo-200 text-sm"
+                            >
+                                Jugadores Ojeados
+                            </Link>
+                        )}
+
+                        <Link
+                            href={route("jugadores.create", { equipo: equipo, estado: "fichado" })}
+                            className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700 text-sm"
+                        >
+                            Nuevo Jugador
+                        </Link>
+
+                        <Link
+                            href={route("jugadores.create", { equipo: equipo, estado: "ojeado" })}
+                            className="bg-amber-500 text-white px-3 py-2 rounded hover:bg-amber-600 text-sm"
+                        >
+                            🔍 Ojear Jugador
+                        </Link>
+
+                        <Link
+                            href={route("informes.comparar")}
+                            className="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700 text-sm"
+                        >
+                            📊 Comparar
+                        </Link>
+                    </div>
                 </div>
-
+                {jugadores.length === 0 && (
+                    <div className="bg-gray-50 border rounded p-6 text-center text-gray-600">
+                        No hay jugadores registrados en esta sección.
+                    </div>
+                )}
                 <div className="space-y-4">
                     {jugadores.map((jugador) => (
                         <div
