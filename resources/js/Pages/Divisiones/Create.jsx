@@ -46,7 +46,7 @@ export default function Create() {
                             htmlFor="numero_equipos"
                             className="block text-gray-700 text-sm font-bold mb-2"
                         >
-                            Primer Apellido:
+                            Numero de equipos:
                         </label>
                         <input
                             type="text"
@@ -55,7 +55,6 @@ export default function Create() {
                             placeholder="Nº de equipos"
                             value={numero_equipos}
                             onChange={(e) => setNumeroEquipo(e.target.value)}
-                            required
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>
