@@ -8,11 +8,10 @@ export default function Create({ divisiones, club }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         router.post('/equipos', {
             nombre,
             division_id,
-            club_id: club.id, // Aseguramos enviar el ID del club
+            club_id: club.id,
         });
     };
 
@@ -26,12 +25,25 @@ export default function Create({ divisiones, club }) {
                 onSubmit={handleSubmit}
                 className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
             >
-                {/* Nombre */}
+                {/* Botón nueva división al inicio */}
+                {!division_id && (
+                    <div className="mb-6">
+                        <p className="text-gray-700 mb-2">
+                            Si la división aún no está creada:
+                        </p>
+                        <button
+                            type="button"
+                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => router.get('/divisiones/create', { preserveState: true })}
+                        >
+                            + Nueva División
+                        </button>
+                    </div>
+                )}
+
+
                 <div className="mb-4">
-                    <label
-                        htmlFor="nombre"
-                        className="block text-gray-700 text-sm font-bold mb-2"
-                    >
+                    <label htmlFor="nombre" className="block text-gray-700 text-sm font-bold mb-2">
                         Nombre del Equipo:
                     </label>
                     <input
@@ -45,51 +57,32 @@ export default function Create({ divisiones, club }) {
                     />
                 </div>
 
-                {/* División */}
+                {/* Selección de división */}
                 <div className="mb-6">
-                    <label
-                        htmlFor="division_id"
-                        className="block text-gray-700 text-sm font-bold mb-2"
-                    >
+                    <label htmlFor="division_id" className="block text-gray-700 text-sm font-bold mb-2">
                         División:
                     </label>
-
-                    <div className="flex gap-2">
-                        <select
-                            id="division_id"
-                            value={division_id}
-                            onChange={(e) => setDivisionId(e.target.value)}
-                            required
-                            className="block w-full bg-white border border-gray-400 px-4 py-2 rounded shadow"
-                        >
-                            <option value="">Seleccionar División</option>
-                            {divisiones.map((division) => (
-                                <option key={division.id} value={division.id}>
-                                    {division.nombre}
-                                </option>
-                            ))}
-                        </select>
-
-                        <button
-                            type="button"
-                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                            onClick={() => router.get('/divisiones/create')}
-                        >
-                            +
-                        </button>
-                    </div>
+                    <select
+                        id="division_id"
+                        value={division_id}
+                        onChange={(e) => setDivisionId(e.target.value)}
+                        required
+                        className="block w-full bg-white border border-gray-400 px-4 py-2 rounded shadow"
+                    >
+                        <option value="">Seleccionar División</option>
+                        {divisiones.map((division) => (
+                            <option key={division.id} value={division.id}>
+                                {division.nombre} ({division.numero_equipos} equipos)
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
-                {/* Club fijo (solo mostrar, no editable) */}
+                {/* Club */}
                 <div className="mb-6">
-                    <label
-                        htmlFor="club_name"
-                        className="block text-gray-700 text-sm font-bold mb-2"
-                    >
+                    <label htmlFor="club_name" className="block text-gray-700 text-sm font-bold mb-2">
                         Club:
                     </label>
-
-                    {/* Mostramos el nombre del club */}
                     <input
                         id="club_id"
                         type="text"
@@ -97,12 +90,10 @@ export default function Create({ divisiones, club }) {
                         disabled
                         className="mt-1 block w-full bg-gray-100 border border-gray-300 rounded py-2 px-3 text-gray-700"
                     />
-
-                    {/* Enviamos el id */}
                     <input type="hidden" name="club_id" value={club.id} />
                 </div>
 
-                {/* Botón */}
+                {/* Botón guardar */}
                 <div className="flex items-center justify-between">
                     <button
                         type="submit"
@@ -115,4 +106,5 @@ export default function Create({ divisiones, club }) {
         </div>
     );
 }
+
 
