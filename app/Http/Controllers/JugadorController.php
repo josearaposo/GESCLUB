@@ -41,11 +41,12 @@ class JugadorController extends Controller
     public function create(Request $request)
     {
         $estado = $request->input('estado');
-        $equipos = Equipo::all();
+        $equipoId = $request->input('equipo');
+        $equipo = Equipo::findOrFail($equipoId);
         $posiciones = Posicion::all();
         $representantes = Representante::all();
         return Inertia::render('Jugadores/Create', [
-            'equipos' => $equipos,
+            'equipo' => $equipo,
             'posiciones' => $posiciones,
             'representantes' => $representantes,
             'estado' => $estado,
@@ -123,12 +124,10 @@ class JugadorController extends Controller
     public function edit(Jugador $jugador)
     {
 
-        $equipos = Equipo::all();
         $posiciones = Posicion::all();
         $representantes = Representante::all();
         return Inertia::render('Jugadores/Edit', [
             'jugador' => $jugador,
-            'equipos' => $equipos,
             'posiciones' => $posiciones,
             'representantes' => $representantes
 
@@ -140,6 +139,7 @@ class JugadorController extends Controller
      */
     public function update(Request $request, Jugador $jugador)
     {
+
         $validated = $request->validate([
             'apodo' => 'required|string|max:255',
             'nombre' => 'required|string|max:255',
@@ -161,9 +161,11 @@ class JugadorController extends Controller
             'salario' => 'nullable|integer',
             'valor_mercado' => 'nullable|integer',
             'valoracion' => 'nullable|numeric|min:0|max:10',
-            'imagen' => 'nullable|string|max:255',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+        if ($request->hasFile('imagen')) {
+            $validated['imagen'] = $request->file('imagen')->store('images', 'public');
+        }
 
         $jugador->update($validated);
 
@@ -227,7 +229,6 @@ class JugadorController extends Controller
                         'equipo' => $jugador->equipo->id,
                         'estado' => 'ojeado',
                     ])->with('success', 'Traspaso registrado correctamente.');
-
                 }
                 return redirect()->route('jugadores.index', [
                     'equipo' => $jugador->equipo->id,

@@ -45,7 +45,7 @@ export default function Create() {
 
             <div className="max-w-4xl mx-auto p-8 bg-white shadow rounded">
                 <h1 className="text-2xl font-bold mb-6 text-gray-800">Crear Nuevo Club</h1>
-                <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-6">
+                <form onSubmit={handleSubmit} encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <div>
                         <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
@@ -203,7 +203,7 @@ export default function Create() {
                         </button>
                     </div>
                 </form>
-            </div>
+            </div >
         </>
     );
 }

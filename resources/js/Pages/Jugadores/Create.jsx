@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { router } from "@inertiajs/react";
 
 export default function Create({
-    equipos,
+    equipo,
     posiciones,
     representantes,
     estado,
@@ -36,7 +36,7 @@ export default function Create({
         formData.append("nombre", nombre);
         formData.append("primer_apellido", primer_apellido);
         formData.append("segundo_apellido", segundo_apellido || "");
-        formData.append("equipo_id", equipo_id);
+        formData.append("equipo_id", equipo.id);
         formData.append("equipo_externo", equipo_externo);
         formData.append("estado", estado);
         formData.append("year", year);
@@ -147,20 +147,16 @@ export default function Create({
                     >
                         Equipo:
                     </label>
-                    <select
+                    <input
                         id="equipo_id"
-                        name="equipo_id"
-                        value={equipo_id}
-                        onChange={(e) => setEquipoId(e.target.value)}
-                        className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                    >
-                        <option value="">Equipo</option>
-                        {equipos.map((equipo) => (
-                            <option key={equipo.id} value={equipo.id}>
-                                {equipo.nombre}
-                            </option>
-                        ))}
-                    </select>
+                        type="text"
+                        value={equipo.nombre}
+                        disabled
+                        className="mt-1 block w-full bg-gray-100 border border-gray-300 rounded py-2 px-3 text-gray-700"
+                    />
+
+
+                    <input type="hidden" name="equipo_id" value={equipo.id} />
                 </div>
 
                 <div>

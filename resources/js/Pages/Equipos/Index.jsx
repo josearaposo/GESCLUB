@@ -4,10 +4,12 @@ import { usePage, Link } from "@inertiajs/react";
 
 export default function Index({ equipos, club }) {
     const { flash, auth } = usePage().props;
+    const clubNombre = equipos[0]?.club?.nombre;
     return (
         <>
             <Navigation />
             <div className="container mx-auto p-6">
+
                 {/* Mensajes flash */}
                 {flash.success && (
                     <div className="mb-4 p-4 bg-green-100 text-green-800 border border-green-400 rounded">
@@ -20,7 +22,13 @@ export default function Index({ equipos, club }) {
                         {flash.error}
                     </div>
                 )}
-                <h1 className="text-2xl font-bold mb-4">Gestión de Equipos</h1>
+
+                <h1 className="text-2xl font-bold mb-1">
+                    Equipos del club
+                </h1>
+                <p className="text-gray-600 mb-6">
+                    {clubNombre}
+                </p>
 
                 <div className="flex justify-end mb-4">
                     {auth?.user?.rol === "gestor" && (
@@ -51,9 +59,7 @@ export default function Index({ equipos, club }) {
                                 <th className="border border-gray-300 px-4 py-2">
                                     División
                                 </th>
-                                <th className="border border-gray-300 px-4 py-2">
-                                    Club
-                                </th>
+
                                 <th className="border border-gray-300 px-4 py-2">
                                     Acciones
                                 </th>
@@ -71,9 +77,7 @@ export default function Index({ equipos, club }) {
                                     <td className="border border-gray-300 px-4 py-2">
                                         {equipo.division.nombre}
                                     </td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        {equipo.club.nombre}
-                                    </td>
+
                                     <td className="border border-gray-300 px-4 py-2 flex space-x-2">
                                         <Link
                                             href={route("jugadores.index", {
