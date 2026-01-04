@@ -67,14 +67,14 @@ export default function Edit({ jugador, posiciones, representantes }) {
 
     return (
         <>
+            <Navigation />
+            <div className="max-w-4xl mx-auto p-8 bg-white shadow rounded">
 
-            <div className="container mx-auto p-6">
-                <Navigation />
                 <h1 className="text-2xl font-bold mb-6">Editar Jugador</h1>
 
                 <form
                     onSubmit={handleSubmit}
-                    className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 >
                     <div>
                         <label
@@ -141,26 +141,6 @@ export default function Edit({ jugador, posiciones, representantes }) {
                             onChange={(e) => setSegundoApellido(e.target.value)}
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                         />
-                    </div>
-
-                    <div className="mb-6">
-                        <label
-                            htmlFor="equipo_id"
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                        >
-                            Equipo:
-                        </label>
-                        <input
-                            id="equipo_id"
-                            type="text"
-                            value={jugador.equipo_id}
-                            onChange={(e) => setEquipoId(e.target.value)}
-                            disabled
-                            className="mt-1 block w-full bg-gray-100 border border-gray-300 rounded py-2 px-3 text-gray-700"
-                        />
-
-
-                        <input type="hidden" name="equipo_id" value={jugador.equipo_id} />
                     </div>
 
                     <div>

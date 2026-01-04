@@ -36,10 +36,11 @@ class PartidoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $divisiones = Division::all();
-        $equipos = Equipo::all();
+
+        $division = Division::findOrFail($request->equipo);
+        $equipo = Equipo::findOrFail($request->equipo);
         $jugadores = Jugador::all();
         $posiciones = Posicion::where('activo', true)
             ->orderByRaw("CASE WHEN nombre = 'PT' THEN 0 ELSE 1 END") // Portero primero
@@ -55,8 +56,8 @@ class PartidoController extends Controller
                 'Partidos/Create',
                 [
                     'jugadores' => $jugadores,
-                    'divisiones' => $divisiones,
-                    'equipos' => $equipos,
+                    'division' => $division,
+                    'equipo' => $equipo,
                     'posiciones' => $posiciones,
                 ]
             );
@@ -77,12 +78,12 @@ class PartidoController extends Controller
             'fecha'       => ['required', 'date'],
             'lugar'       => ['required', 'in:local,visitante'],
 
-            // Titulares
+            // Titulares 11 jugadores, cada uno con posición y distintos
             'titulares'                => ['required', 'array', 'size:11'],
             'titulares.*.jugador_id'   => ['required', 'exists:jugadores,id', 'distinct'],
             'titulares.*.posicion_id'  => ['required', 'exists:posiciones,id', 'distinct'],
 
-            // Suplentes
+            // Suplentes 7 como maximo jugadores distintos
             'suplentes'          => ['nullable', 'array', 'max:7'],
             'suplentes.*'        => ['exists:jugadores,id', 'distinct'],
         ]);

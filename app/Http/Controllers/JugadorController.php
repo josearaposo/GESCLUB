@@ -66,7 +66,8 @@ class JugadorController extends Controller
             'representante_id' => $request->filled('representante_id') ? $request->representante_id : null,
         ]);
 
-        $equipoId = $request->input('equipo');
+        $equipoId = $request->input('equipo_id');
+
         $validated = $request->validate([
             'apodo' => 'required|string|max:255',
             'nombre' => 'required|string|max:255',
@@ -81,7 +82,7 @@ class JugadorController extends Controller
             'pais' => 'required|string|max:255',
             'lateralidad' => 'required|string|max:255',
             'altura' => 'required|integer',
-            'besoccer' => 'required|string|max:255',
+            'besoccer' => 'nullable|string|max:255',
             'internacional' => 'required|boolean',
             'primera_posicion' => 'required|exists:posiciones,id',
             'segunda_posicion' => 'nullable|exists:posiciones,id',
@@ -100,7 +101,7 @@ class JugadorController extends Controller
         }
         Jugador::create($validated);
 
-        return redirect()->route('jugadores.index', $equipoId)->with('success', 'Jugador creado correctamente.');
+        return redirect()->route('equipos.show', ['equipo' => $equipoId])->with('success', 'Jugador modificado correctamente.');
     }
 
     /**
@@ -139,7 +140,7 @@ class JugadorController extends Controller
      */
     public function update(Request $request, Jugador $jugador)
     {
-
+        $equipoId = $jugador->equipo_id;
         $validated = $request->validate([
             'apodo' => 'required|string|max:255',
             'nombre' => 'required|string|max:255',
@@ -153,7 +154,7 @@ class JugadorController extends Controller
             'pais' => 'required|string|max:255',
             'lateralidad' => 'required|string|max:255',
             'altura' => 'required|integer',
-            'besoccer' => 'required|string|max:255',
+            'besoccer' => 'nullable|string|max:255',
             'internacional' => 'required|boolean',
             'primera_posicion' => 'required|exists:posiciones,id',
             'segunda_posicion' => 'nullable|exists:posiciones,id',
@@ -169,7 +170,7 @@ class JugadorController extends Controller
 
         $jugador->update($validated);
 
-        return redirect()->route('jugadores.index')->with('success', 'Jugador modificado correctamente.');
+        return redirect()->route('equipos.show', ['equipo' => $equipoId])->with('success', 'Jugador modificado correctamente.');
     }
 
     /**

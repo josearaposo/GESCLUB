@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posiciones', function (Blueprint $table) {
+        Schema::create('divisiones', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->decimal('x')->nullable();
-            $table->decimal('y')->nullable();
+            $table->integer('numero_equipos')->nullable();
+            $table->foreignId('club_id')->constrained('clubs')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posiciones');
+        Schema::dropIfExists('divisiones');
     }
 };

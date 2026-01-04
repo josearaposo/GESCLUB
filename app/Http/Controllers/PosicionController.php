@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Equipo;
 use App\Models\Jugador;
 use App\Models\Posicion;
 use Illuminate\Http\Request;
@@ -12,12 +13,20 @@ class PosicionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posiciones = Posicion::orderBy('id')->get();
+
+        $equipoId = $request->equipo;
+        $equipo = Equipo::findOrFail($equipoId);
+
+        $posiciones = Posicion::where('equipo_id', $equipo->id)
+            ->where('activo', true)
+            ->orderBy('id')
+            ->get();
 
         return Inertia::render('Posiciones/Index', [
-            'posiciones' => $posiciones
+            'posiciones' => $posiciones,
+            'equipo' => $equipo,
         ]);
     }
 
@@ -37,6 +46,7 @@ class PosicionController extends Controller
 
         $request->validate([
             'nombre' => 'required|string|max:255',
+            'equipo_id' => 'required|exists:equipos,id',
             'x' => 'nullable|numeric|min:0|max:100',
             'y' => 'nullable|numeric|min:0|max:100',
             'activo' => 'sometimes|boolean',
@@ -44,6 +54,7 @@ class PosicionController extends Controller
 
         Posicion::create([
             'nombre' => $request->nombre,
+            'equipo_id' => $request->equipo_id,
             'x' => $request->x,
             'y' => $request->y,
             'activo' => $request->has('activo') ? $request->activo : true,

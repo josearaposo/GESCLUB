@@ -9,12 +9,17 @@ class Posicion extends Model
 {
     protected $table = 'posiciones';
 
-    protected $fillable = ['nombre', 'x', 'y', 'activo'];
+    protected $fillable = ['nombre', 'equipo_id', 'x', 'y', 'activo'];
 
     use HasFactory;
 
     public function jugadores()
     {
         return $this->hasMany(Jugador::class);
+    }
+
+    public function equipo()
+    {
+        return $this->belongsTo(Equipo::class);
     }
 }

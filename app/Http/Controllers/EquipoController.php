@@ -8,6 +8,8 @@ use App\Models\Club;
 use App\Models\Division;
 use App\Models\Equipo;
 use App\Models\Partido;
+use App\Models\Posicion;
+use App\Support\PosicionesBase;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Session;
@@ -50,11 +52,9 @@ class EquipoController extends Controller
     public function create()
     {
         $this->authorize('create', Equipo::class);
-        $clubId = Session::get('club');
 
-        $divisiones = Division::whereHas('equipos', function ($query) use ($clubId) {
-            $query->where('club_id', $clubId);
-        })->get();
+        $clubId = Session::get('club');
+        $divisiones = Division::where('club_id', $clubId)->get();
 
         $club = Club::findOrFail($clubId);
 
@@ -75,7 +75,15 @@ class EquipoController extends Controller
             'club_id' => 'required|exists:clubs,id',
         ]);
 
-        Equipo::create($validated);
+        $equipo = Equipo::create($validated);
+        foreach (PosicionesBase::all() as $posicion) {
+            Posicion::create([
+                'equipo_id' => $equipo->id,
+                'nombre'    => $posicion['nombre'],
+                'x'         => $posicion['x'],
+                'y'         => $posicion['y'],
+            ]);
+        }
 
         return redirect()->route('equipos.index');
     }

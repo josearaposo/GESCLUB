@@ -21,11 +21,7 @@ class DivisionController extends Controller
 
         $club = Club::findOrFail($clubId);
 
-        $divisiones = $club->equipos() // Obtener los equipos del club
-            ->with('division') // Cargar la relación de division en cada equipo
-            ->get()
-            ->pluck('division')
-            ->values();
+        $divisiones = $club->divisiones()->get();
 
         return Inertia::render('Divisiones/Index', [
             'divisiones' => $divisiones
@@ -45,12 +41,18 @@ class DivisionController extends Controller
      */
     public function store(Request $request)
     {
+        $clubId = Session::get('club');
+
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'numero_equipos' => 'integer',
         ]);
 
-        Division::create($validated);
+        Division::create([
+            'nombre' => $validated['nombre'],
+            'numero_equipos' => $validated['numero_equipos'] ?? null,
+            'club_id' => $clubId,
+        ]);
 
         return redirect()->route('equipos.create');
     }

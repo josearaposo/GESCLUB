@@ -1,6 +1,6 @@
 import React, { use } from "react";
 import { Link, router, useForm } from "@inertiajs/react";
-import { Inertia } from "@inertiajs/inertia";
+
 
 export default function Show({ partido }) {
     const titulares = partido.jugadores.filter(j => j.pivot.rol === 'titular');
@@ -25,7 +25,10 @@ export default function Show({ partido }) {
             </h1>
             <p className="mb-4">División: {partido.division?.nombre}</p>
             <h2 className="text-xl font-bold mb-4">
-                Marcador: {partido.goles_favor} - {partido.goles_contra}
+                Marcador:{' '}
+                {partido.lugar === 'local'
+                    ? `${partido.goles_favor} - ${partido.goles_contra}`
+                    : `${partido.goles_contra} - ${partido.goles_favor}`}
             </h2>
             <div className="mt-8 p-4 bg-gray-100 rounded">
                 <h2 className="text-lg font-semibold mb-4">

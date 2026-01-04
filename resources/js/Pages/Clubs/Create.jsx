@@ -32,12 +32,16 @@ export default function Create() {
         formData.append('imagen', imagen);
 
 
+
+
         router.post('/clubs', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
     };
+
+    const currentYear = new Date().getFullYear();
 
     return (
         <>
@@ -174,12 +178,15 @@ export default function Create() {
                             Año de Fundación
                         </label>
                         <input
-                            type="date"
+                            type="number"
                             id="fundacion"
                             value={fundacion}
+                            min={1900}
+                            max={currentYear}
                             onChange={(e) => setFundacion(e.target.value)}
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                         />
+
                     </div>
 
                     <div>

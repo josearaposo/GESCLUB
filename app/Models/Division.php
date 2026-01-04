@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Division extends Model
 {
 
-    protected $fillable = ['nombre', 'numero_equipos'];
+    protected $fillable = ['nombre', 'numero_equipos', 'club_id'];
     protected $table = 'divisiones';
     use HasFactory;
 
@@ -17,5 +17,8 @@ class Division extends Model
     {
         return $this->hasMany(Equipo::class);
     }
-
+    public function club()
+    {
+        return $this->belongsTo(Club::class);
+    }
 }

@@ -26,4 +26,9 @@ class Club extends Model
     {
         return $this->hasMany(Representante::class);
     }
+
+    public function divisiones()
+    {
+        return $this->hasMany(Division::class);
+    }
 }

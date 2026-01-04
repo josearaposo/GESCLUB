@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, router, usePage } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
 
-export default function Index({ posiciones }) {
+export default function Index({ posiciones, equipo }) {
     const { flash } = usePage().props;
     const [obtenerPosicion, setObtenerPosicion] = useState(null);
 
@@ -33,10 +33,10 @@ export default function Index({ posiciones }) {
 
                 <div className="flex justify-end mb-4">
                     <Link
-                        href={route("partidos.create")}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        href={route("partidos.create", { equipo: equipo.id })}
+                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                     >
-                        Ir al Partido
+                        + Nuevo Partido
                     </Link>
                     <Link
                         href={route("posiciones.create")}

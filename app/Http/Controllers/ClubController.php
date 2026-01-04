@@ -65,7 +65,7 @@ class ClubController extends Controller
             'ciudad' => 'nullable|string|max:255',
             'pais' => 'nullable|string|max:255',
             'empleados' => 'nullable|integer',
-            'fundacion' => 'nullable|date',
+            'fundacion' => 'nullable|integer',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

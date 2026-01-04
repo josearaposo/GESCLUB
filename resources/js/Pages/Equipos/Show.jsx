@@ -1,6 +1,7 @@
 import { Link } from "@inertiajs/react";
 
 export default function Show({ equipo, partidos }) {
+    const puedeCrearPartido = equipo.jugadores.length >= 11;
     return (
         <div className="max-w-5xl mx-auto mt-10 space-y-8">
 
@@ -30,11 +31,18 @@ export default function Show({ equipo, partidos }) {
                         </h2>
                     </div>
 
-                    <div>
-                        <p className="text-gray-500 text-sm">Jugadores</p>
-                        <h2 className="text-xl font-semibold">
-                            {equipo.jugadores.length}
-                        </h2>
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-baseline gap-1">
+                            <p className="text-gray-500 text-sm">Jugadores:</p>
+                            <h2 className="text-xl font-semibold">{equipo.jugadores.length}</h2>
+                        </div>
+                        <Link
+                            href={route("jugadores.index", { equipo: equipo.id, estado: "fichado" })}
+                            as="button"
+                            className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm"
+                        >
+                            Plantilla
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -46,12 +54,21 @@ export default function Show({ equipo, partidos }) {
                         Partidos disputados
                     </h2>
 
-                    <Link
-                        href={route("partidos.create", { equipo: equipo.id })}
-                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-                    >
-                        + Nuevo Partido
-                    </Link>
+                    {puedeCrearPartido ? (
+                        <Link
+                            href={route("partidos.create", { equipo: equipo.id })}
+                            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                        >
+                            + Nuevo Partido
+                        </Link>
+                    ) : (
+                        <span
+                            className="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed opacity-60"
+                            title="Necesitas al menos 11 jugadores fichados para crear un partido"
+                        >
+                            + Nuevo Partido
+                        </span>
+                    )}
                 </div>
 
                 {partidos.length ? (

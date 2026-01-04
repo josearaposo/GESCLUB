@@ -40,7 +40,7 @@ class EstadisticaController extends Controller
         ]);
 
         /**
-         * 🔒 Seguridad:
+         *
          * El jugador debe estar alineado en el partido
          */
         $estaAlineado = $partido->jugadores()

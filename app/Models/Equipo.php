@@ -12,18 +12,22 @@ class Equipo extends Model
     use HasFactory;
 
     public function division()
-   {
-       return $this->belongsTo(Division::class);
-   }
+    {
+        return $this->belongsTo(Division::class);
+    }
 
-   public function club()
-   {
-       return $this->belongsTo(Club::class);
-   }
+    public function club()
+    {
+        return $this->belongsTo(Club::class);
+    }
 
-   public function jugadores()
-   {
-       return $this->hasMany(Jugador::class);
-   }
+    public function jugadores()
+    {
+        return $this->hasMany(Jugador::class);
+    }
 
+    public function posiciones()
+    {
+        return $this->hasMany(Posicion::class);
+    }
 }

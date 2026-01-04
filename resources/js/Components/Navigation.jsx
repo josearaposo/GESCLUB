@@ -34,12 +34,6 @@ export default function Navigation(user) {
                 Divisiones
             </NavLink>
             <NavLink
-                href={route("posiciones.index")}
-                active={route().current("posiciones.index")}
-            >
-                Posiciones
-            </NavLink>
-            <NavLink
                 href={route("jugadores.index", { estado: "ojeado" })}
                 active={route().current("jugadores.index")}
             >
