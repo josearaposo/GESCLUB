@@ -20,7 +20,6 @@ class PosicionController extends Controller
         $equipo = Equipo::findOrFail($equipoId);
 
         $posiciones = Posicion::where('equipo_id', $equipo->id)
-            ->where('activo', true)
             ->orderBy('id')
             ->get();
 
@@ -33,17 +32,20 @@ class PosicionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return Inertia::render('Posiciones/Create');
-    }
+        $equipoId = $request->equipo;
+        $equipo = Equipo::findOrFail($equipoId);
 
+        return Inertia::render('Posiciones/Create', [
+            'equipo' => $equipo,
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'nombre' => 'required|string|max:255',
             'equipo_id' => 'required|exists:equipos,id',
@@ -60,7 +62,7 @@ class PosicionController extends Controller
             'activo' => $request->has('activo') ? $request->activo : true,
         ]);
 
-        return redirect()->route('posiciones.index')->with('success', 'Posición creada correctamente');
+        return redirect()->route('posiciones.index', ['equipo' => $request->equipo_id])->with('success', 'Posición creada correctamente');
     }
 
     /**
@@ -92,12 +94,13 @@ class PosicionController extends Controller
 
         $posicion->update([
             'nombre' => $request->nombre,
+            'equipo_id' => $posicion->equipo_id,
             'x' => $request->x,
             'y' => $request->y,
             'activo' => $request->has('activo') ? $request->activo : !$posicion->activo,
         ]);
 
-        return redirect()->route('posiciones.index')->with('success', 'Posición actualizada correctamente');
+        return redirect()->route('posiciones.index', ['equipo' => $posicion->equipo_id])->with('success', 'Posición actualizada correctamente');
     }
 
     /**

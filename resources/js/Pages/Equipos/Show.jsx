@@ -1,7 +1,7 @@
 import { Link } from "@inertiajs/react";
 
 export default function Show({ equipo, partidos }) {
-    const puedeCrearPartido = equipo.jugadores.length >= 11;
+    const puedeCrearPartido = equipo.jugadores.filter(j => j.estado === 'fichado').length >= 11;
     return (
         <div className="max-w-5xl mx-auto mt-10 space-y-8">
 
@@ -34,7 +34,7 @@ export default function Show({ equipo, partidos }) {
                     <div className="flex items-center gap-4">
                         <div className="flex items-baseline gap-1">
                             <p className="text-gray-500 text-sm">Jugadores:</p>
-                            <h2 className="text-xl font-semibold">{equipo.jugadores.length}</h2>
+                            <h2 className="text-xl font-semibold"> {equipo.jugadores.filter(j => j.estado === 'fichado').length}</h2>
                         </div>
                         <Link
                             href={route("jugadores.index", { equipo: equipo.id, estado: "fichado" })}
@@ -56,7 +56,7 @@ export default function Show({ equipo, partidos }) {
 
                     {puedeCrearPartido ? (
                         <Link
-                            href={route("partidos.create", { equipo: equipo.id })}
+                            href={route("posiciones.index", { equipo: equipo.id })}
                             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                         >
                             + Nuevo Partido
@@ -64,7 +64,7 @@ export default function Show({ equipo, partidos }) {
                     ) : (
                         <span
                             className="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed opacity-60"
-                            title="Necesitas al menos 11 jugadores fichados para crear un partido"
+                            title="Necesitas al menos 11 jugadores en la plantilla para crear un partido"
                         >
                             + Nuevo Partido
                         </span>

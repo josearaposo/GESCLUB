@@ -39,7 +39,7 @@ export default function Index({ posiciones, equipo }) {
                         + Nuevo Partido
                     </Link>
                     <Link
-                        href={route("posiciones.create")}
+                        href={route("posiciones.create", { equipo: equipo.id })}
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
                         Nueva Posición
@@ -76,14 +76,8 @@ export default function Index({ posiciones, equipo }) {
                                                 {posicion.activo ? "Activo" : "Inactivo"}
                                             </button>
                                         </td>
-                                        <td className="border border-gray-300 px-4 py-2 flex space-x-2">
-                                            <Link
-                                                href={route("posiciones.show", posicion.id)}
-                                                as="button"
-                                                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                                            >
-                                                Ver
-                                            </Link>
+                                        <td className="border border-gray-300 px-4 py-2 flex space-x-2 justify-center">
+
                                             <Link
                                                 href={route("posiciones.edit", posicion.id)}
                                                 as="button"

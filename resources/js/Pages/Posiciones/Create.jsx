@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { act, useState } from "react";
 import { useForm } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
 
-export default function Create() {
+export default function Create({ equipo }) {
     const { data, setData, post, processing, errors } = useForm({
         nombre: "",
         x: "",
         y: "",
+        equipo_id: equipo.id,
+        activo: true,
     });
 
     const handleClick = (e) => {

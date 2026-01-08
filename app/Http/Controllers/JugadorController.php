@@ -43,7 +43,7 @@ class JugadorController extends Controller
         $estado = $request->input('estado');
         $equipoId = $request->input('equipo');
         $equipo = Equipo::findOrFail($equipoId);
-        $posiciones = Posicion::all();
+        $posiciones = Posicion::where('equipo_id', $equipo->id)->get();
         $representantes = Representante::all();
         return Inertia::render('Jugadores/Create', [
             'equipo' => $equipo,
@@ -84,8 +84,8 @@ class JugadorController extends Controller
             'altura' => 'required|integer',
             'besoccer' => 'nullable|string|max:255',
             'internacional' => 'required|boolean',
-            'primera_posicion' => 'required|exists:posiciones,id',
-            'segunda_posicion' => 'nullable|exists:posiciones,id',
+            'primera_posicion' => ['required', 'exists:posiciones,id'],
+            'segunda_posicion' => ['nullable', 'exists:posiciones,id', 'different:primera_posicion'],
             'representante_id' => 'nullable|exists:representantes,id',
             'salario' => 'nullable|integer',
             'valor_mercado' => 'nullable|integer',
@@ -156,8 +156,8 @@ class JugadorController extends Controller
             'altura' => 'required|integer',
             'besoccer' => 'nullable|string|max:255',
             'internacional' => 'required|boolean',
-            'primera_posicion' => 'required|exists:posiciones,id',
-            'segunda_posicion' => 'nullable|exists:posiciones,id',
+            'primera_posicion' => ['required', 'exists:posiciones,id'],
+            'segunda_posicion' => ['nullable', 'exists:posiciones,id', 'different:primera_posicion'],
             'representante' => 'nullable|exists:representantes,id',
             'salario' => 'nullable|integer',
             'valor_mercado' => 'nullable|integer',
@@ -210,6 +210,7 @@ class JugadorController extends Controller
                     'tipo' => $request->tipo,
                 ]);
             } else {
+                //Fichaje a otro equipo externo
                 if ($request->equipo_destino_externo != "") {
 
                     $anteriorEquipo = $jugador->equipo_externo;

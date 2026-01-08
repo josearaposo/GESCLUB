@@ -41,14 +41,17 @@ class PartidoController extends Controller
 
         $division = Division::findOrFail($request->equipo);
         $equipo = Equipo::findOrFail($request->equipo);
-        $jugadores = Jugador::all();
-        $posiciones = Posicion::where('activo', true)
-            ->orderByRaw("CASE WHEN nombre = 'PT' THEN 0 ELSE 1 END") // Portero primero
-            ->orderBy('id') //
+        $jugadores = Jugador::where('equipo_id', $equipo->id)
+            ->where('estado', 'fichado')
+            ->get();
+        $posiciones = Posicion::where('equipo_id', $equipo->id)
+            ->where('activo', true)
+            ->orderByRaw("CASE WHEN nombre = 'Portero' THEN 0 ELSE 1 END")
+            ->orderBy('id')
             ->get();
 
         if ($posiciones->count() !== 11) {
-            return redirect()->route('posiciones.index')
+            return redirect()->route('posiciones.index', ['equipo' => $equipo->id])
                 ->with('error', 'No tienes 11 posiciones activas para crear un partido.');
         } else {
 

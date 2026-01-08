@@ -63,6 +63,7 @@ export default function Create({
         });
     };
 
+
     return (
         <>
             <Navigation />
@@ -368,11 +369,20 @@ export default function Create({
                         >
                             <option value="">Posiciones</option>
                             {posiciones.map((posicion) => (
-                                <option key={posicion.id} value={posicion.id}>
+                                <option
+                                    key={posicion.id}
+                                    value={posicion.id}
+                                    disabled={posicion.id === Number(primera_posicion)}
+                                >
                                     {posicion.nombre}
                                 </option>
                             ))}
                         </select>
+                        {posicionesIguales && (
+                            <div className="text-red-600 text-sm mt-1">
+                                La primera y segunda posición no pueden ser la misma.
+                            </div>
+                        )}
                     </div>
 
                     <div className="mb-6">

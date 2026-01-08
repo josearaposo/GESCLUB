@@ -315,7 +315,11 @@ export default function Edit({ jugador, posiciones, representantes }) {
                         >
                             <option value="">Posiciones</option>
                             {posiciones.map((posicion) => (
-                                <option key={posicion.id} value={posicion.id}>
+                                <option
+                                    key={posicion.id}
+                                    value={posicion.id}
+                                    disabled={posicion.id === Number(primera_posicion)}
+                                >
                                     {posicion.nombre}
                                 </option>
                             ))}
