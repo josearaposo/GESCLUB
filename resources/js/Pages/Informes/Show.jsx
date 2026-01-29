@@ -130,7 +130,7 @@ export default function Show({ informe }) {
                         {informesDisponibles.map((inf) => (
                             <option key={inf.id} value={inf.id}>
                                 Informe del{" "}
-                                {new Date(inf.created_at).toLocaleDateString()}
+                                {new Date(inf.created_at).toLocaleDateString()} - {inf.user.name}
                             </option>
                         ))}
                     </select>

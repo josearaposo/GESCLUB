@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import Navigation from '@/Components/Navigation';
+import { router } from '@inertiajs/react';
 
-export default function Create({club}) {
+export default function Create({ club }) {
     console.log(club);
     const [nombre, setNombre] = useState(club.estadio);
     const [direccion, setDireccion] = useState('');
@@ -13,7 +14,7 @@ export default function Create({club}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.post('/estadios', { nombre, direccion, capacidad, club_id});
+        router.post('/estadios', { nombre, direccion, capacidad, club_id });
     };
 
     return (
@@ -65,19 +66,19 @@ export default function Create({club}) {
                     </div>
 
                     <div>
-                    <label htmlFor="presupuesto" className="block text-sm font-medium text-gray-700">
-                        Capacidad
-                    </label>
-                    <input
-                        type="number"
-                        id="capacidad"
-                        value={capacidad}
-                        onChange={(e) => setCapacidad(e.target.value)}
-                        required
-                        step="0.01"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                    />
-                </div>
+                        <label htmlFor="presupuesto" className="block text-sm font-medium text-gray-700">
+                            Capacidad
+                        </label>
+                        <input
+                            type="number"
+                            id="capacidad"
+                            value={capacidad}
+                            onChange={(e) => setCapacidad(e.target.value)}
+                            required
+                            step="0.01"
+                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                        />
+                    </div>
 
                     <div className="flex items-center justify-between">
                         <button

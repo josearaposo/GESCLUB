@@ -22,7 +22,10 @@ class PartidoController extends Controller
     {
         $equipo = Equipo::findOrFail($request->equipo);
 
-        $partidos = Partido::with('division')
+        $partidos = Partido::with([
+            'division',
+            'estadisticas.jugador.primera_posicion'
+        ])
             ->where('equipo_id', $equipo->id)
             ->orderByDesc('fecha')
             ->get();

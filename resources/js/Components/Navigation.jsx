@@ -3,12 +3,15 @@ import { useState } from "react";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
+import { User, LogOut, } from "lucide-react";
+
+
 
 export default function Navigation(user) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
-    const { club } = usePage().props;
+    const { club, auth } = usePage().props;
     const existeClub = club !== undefined && club !== null;
     const linkClubs = existeClub ? (
         <>
@@ -20,7 +23,6 @@ export default function Navigation(user) {
             </NavLink>
 
             <NavLink
-                // Usamos la ruta anidada para el club actual
                 href={route("representantes.index", { club: club.id })}
                 active={route().current("representantes.index")}
             >
@@ -33,13 +35,48 @@ export default function Navigation(user) {
             >
                 Divisiones
             </NavLink>
-            <NavLink
-                href={route("jugadores.index", { estado: "ojeado" })}
-                active={route().current("jugadores.index")}
+            {auth?.user?.rol === "gestor" && (
+                <NavLink
+                    href={route("usuarios.index", { club: club })}
+                    active={route().current("usuarios.index")}
+                >
+                    Informadores
+                </NavLink>
+            )}
+
+        </>
+    ) : null;
+    const linkClubsMovil = existeClub ? (
+        <>
+            <ResponsiveNavLink
+                href={route("equipos.index")}
+                active={route().current("equipos.index")}
             >
-                Seguimiento
-            </NavLink>
-            {/* Otros enlaces anidados... */}
+                Equipos
+            </ResponsiveNavLink>
+
+            <ResponsiveNavLink
+                href={route("representantes.index", { club: club.id })}
+                active={route().current("representantes.index")}
+            >
+                Representantes
+            </ResponsiveNavLink>
+
+            <ResponsiveNavLink
+                href={route("divisiones.index")}
+                active={route().current("divisiones.index")}
+            >
+                Divisiones
+            </ResponsiveNavLink>
+
+            {auth?.user?.rol === "gestor" && (
+                <ResponsiveNavLink
+                    href={route("usuarios.index", { club })}
+                    active={route().current("usuarios.index")}
+                >
+                    Informadores
+                </ResponsiveNavLink>
+            )}
         </>
     ) : null;
 
@@ -58,40 +95,35 @@ export default function Navigation(user) {
                             </Link>
                         </div>
 
-                        <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <NavLink
-
-                                href={route("clubs.salir")}
-                                active={route().current("clubs.index")}
-
-                            >
-                                Clubs
-                            </NavLink>
-
+                        <div className="hidden md:flex space-x-8 md:-my-px md:ms-10">
+                            <NavLink href={route("clubs.salir")}>Clubs</NavLink>
                             {linkClubs}
                         </div>
                     </div>
-
-                    <div className="hidden sm:flex sm:items-center sm:ms-6">
+                    <div className="hidden lg:flex lg:items-center lg:ms-6">
                         <div className="flex space-x-4">
                             <Link
                                 href={route("profile.edit")}
-                                className="block  text-left px-4 py-2 border border-green-600 text-green-800 rounded hover:bg-green-600 hover:text-white transition"
+                                className="block text-left px-4 py-2 border border-green-600 text-green-800 rounded
+                       hover:bg-green-600 hover:text-white transition"
                             >
-                                Perfil de Usuario
+                                <User className="w-5 h-5" />
                             </Link>
+
                             <Link
                                 href={route("logout")}
-                                className="block  text-left px-4 py-2 border border-green-600 text-green-800 rounded hover:bg-green-600 hover:text-white transition"
                                 method="post"
                                 as="button"
+                                className="block text-left px-4 py-2 border border-green-600 text-green-800 rounded
+                       hover:bg-green-600 hover:text-white transition"
                             >
-                                Cerrar Sesión
+                                <LogOut className="w-5 h-5" />
                             </Link>
                         </div>
                     </div>
 
-                    <div className="-me-2 flex items-center sm:hidden">
+
+                    <div className="-me-2 flex items-center lg:hidden">
                         <button
                             onClick={() =>
                                 setShowingNavigationDropdown(
@@ -137,17 +169,19 @@ export default function Navigation(user) {
             <div
                 className={
                     (showingNavigationDropdown ? "block" : "hidden") +
-                    " sm:hidden"
+                    " lg:hidden"
                 }
 
             >
-                <div className="pt-2 pb-3 space-y-1">
+                <div className="md:hidden pt-2 pb-3 space-y-1">
                     <ResponsiveNavLink
-                        href={route("dashboard")}
-                        active={route().current("dashboard")}
+                        href={route("clubs.salir")}
+                        active={route().current("clubs.index")}
                     >
                         Clubs
                     </ResponsiveNavLink>
+
+                    {linkClubsMovil}
                 </div>
 
                 <div className="pt-4 pb-1 border-t border-gray-200">

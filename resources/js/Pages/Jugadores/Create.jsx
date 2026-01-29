@@ -378,11 +378,7 @@ export default function Create({
                                 </option>
                             ))}
                         </select>
-                        {posicionesIguales && (
-                            <div className="text-red-600 text-sm mt-1">
-                                La primera y segunda posición no pueden ser la misma.
-                            </div>
-                        )}
+
                     </div>
 
                     <div className="mb-6">

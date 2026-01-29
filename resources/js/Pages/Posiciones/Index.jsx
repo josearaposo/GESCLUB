@@ -31,24 +31,26 @@ export default function Index({ posiciones, equipo }) {
 
                 <h1 className="text-2xl font-bold mb-4">Posiciones</h1>
 
-                <div className="flex justify-end mb-4">
+                <div className="flex flex-col sm:flex-row justify-end gap-2 mb-4">
                     <Link
                         href={route("partidos.create", { equipo: equipo.id })}
-                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                        className="flex items-center justify-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full sm:w-auto"
                     >
                         + Nuevo Partido
                     </Link>
+
                     <Link
                         href={route("posiciones.create", { equipo: equipo.id })}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        className="flex items-center justify-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full sm:w-auto"
                     >
                         Nueva Posición
                     </Link>
                 </div>
 
-                <div className="flex">
+
+                <div className="flex flex-col lg:flex-row gap-4">
                     {/* Tabla de posiciones */}
-                    <div className="w-1/2 overflow-x-auto mr-4">
+                    <div className="w-full lg:w-1/2 overflow-x-auto">
                         <table className="table-auto w-full border-collapse border border-gray-300">
                             <thead className="bg-gray-100">
                                 <tr>
@@ -102,7 +104,7 @@ export default function Index({ posiciones, equipo }) {
 
                     {/* Mini campo visual */}
                     <div
-                        className="relative w-1/2 h-96"
+                        className="relative w-full lg:w-1/2 h-64 sm:h-80 lg:h-96 rounded overflow-hidden"
                         style={{
                             backgroundImage: "url('/imagenes/campofutbol.jpg')",
                             backgroundSize: "cover",
@@ -110,6 +112,7 @@ export default function Index({ posiciones, equipo }) {
                             backgroundRepeat: "no-repeat",
                         }}
                     >
+
                         {posiciones
                             .slice() // hacemos copia para no mutar el array original
                             .sort((a, b) => a.id - b.id) // 🔹 Orden fijo por ID (o cualquier criterio estable)

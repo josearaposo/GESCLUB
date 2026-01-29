@@ -23,7 +23,7 @@ class ZonaController extends Controller
 
         return Inertia::render('Zonas/Index', [
             'zonas' => $zonas,
-            'estadio' => $estadio_id,  // Esto será útil en el frontend si necesitas usarlo
+            'estadio' => $estadio_id,
         ]);
     }
 
@@ -44,6 +44,7 @@ class ZonaController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
@@ -84,27 +85,30 @@ class ZonaController extends Controller
      */
     public function edit(Zona $zona)
     {
-        //
+        dd('editar zona');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateZonaRequest $request, Zona $zona)
-    {
-        //
-    }
+    public function update(UpdateZonaRequest $request, Zona $zona) {}
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Zona $zona)
     {
-        //
+        $estadio_id = $zona->estadio_id;
+        if ($zona->asientos()->exists()) {
+            return redirect()->route('zonas.index', ['estadio' => $estadio_id])->with('error', 'No se puede eliminar la zona porque tiene asientos asociados.');
+        }
+
+        $zona->delete();
+        return redirect()->route('zonas.index', ['estadio' => $estadio_id])->with('success', 'Zona eliminada correctamente.');
     }
 
     public function asientos(Zona $zona)
     {
-        return response()->json($zona->asientos); // <-- esto debe devolver un array
+        return response()->json($zona->asientos);
     }
 }

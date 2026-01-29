@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import Navigation from '@/Components/Navigation';
 
-export default function Edit({ equipo, divisiones, clubs}) {
+export default function Edit({ equipo, divisiones, club }) {
     const [nombre, setNombre] = useState(equipo.nombre);
     const [division_id, setDivisionId] = useState(equipo.division_id);
     const [club_id, setClubId] = useState(equipo.club_id);
@@ -14,9 +14,9 @@ export default function Edit({ equipo, divisiones, clubs}) {
 
     return (
         <>
+            <Navigation />
+            <div className="container max-w-lg mx-auto p-6">
 
-        <div className="container mx-auto p-6">
-                <Navigation />
                 <h1 className="text-2xl font-bold mb-6">Editar Equipo</h1>
 
                 <form
@@ -57,7 +57,7 @@ export default function Edit({ equipo, divisiones, clubs}) {
                             required
                             className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                         >
-                            <option value="">Seleccionar División</option>
+
                             {divisiones.map((division) => (
                                 <option key={division.id} value={division.id}>
                                     {division.nombre}
@@ -67,27 +67,17 @@ export default function Edit({ equipo, divisiones, clubs}) {
                     </div>
 
                     <div className="mb-6">
-                        <label
-                            htmlFor="club_id"
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                        >
+                        <label htmlFor="club_name" className="block text-gray-700 text-sm font-bold mb-2">
                             Club:
                         </label>
-                        <select
+                        <input
                             id="club_id"
-                            name="club"
-                            value={club_id}
-                            onChange={(e) => setClubId(e.target.value)}
-                            required
-                            className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                        >
-                            <option value="">Seleccionar Club al que pertenece</option>
-                            {clubs.map((club) => (
-                                <option key={club.id} value={club.id}>
-                                    {club.nombre}
-                                </option>
-                            ))}
-                        </select>
+                            type="text"
+                            value={club.nombre}
+                            disabled
+                            className="mt-1 block w-full bg-gray-100 border border-gray-300 rounded py-2 px-3 text-gray-700"
+                        />
+                        <input type="hidden" name="club_id" value={club.id} />
                     </div>
 
                     <div className="flex items-center justify-between">

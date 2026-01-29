@@ -7,7 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Estadio extends Model
 {
-    protected $fillable = ['nombre', 'direccion', 'capacidad', 'club_id'];
+    protected $fillable = [
+        'nombre',
+        'club_id',
+        'direccion',
+        'capacidad',
+    ];
+
+    public function club()
+    {
+        return $this->belongsTo(Club::class);
+    }
 
     use HasFactory;
 }

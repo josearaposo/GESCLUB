@@ -86,6 +86,9 @@ Route::get('/payment/cancel', [PaypalController::class, 'paymentCancel'])->name(
 
 Route::post('/jugadores/{jugador}/fichar', [JugadorController::class, 'fichar'])->name('jugadores.fichar');
 
+Route::get('/jugadores/{jugador}/historial', [JugadorController::class, 'historial'])
+    ->name('jugadores.historial');
+
 //Ruta para gestion de estadisticas de partidos
 Route::resource('partidos', PartidoController::class);
 Route::post('/estadisticas', [EstadisticaController::class, 'store'])->name('estadisticas.store');

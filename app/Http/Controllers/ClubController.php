@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClubRequest;
 use App\Http\Requests\UpdateClubRequest;
 use App\Models\Club;
+use App\Models\Estadio;
 use App\Models\Jugador;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -79,6 +80,12 @@ class ClubController extends Controller
         $user = auth()->user();
         $user->clubes()->attach($club->id);
 
+        Estadio::create([
+            'nombre' => $validated['estadio'],
+            'club_id' => $club->id,
+            'direccion' => null,
+            'capacidad' => null,
+        ]);
 
 
         return redirect()->route('clubs.index');

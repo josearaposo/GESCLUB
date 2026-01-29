@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Inertia } from "@inertiajs/inertia";
 import Navigation from "@/Components/Navigation";
+import { router } from "@inertiajs/react";
 
 export default function Create({ estadio }) {
     const [nombre, setNombre] = useState("");
@@ -11,7 +11,7 @@ export default function Create({ estadio }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.post("/zonas", { nombre, precio, aforo, filas ,estadio_id });
+        router.post("/zonas", { nombre, precio, aforo, filas, estadio_id });
     };
 
     return (

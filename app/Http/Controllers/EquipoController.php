@@ -112,12 +112,14 @@ class EquipoController extends Controller
      */
     public function edit(Equipo $equipo)
     {
-        $divisiones = Division::all();
-        $clubs = Club::all();
+        $clubId = Session::get('club');
+        $divisiones = Division::where('club_id', $clubId)->get();
+
+        $club = Club::findOrFail($clubId);
         return Inertia::render('Equipos/Edit', [
             'equipo' => $equipo,
             'divisiones' => $divisiones,
-            'clubs' => $clubs,
+            'club' => $club,
         ]);
     }
 
@@ -142,8 +144,18 @@ class EquipoController extends Controller
      */
     public function destroy(Equipo $equipo)
     {
+        if ($equipo->jugadores()->exists()) {
+            return redirect()->back()->with(
+                'error',
+                'No se puede eliminar el equipo porque tiene jugadores asociados.'
+            );
+        }
+
         $equipo->delete();
 
-        return redirect()->route('equipos.index');
+        return redirect()->back()->with(
+            'success',
+            'Equipo eliminado correctamente.'
+        );
     }
 }

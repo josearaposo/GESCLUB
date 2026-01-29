@@ -13,7 +13,11 @@ class Zona extends Model
     use HasFactory;
 
     public function asientos()
-{
-    return $this->hasMany(Asiento::class);
-}
+    {
+        return $this->hasMany(Asiento::class);
+    }
+    public function estadio()
+    {
+        return $this->belongsTo(Estadio::class);
+    }
 }

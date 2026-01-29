@@ -9,6 +9,7 @@ use App\Models\Estadio;
 use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as FacadesRequest;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class EstadioController extends Controller
@@ -44,7 +45,6 @@ class EstadioController extends Controller
      */
     public function store(Request $request)
     {
-
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'direccion' => 'required|string|max:255',
@@ -55,7 +55,6 @@ class EstadioController extends Controller
         Estadio::create($validated);
 
         return redirect()->route('estadios.index', ['club' => $validated['club_id']]);
-
     }
 
     /**
@@ -71,15 +70,30 @@ class EstadioController extends Controller
      */
     public function edit(Estadio $estadio)
     {
-        //
+
+        $clubId = $estadio->club_id;
+        $club = Club::findOrFail($clubId);
+
+        return Inertia::render('Estadios/Edit', [
+            'estadio' => $estadio,
+            'club' => $club
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEstadioRequest $request, Estadio $estadio)
+    public function update(Request $request, Estadio $estadio)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'capacidad' => 'integer',
+        ]);
+
+        $estadio->update($validated);
+
+        return redirect()->route('estadios.index', ['club' => $estadio->club_id]);
     }
 
     /**
@@ -87,6 +101,9 @@ class EstadioController extends Controller
      */
     public function destroy(Estadio $estadio)
     {
-        //
+        $clubId = $estadio->club_id;
+        $estadio->delete();
+
+        return redirect()->route('estadios.index', ['club' => $clubId]);
     }
 }

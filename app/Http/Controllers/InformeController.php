@@ -137,14 +137,13 @@ class InformeController extends Controller
     public function show(Informe $informe)
     {
         $this->authorize('view', $informe);
-
         return Inertia::render('Informes/Show', [
-            'informe' => $informe,
+            'informe' => $informe->load(['user', 'jugador']),
             'jugador' => $informe->jugador,
             'informesDisponibles' => Informe::where('jugador_id', $informe->jugador_id)
-            ->where('id', '!=', $informe->id)
-            ->with('jugador')
-            ->get(),
+                ->where('id', '!=', $informe->id)
+                ->with(['user', 'jugador'])
+                ->get(),
         ]);
     }
 
@@ -270,16 +269,19 @@ class InformeController extends Controller
 
     public function comparar()
     {
-        $jugadores = Jugador::with('informes')->get();
+        $jugadores = Jugador::with([
+            'informes.user',
+        ])->get();
 
         return Inertia::render('Informes/Comparar', [
             'jugadores' => $jugadores,
         ]);
     }
 
+
     public function comparacion(Request $request)
     {
-        $informe1 = Informe::with('jugador' , 'user')->findOrFail($request->informe1);
+        $informe1 = Informe::with('jugador', 'user')->findOrFail($request->informe1);
         $informe2 = Informe::with('jugador', 'user')->findOrFail($request->informe2);
 
         return Inertia::render('Informes/CompararInformes', [

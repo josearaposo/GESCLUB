@@ -31,4 +31,8 @@ class Club extends Model
     {
         return $this->hasMany(Division::class);
     }
+    public function estadio()
+    {
+        return $this->hasOne(Estadio::class);
+    }
 }

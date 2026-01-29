@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('socios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('dni');
-            $table->integer('numero_socio');
+            $table->string('dni')->unique();
+            $table->integer('numero_socio')->unique();
             $table->foreignId('asiento_id')->constrained('asientos');
             $table->timestamp('fecha_reserva');
             $table->timestamps();

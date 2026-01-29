@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateJugadorRequest;
 use App\Models\Equipo;
 use App\Models\Jugador;
+use App\Models\Partido;
 use App\Models\Posicion;
 use App\Models\Representante;
 use App\Models\Traspaso;
@@ -107,17 +108,44 @@ class JugadorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Jugador $jugador)
+    public function historial(Jugador $jugador)
     {
         $equipos = Equipo::all();
         $traspasos = $jugador->traspasos()->with(['equipoOrigen', 'equipoDestino'])->get();
 
-        return Inertia::render('Jugadores/Show', [
+        return Inertia::render('Jugadores/Historial', [
             'jugador' => $jugador,
             'equipos' => $equipos,
             'traspasos' => $traspasos,
         ]);
     }
+
+
+    public function show(Jugador $jugador)
+    {
+        $partidos = Partido::whereHas('jugadores', function ($q) use ($jugador) {
+            $q->where('jugador_id', $jugador->id);
+        })
+            ->with([
+                'division',
+                // 🔑 cargamos SOLO el jugador actual con su pivot
+                'jugadores' => function ($q) use ($jugador) {
+                    $q->where('jugador_id', $jugador->id);
+                },
+                'estadisticas' => function ($q) use ($jugador) {
+                    $q->where('jugador_id', $jugador->id);
+                }
+            ])
+            ->orderByDesc('fecha')
+            ->get();
+
+        return Inertia::render('Jugadores/Show', [
+            'jugador' => $jugador,
+            'partidos' => $partidos,
+        ]);
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.

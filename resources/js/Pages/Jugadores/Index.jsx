@@ -4,7 +4,7 @@ import Navigation from "@/Components/Navigation";
 import { usePage } from "@inertiajs/react";
 
 export default function Index({ jugadores, equipo, estado }) {
-    const { flash } = usePage().props;
+    const { flash, auth } = usePage().props;
     return (
         <>
             <Navigation />
@@ -50,27 +50,28 @@ export default function Index({ jugadores, equipo, estado }) {
                                 Jugadores Ojeados
                             </Link>
                         )}
-
-                        <Link
-                            href={route("jugadores.create", { equipo: equipo, estado: "fichado" })}
-                            className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700 text-sm"
-                        >
-                            Nuevo Jugador
-                        </Link>
-
+                        {auth?.user?.rol === "gestor" && (
+                            <Link
+                                href={route("jugadores.create", { equipo: equipo, estado: "fichado" })}
+                                className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700 text-sm"
+                            >
+                                Nuevo Jugador
+                            </Link>
+                        )}
                         <Link
                             href={route("jugadores.create", { equipo: equipo, estado: "ojeado" })}
                             className="bg-amber-500 text-white px-3 py-2 rounded hover:bg-amber-600 text-sm"
                         >
                             🔍 Ojear Jugador
                         </Link>
-
-                        <Link
-                            href={route("informes.comparar")}
-                            className="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700 text-sm"
-                        >
-                            📊 Comparar
-                        </Link>
+                        {auth?.user?.rol === "gestor" && (
+                            <Link
+                                href={route("informes.comparar")}
+                                className="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700 text-sm"
+                            >
+                                📊 Comparar
+                            </Link>
+                        )}
                     </div>
                 </div>
                 {jugadores.length === 0 && (
@@ -134,23 +135,37 @@ export default function Index({ jugadores, equipo, estado }) {
                                 >
                                     Ver Informes
                                 </Link>
-                                <Link
-                                    href={route("jugadores.edit", jugador.id)}
-                                    className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 text-sm"
-                                >
-                                    Editar
-                                </Link>
-                                <Link
-                                    href={route(
-                                        "jugadores.destroy",
-                                        jugador.id
-                                    )}
-                                    method="delete"
-                                    as="button"
-                                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                                >
-                                    Eliminar
-                                </Link>
+                                {auth?.user?.rol === "gestor" || estado === "ojeado" && (
+                                    <>
+                                        <Link
+                                            href={route("jugadores.historial", {
+                                                jugador: jugador.id,
+                                            })}
+                                            className="bg-stone-500 text-white px-3 py-1 rounded hover:bg-stone-700 text-sm"
+                                        >
+                                            Historial
+                                        </Link>
+
+
+                                        <Link
+                                            href={route("jugadores.edit", jugador.id)}
+                                            className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 text-sm"
+                                        >
+                                            Editar
+                                        </Link>
+                                        <Link
+                                            href={route(
+                                                "jugadores.destroy",
+                                                jugador.id
+                                            )}
+                                            method="delete"
+                                            as="button"
+                                            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                                        >
+                                            Eliminar
+                                        </Link>
+                                    </>
+                                )}
                             </div>
                         </div>
                     ))}

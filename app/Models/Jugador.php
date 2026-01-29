@@ -42,6 +42,10 @@ class Jugador extends Model
         return $this->hasMany(Traspaso::class);
     }
 
+    public function estadisticas()
+    {
+        return $this->hasMany(Estadistica::class);
+    }
     public function partidos()
     {
         return $this->belongsToMany(Partido::class, 'alineaciones')

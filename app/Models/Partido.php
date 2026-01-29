@@ -9,6 +9,7 @@ use App\Models\Alineacion;
 class Partido extends Model
 {
     protected $fillable = ['division_id', 'equipo_id', 'rival', 'fecha', 'lugar'];
+    protected $appends = ['goles_favor', 'goles_contra'];
 
     use HasFactory;
 
@@ -57,5 +58,15 @@ class Partido extends Model
                 $q->where('nombre', 'Portero');
             })
             ->count();
+    }
+
+    public function getGolesFavorAttribute()
+    {
+        return $this->golesFavor();
+    }
+
+    public function getGolesContraAttribute()
+    {
+        return $this->golesContra();
     }
 }
