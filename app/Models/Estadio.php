@@ -14,10 +14,16 @@ class Estadio extends Model
         'capacidad',
     ];
 
+    use HasFactory;
+
+
     public function club()
     {
         return $this->belongsTo(Club::class);
     }
 
-    use HasFactory;
+    public function zonas()
+    {
+        return $this->hasMany(Zona::class);
+    }
 }

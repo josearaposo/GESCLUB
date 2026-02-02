@@ -16,6 +16,8 @@ use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ZonaController;
 use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\EstadisticaController;
+use App\Http\Controllers\SocioController;
+use App\Models\Socio;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -107,6 +109,7 @@ Route::put('/estadisticas/{estadistica}', [EstadisticaController::class, 'update
 Route::post('/posiciones/{posicion}/toggle-activo', [PosicionController::class, 'toggleActivo'])
     ->name('posiciones.toggleActivo');
 
+Route::resource('socios', SocioController::class);
 // Route::get('/zonas', [ZonaController::class, 'index'])->name('zonas.index');
 
 require __DIR__ . '/auth.php';

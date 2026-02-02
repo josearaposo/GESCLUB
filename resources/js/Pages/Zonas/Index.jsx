@@ -2,30 +2,35 @@ import React, { useState } from "react";
 import { Link, router, usePage } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
 
-export default function Index({ zonas, estadio }) {
+export default function Index({ zonas, estadio, numero_socio }) {
     const { flash } = usePage().props;
-    const [flashLocal, setFlashLocal] = useState(null);
-    const [selectedZona, setSelectedZona] = useState(null);
+    const [controlFormulario, setControlFormulario] = useState(null);
+    const [seleccionZona, setSeleccionZona] = useState(null);
     const [asientos, setAsientos] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [showFormularioSocio, setShowFormularioSocio] = useState(false);
-    const [socioData, setSocioData] = useState({
+    const [mostrarFormularioSocio, setMostrarFormularioSocio] = useState(false);
+    const [socioDatos, setSocioDatos] = useState({
         nombre: "",
         dni: "",
-        numero_socio: "",
+        numero_socio: numero_socio,
     });
     const [asientoSeleccionado, setAsientoSeleccionado] = useState(null);
 
+    // Eliminar zona
     const handleDelete = (id) => {
-        router.delete(route("zonas.destroy", id));
-
+        router.delete(route("zonas.destroy", id), {
+            onSuccess: () => {
+                setSeleccionZona(null);
+                setAsientos([]);
+            }
+        });
     };
-
+    // Cargar asientos de la zona seleccionada
     const handleZonaClick = (zonaId) => {
         const zona = zonas.find((z) => z.id === zonaId);
-        setSelectedZona(zona);
+        setSeleccionZona(zona);
         setLoading(true);
-
+        // Fetch asientos
         fetch(`/zonas/${zonaId}/asientos`)
             .then((response) => response.json())
             .then((data) => {
@@ -35,47 +40,52 @@ export default function Index({ zonas, estadio }) {
             .catch(() => alert("Error al cargar asientos"))
             .finally(() => setLoading(false));
     };
-
+    // Manejar click en asiento
     const handleAsientoClick = (asientoId) => {
         const asiento = asientos.find((a) => a.id === asientoId);
         if (asiento.estado === "Libre") {
-            setFlashLocal(null);
+            setControlFormulario(null);
             setAsientoSeleccionado(asiento);
-            setShowFormularioSocio(true);
+            setMostrarFormularioSocio(true);
         }
     };
 
-
+    // Manejar cambios en el formulario de socio
     const handleFormularioChange = (e) => {
         const { name, value } = e.target;
-        setSocioData((prevData) => ({
+        setSocioDatos((prevData) => ({
             ...prevData,
             [name]: value,
         }));
     };
-
+    // Manejar envío del formulario de socio
     const handleSubmitSocio = (e) => {
         e.preventDefault();
-
-        if (!socioData.nombre || !socioData.dni || !socioData.numero_socio) {
-            alert("Por favor, complete todos los campos.");
+        // Validaciones
+        if (!socioDatos.nombre || !socioDatos.dni || !socioDatos.numero_socio) {
+            setControlFormulario({
+                type: "error",
+                message: "Completa todos los campos",
+            });
             return;
         }
-        if (!validarDNI(socioData.dni)) {
-            setFlashLocal({
+        if (!validarDNI(socioDatos.dni)) {
+            setControlFormulario({
                 type: "error",
                 message: "El DNI no es válido",
             });
             return;
         }
-        setFlashLocal(null);
+        setControlFormulario(null);
+        // Enviar datos
         router.post("/reservar", {
             asiento_id: asientoSeleccionado.id,
             estadio: estadio,
-            nombre: socioData.nombre,
-            dni: socioData.dni,
-            numero_socio: socioData.numero_socio,
+            nombre: socioDatos.nombre,
+            dni: socioDatos.dni,
+            numero_socio: socioDatos.numero_socio,
         }, {
+
             preserveState: true,
             preserveScroll: true,
 
@@ -88,15 +98,18 @@ export default function Index({ zonas, estadio }) {
                     )
                 );
 
-                setShowFormularioSocio(false);
-                setSocioData({ nombre: "", dni: "", numero_socio: "" });
+                setMostrarFormularioSocio(false);
+                setSocioDatos({ nombre: "", dni: "", numero_socio: socioDatos.numero_socio + 1 });
             },
             onError: (errors) => {
-                alert(errors.message || "Error al reservar");
+                setControlFormulario({
+                    type: "error",
+                    message: errors.dni || errors.numero_socio || "Error en el formulario",
+                });
             }
         });
     };
-
+    // Dividir asientos en filas
     const dividirAsientosPorFilas = (asientos, filas) => {
         const resultado = [];
         const porFila = Math.ceil(asientos.length / filas);
@@ -109,6 +122,7 @@ export default function Index({ zonas, estadio }) {
 
         return resultado;
     };
+    // Validar DNI
     const validarDNI = (dni) => {
         const letras = "TRWAGMYFPDXBNJZSQVHLCKE";
         const dniRegex = /^(\d{8})([A-Z])$/i;
@@ -131,7 +145,7 @@ export default function Index({ zonas, estadio }) {
                 style={{
                     backgroundImage: "url('/imagenes/campogradas.png')",
                 }}>
-                <div className="container mx-auto p-6">
+                <div className="container mx-auto p-6 pt-32">
                     {/* Mensajes flash */}
                     {flash.success && (
                         <div className="mb-4 p-4 bg-green-100 text-green-800 border border-green-400 rounded">
@@ -145,18 +159,9 @@ export default function Index({ zonas, estadio }) {
                         </div>
                     )}
 
-                    {flashLocal && (
-                        <div
-                            className={`mb-4 p-4 rounded border ${flashLocal.type === "error"
-                                ? "bg-red-100 text-red-800 border-red-400"
-                                : "bg-green-100 text-green-800 border-green-400"
-                                }`}
-                        >
-                            {flashLocal.message}
-                        </div>
-                    )}
 
-                    <h1 className="text-4xl font-bold mb-4 text-white">Venta de Abonos</h1>
+
+                    <h1 className="text-2xl sm:text-4xl font-bold mb-4 text-white">Venta de Abonos</h1>
 
                     <div className="flex justify-end mb-4">
                         <Link
@@ -179,7 +184,12 @@ export default function Index({ zonas, estadio }) {
                                 >
                                     {zona.nombre} - {zona.precio}€
                                 </button>
-
+                                <Link
+                                    href={route("zonas.show", zona.id)}
+                                    className="px-2 hover:bg-gray-600 rounded"
+                                >
+                                    Socios
+                                </Link>
                                 <Link
                                     href={route("zonas.edit", zona.id)}
                                     className="px-2 hover:bg-yellow-500 rounded"
@@ -188,7 +198,11 @@ export default function Index({ zonas, estadio }) {
                                 </Link>
 
                                 <button
-                                    onClick={() => handleDelete(zona.id)}
+                                    onClick={() => {
+                                        handleDelete(zona.id);
+                                        setMostrarFormularioSocio(false);
+                                        setControlFormulario(null);
+                                    }}
                                     className="px-2 hover:bg-red-600 rounded"
                                 >
                                     Borrar
@@ -197,7 +211,7 @@ export default function Index({ zonas, estadio }) {
 
                         ))}
                     </div>
-                    {showFormularioSocio && (
+                    {mostrarFormularioSocio && (
                         <div className="my-4 p-4 border border-gray-300 bg-gray-700 rounded-md">
                             <h3 className="text-lg font-bold text-white mb-2">
                                 Formulario de Socio
@@ -210,7 +224,7 @@ export default function Index({ zonas, estadio }) {
                                     <input
                                         type="text"
                                         name="nombre"
-                                        value={socioData.nombre}
+                                        value={socioDatos.nombre}
                                         onChange={handleFormularioChange}
                                         className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                                     />
@@ -223,7 +237,7 @@ export default function Index({ zonas, estadio }) {
                                     <input
                                         type="text"
                                         name="dni"
-                                        value={socioData.dni}
+                                        value={socioDatos.dni}
                                         onChange={handleFormularioChange}
                                         className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                                     />
@@ -236,7 +250,7 @@ export default function Index({ zonas, estadio }) {
                                     <input
                                         type="text"
                                         name="numero_socio"
-                                        value={socioData.numero_socio}
+                                        value={socioDatos.numero_socio}
                                         onChange={handleFormularioChange}
                                         className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                                     />
@@ -251,22 +265,32 @@ export default function Index({ zonas, estadio }) {
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        setShowFormularioSocio(false);
-                                        setFlashLocal(null);
-                                        setSocioData({ nombre: "", dni: "", numero_socio: "" });
+                                        setMostrarFormularioSocio(false);
+                                        setControlFormulario(null);
+                                        setSocioDatos({ nombre: "", dni: "", numero_socio: socioDatos.numero_socio });
 
                                     }}
                                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
                                 >
                                     Cancelar Reserva
                                 </button>
+                                {controlFormulario && (
+                                    <div
+                                        className={`mb-4 p-4 mt-4 rounded border ${controlFormulario.type === "error"
+                                            ? "bg-red-100 text-red-800 border-red-400"
+                                            : "bg-green-100 text-green-800 border-green-400"
+                                            }`}
+                                    >
+                                        {controlFormulario.message}
+                                    </div>
+                                )}
                             </form>
                         </div>
                     )}
-                    {selectedZona && (
+                    {seleccionZona && (
                         <div className="asientos my-4">
-                            <h2 className="text-xl font-bold mb-2">
-                                Asientos en zona: {selectedZona.nombre}
+                            <h2 className="text-xl font-bold mb-2 text-white">
+                                Asientos en zona: {seleccionZona.nombre}
                             </h2>
 
                             {loading ? (
@@ -275,7 +299,7 @@ export default function Index({ zonas, estadio }) {
                                 <div className="overflow-x-auto max-w-full space-y-[4px]">
                                     {dividirAsientosPorFilas(
                                         asientos,
-                                        selectedZona.filas
+                                        seleccionZona.filas
                                     ).map((filaAsientos, index) => (
                                         <div
                                             key={index}
@@ -291,7 +315,7 @@ export default function Index({ zonas, estadio }) {
                                                         style={{
                                                             width: "28px",
                                                             height: "28px",
-                                                            backgroundColor: asiento.estado === "Libre" ? "#22c55e" : "#ef4444",
+                                                            backgroundColor: asiento.estado === "Libre" ? "green" : "red",
                                                             borderRadius: "6px 6px 10px 10px",
                                                         }}
                                                     >
@@ -317,7 +341,19 @@ export default function Index({ zonas, estadio }) {
                         </div>
                     )}
 
+                    <div className="mt-8">
+                        <Link
+                            href={route("estadios.index", {
+                                club: estadio.id,
+
+                            })}
+                            className="inline-block bg-white text-gray-800 px-4 py-2 rounded hover:bg-gray-300"
+                        >
+                            Volver
+                        </Link>
+                    </div>
                 </div>
+
             </div >
         </>
     );

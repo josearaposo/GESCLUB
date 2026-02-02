@@ -13,19 +13,24 @@ class ReservaController extends Controller
 {
     public function reservar(Request $request)
     {
-        // Validar que el asiento exista y los datos del socio
-        $request->validate([
-            'asiento_id' => 'required|exists:asientos,id', // Validamos que el asiento exista
-            'nombre' => 'required|string|max:255', // Validar nombre del socio
-            'dni' => 'required|string|max:20', // Validar el DNI del socio
-            'numero_socio' => 'required|integer', // Validar el número de socio
-        ]);
 
-        // Obtener el asiento
+        $request->validate(
+            [
+                'asiento_id' => 'required|exists:asientos,id', // Validamos que el asiento exista
+                'nombre' => 'required|string',
+                'dni' => 'required|unique:socios,dni',
+                'numero_socio' => 'required|unique:socios,numero_socio',
+            ],
+            [
+                'numero_socio.unique' => 'Ese número de socio ya existe',
+                'dni.unique' => 'Ya hay un socio registrado con ese DNI',
+            ]
+        );
+
         $asiento = Asiento::findOrFail($request->asiento_id);
         $estadio = $request->estadio;
 
-        // Verificamos que el asiento esté libre
+
         if ($asiento->estado === 'Libre') {
             // Crear el nuevo socio
             $socio = Socio::create([
@@ -50,5 +55,3 @@ class ReservaController extends Controller
         }
     }
 }
-
-

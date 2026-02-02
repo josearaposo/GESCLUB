@@ -20,6 +20,12 @@ class EstadioController extends Controller
     public function index(Request $request)
     {
         $club_id = $request->input('club');
+
+        // si viene desde club guardar en sesión si no ya esta almacenado en la sesión
+        if (!$club_id) {
+            $club_id = session('club');
+        }
+        session(['club' => $club_id]);
         $estadios = Estadio::where('club_id', $club_id)->get();
         $club = Club::find($club_id);
 
@@ -102,6 +108,10 @@ class EstadioController extends Controller
     public function destroy(Estadio $estadio)
     {
         $clubId = $estadio->club_id;
+        if ($estadio->zonas()->count() > 0) {
+            Session::flash('error', 'No se puede eliminar el estadio porque tiene zonas asociadas.');
+            return redirect()->route('estadios.index', ['club' => $clubId]);
+        }
         $estadio->delete();
 
         return redirect()->route('estadios.index', ['club' => $clubId]);

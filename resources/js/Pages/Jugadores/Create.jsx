@@ -347,9 +347,14 @@ export default function Create({
                         >
                             <option value="">Posiciones</option>
                             {posiciones.map((posicion) => (
-                                <option key={posicion.id} value={posicion.id}>
+                                <option
+                                    key={posicion.id}
+                                    value={posicion.id}
+                                    disabled={posicion.id === Number(segunda_posicion)}
+                                >
                                     {posicion.nombre}
                                 </option>
+                            ))}
                             ))}
                         </select>
                     </div>

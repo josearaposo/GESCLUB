@@ -66,7 +66,7 @@ class ClubController extends Controller
             'ciudad' => 'nullable|string|max:255',
             'pais' => 'nullable|string|max:255',
             'empleados' => 'nullable|integer',
-            'fundacion' => 'nullable|integer',
+            'fundacion' => 'nullable|integer|min:1900|max:' . date('Y'),
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -115,19 +115,19 @@ class ClubController extends Controller
      */
     public function update(Request $request, Club $club)
     {
+
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'estadio' => 'required|string|max:255',
             'presupuesto' => 'required|numeric',
             'contacto' => 'required|string|max:255',
             'web' => 'nullable|url',
-            'direccion' => 'nullable|string|max:255',
-            'ciudad' => 'nullable|string|max:255',
-            'pais' => 'nullable|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'ciudad' => 'required|string|max:255',
+            'pais' => 'required|string|max:255',
             'empleados' => 'nullable|integer',
-            'fundacion' => 'nullable|date',
+            'fundacion' => 'nullable|integer|min:1900|max:' . date('Y'),
         ]);
-
         $club->update($validated);
 
         return redirect()

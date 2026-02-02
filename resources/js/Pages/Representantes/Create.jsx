@@ -76,10 +76,9 @@ export default function Create() {
                             type="text"
                             id="segundo_apellido"
                             name="segundo_apellido"
-                            placeholder="Segundo Apellido (no obligatorio)"
+                            placeholder="Segundo Apellido"
                             value={segundo_apellido}
                             onChange={(e) => setSegundoApellido(e.target.value)}
-                            required
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>

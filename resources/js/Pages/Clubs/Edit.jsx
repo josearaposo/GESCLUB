@@ -32,210 +32,234 @@ export default function Edit({ club }) {
         });
     };
 
+    // Obtener el año actual para validación del campo fundación
+    const currentYear = new Date().getFullYear();
+
     return (
         <>
             <Navigation />
-            <div>
-                <form
-                    onSubmit={handleSubmit}
-                    className="bg-white p-6 shadow-md rounded-md max-w-lg mx-auto"
-                >
-                    <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">
-                        Editar Club
-                    </h2>
-                    <Link
-                        href={route('clubs.destroy', club.id)}
-                        method="delete"
-                        as="button"
-                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    >
-                        Eliminar
-                    </Link>
-                    <div className="mb-4">
-                        <label
-                            htmlFor="nombre"
-                            className="block text-gray-700 font-medium mb-1"
+            <div
+                className="min-h-screen bg-cover bg-center bg-no-repeat"
+                style={{
+                    backgroundImage: "url('/imagenes/fondo.jpg')",
+                }}>
+                <div className="container mx-auto p-6 pt-32">
+                    <div className="max-w-4xl mx-auto p-8 bg-white shadow rounded">
+                        <h1 className="text-2xl font-bold mb-6 text-gray-800">Editar Club</h1>
+                        <form
+                            onSubmit={handleSubmit}
+                            className="grid grid-cols-1 md:grid-cols-2 gap-6"
                         >
-                            Nombre:
-                        </label>
-                        <input
-                            type="text"
-                            id="nombre"
-                            name="nombre"
-                            value={nombre}
-                            onChange={(e) => setNombre(e.target.value)}
-                            required
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-                        />
-                    </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="estadio"
-                            className="block text-gray-700 font-medium mb-1"
-                        >
-                            Estadio:
-                        </label>
-                        <input
-                            type="text"
-                            id="estadio"
-                            name="estadio"
-                            value={estadio}
-                            onChange={(e) => setEstadio(e.target.value)}
-                            required
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-                        />
-                    </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="presupuesto"
-                            className="block text-gray-700 font-medium mb-1"
-                        >
-                            Presupuesto:
-                        </label>
-                        <input
-                            type="number"
-                            id="presupuesto"
-                            name="presupuesto"
-                            value={presupuesto}
-                            onChange={(e) => setPresupuesto(e.target.value)}
-                            required
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-                        />
-                    </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="nombre"
+                                    className="block text-gray-700 font-medium mb-1"
+                                >
+                                    Nombre:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="nombre"
+                                    name="nombre"
+                                    value={nombre}
+                                    onChange={(e) => setNombre(e.target.value)}
+                                    required
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+                                />
+                            </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="contacto"
-                            className="block text-gray-700 font-medium mb-1"
-                        >
-                            Contacto:
-                        </label>
-                        <input
-                            type="text"
-                            id="contacto"
-                            name="contacto"
-                            value={contacto}
-                            onChange={(e) => setContacto(e.target.value)}
-                            required
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-                        />
-                    </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="estadio"
+                                    className="block text-gray-700 font-medium mb-1"
+                                >
+                                    Estadio:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="estadio"
+                                    name="estadio"
+                                    value={estadio}
+                                    onChange={(e) => setEstadio(e.target.value)}
+                                    required
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+                                />
+                            </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="web"
-                            className="block text-gray-700 font-medium mb-1"
-                        >
-                            Web:
-                        </label>
-                        <input
-                            type="url"
-                            id="web"
-                            name="web"
-                            value={web}
-                            onChange={(e) => setWeb(e.target.value)}
-                            required
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-                        />
-                    </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="presupuesto"
+                                    className="block text-gray-700 font-medium mb-1"
+                                >
+                                    Presupuesto:
+                                </label>
+                                <input
+                                    type="number"
+                                    id="presupuesto"
+                                    name="presupuesto"
+                                    value={presupuesto}
+                                    onChange={(e) => setPresupuesto(e.target.value)}
+                                    required
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+                                />
+                            </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="direccion"
-                            className="block text-gray-700 font-medium mb-1"
-                        >
-                            Dirección:
-                        </label>
-                        <input
-                            type="text"
-                            id="direccion"
-                            name="direccion"
-                            value={direccion}
-                            onChange={(e) => setDireccion(e.target.value)}
-                            required
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-                        />
-                    </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="contacto"
+                                    className="block text-gray-700 font-medium mb-1"
+                                >
+                                    Contacto:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="contacto"
+                                    name="contacto"
+                                    value={contacto}
+                                    onChange={(e) => setContacto(e.target.value)}
+                                    required
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+                                />
+                            </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="ciudad"
-                            className="block text-gray-700 font-medium mb-1"
-                        >
-                            Ciudad:
-                        </label>
-                        <input
-                            type="text"
-                            id="ciudad"
-                            name="ciudad"
-                            value={ciudad}
-                            onChange={(e) => setCiudad(e.target.value)}
-                            required
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-                        />
-                    </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="web"
+                                    className="block text-gray-700 font-medium mb-1"
+                                >
+                                    Web:
+                                </label>
+                                <input
+                                    type="url"
+                                    id="web"
+                                    name="web"
+                                    value={web}
+                                    onChange={(e) => setWeb(e.target.value)}
+                                    required
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+                                />
+                            </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="pais"
-                            className="block text-gray-700 font-medium mb-1"
-                        >
-                            País:
-                        </label>
-                        <input
-                            type="text"
-                            id="pais"
-                            name="pais"
-                            value={pais}
-                            onChange={(e) => setPais(e.target.value)}
-                            required
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-                        />
-                    </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="direccion"
+                                    className="block text-gray-700 font-medium mb-1"
+                                >
+                                    Dirección:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="direccion"
+                                    name="direccion"
+                                    value={direccion}
+                                    onChange={(e) => setDireccion(e.target.value)}
+                                    required
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+                                />
+                            </div>
 
-                    <div>
-                        <label
-                            htmlFor="empleados"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            Número de Empleados
-                        </label>
-                        <input
-                            type="number"
-                            id="empleados"
-                            value={empleados}
-                            onChange={(e) => setEmpleados(e.target.value)}
-                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                        />
-                    </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="ciudad"
+                                    className="block text-gray-700 font-medium mb-1"
+                                >
+                                    Ciudad:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="ciudad"
+                                    name="ciudad"
+                                    value={ciudad}
+                                    onChange={(e) => setCiudad(e.target.value)}
+                                    required
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+                                />
+                            </div>
 
-                    <div>
-                        <label
-                            htmlFor="fundacion"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            Fundacion
-                        </label>
-                        <input
-                            type="date"
-                            id="fundacion"
-                            value={fundacion}
-                            onChange={(e) => setFundacion(e.target.value)}
-                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                        />
-                    </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="pais"
+                                    className="block text-gray-700 font-medium mb-1"
+                                >
+                                    País:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="pais"
+                                    name="pais"
+                                    value={pais}
+                                    onChange={(e) => setPais(e.target.value)}
+                                    required
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+                                />
+                            </div>
 
-                    <div className="text-center">
-                        <button
-                            type="submit"
-                            className="bg-blue-500 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-                        >
-                            Actualizar
-                        </button>
+                            <div>
+                                <label
+                                    htmlFor="empleados"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Número de Empleados
+                                </label>
+                                <input
+                                    type="number"
+                                    id="empleados"
+                                    value={empleados}
+                                    onChange={(e) => setEmpleados(e.target.value)}
+                                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                                />
+                            </div>
+
+                            <div>
+                                <label
+                                    htmlFor="fundacion"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Fundacion
+                                </label>
+                                <input
+                                    type="number"
+                                    id="fundacion"
+                                    value={fundacion}
+                                    min={1900}
+                                    max={currentYear}
+                                    onChange={(e) => setFundacion(e.target.value)}
+                                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="imagen" className="block text-sm font-medium text-gray-700">
+                                    Imagen del Club
+                                </label>
+                                <input
+                                    type="file"
+                                    id="imagen"
+                                    onChange={(e) => setImagen(e.target.files[0])}
+                                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                                />
+                            </div>
+
+                            <div className="text-center">
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                                >
+                                    Actualizar
+                                </button>
+                            </div>
+                            <Link
+                                href={route('clubs.destroy', club.id)}
+                                method="delete"
+                                as="button"
+                                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                            >
+                                Eliminar
+                            </Link>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </>
     );

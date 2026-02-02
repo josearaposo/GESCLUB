@@ -13,12 +13,7 @@ export default function Scouting() {
                         realiza informes de tus jugadores y almacenalos para tenerlos siempre disponibles y actualizados.
                         Desde el primer equipo hasta los mas pequeños.
                     </p>
-                    <a
-                        href="#"
-                        className="inline-block bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded"
-                    >
-                        Explore Style Guide
-                    </a>
+
                 </div>
 
                 {/* Imagen */}

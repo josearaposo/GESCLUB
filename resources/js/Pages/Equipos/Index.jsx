@@ -14,7 +14,7 @@ export default function Index({ equipos, club }) {
                 style={{
                     backgroundImage: "url('/imagenes/fondo.jpg')",
                 }}>
-                <div className="container mx-auto p-6">
+                <div className="container mx-auto p-6 pt-32">
 
                     {/* Mensajes flash */}
                     {flash.success && (
@@ -48,10 +48,10 @@ export default function Index({ equipos, club }) {
                         )}
                     </div>
 
-                    <div className="overflow-x-auto w-full">
-                        <table className="min-w-[600px] table-auto w-full border-collapse border border-gray-300">
+                    <div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md bg-clip-border rounded-xl">
+                        <table class="w-full text-left table-auto min-w-max">
 
-                            <thead className="bg-white">
+                            <thead className="bg-gray-100">
                                 <tr>
                                     <th className="border border-gray-300 px-4 py-2">
                                         Nombre
@@ -69,12 +69,12 @@ export default function Index({ equipos, club }) {
                                 {equipos.map((equipo) => (
                                     <tr
                                         key={equipo.id}
-                                        className="hover:bg-gray-800"
+                                        className="hover:bg-gray-200"
                                     >
-                                        <td className="border border-gray-300 font-bold text-white px-4 py-2">
+                                        <td className="border border-gray-300 px-4 py-2">
                                             {equipo.nombre}
                                         </td>
-                                        <td className="border border-gray-300 font-bold text-white px-4 py-2">
+                                        <td className="border border-gray-300 px-4 py-2">
                                             {equipo.division.nombre}
                                         </td>
 

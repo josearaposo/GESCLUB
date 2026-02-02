@@ -25,7 +25,7 @@ export default function Abonados() {
                         href="#"
                         className="inline-block bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded"
                     >
-                        Explore Style Guide
+                        Registrarse
                     </a>
                 </div>
             </div>

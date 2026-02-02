@@ -19,7 +19,7 @@ export default function Index({ clubs, estado }) {
                     backgroundImage: "url('/imagenes/fondo.jpg')",
                 }}>
 
-                <div className="container mx-auto p-6">
+                <div className="container mx-auto p-6 pt-32">
                     {/* Mensajes flash */}
                     {flash.success && (
                         <div className="mb-4 p-4 bg-green-100 text-green-800 border border-green-400 rounded">
@@ -34,7 +34,7 @@ export default function Index({ clubs, estado }) {
                     )}
 
                     <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-4xl font-bold text-white">Gestión de Clubs</h1>
+                        <h1 className="text-2xl sm:text-4xl font-bold text-white">Gestión de Clubs</h1>
                         {auth?.user?.rol === "gestor" && (
                             <Link
                                 href={route("clubs.create")}

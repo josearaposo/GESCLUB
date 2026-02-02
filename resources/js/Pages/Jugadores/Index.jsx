@@ -8,7 +8,7 @@ export default function Index({ jugadores, equipo, estado }) {
     return (
         <>
             <Navigation />
-            <div className="container mx-auto p-6">
+            <div className="container mx-auto p-6 pt-32">
                 {/* Mensajes flash */}
                 {flash.success && (
                     <div className="mb-4 p-4 bg-green-100 text-green-800 border border-green-400 rounded">
@@ -135,7 +135,7 @@ export default function Index({ jugadores, equipo, estado }) {
                                 >
                                     Ver Informes
                                 </Link>
-                                {auth?.user?.rol === "gestor" || estado === "ojeado" && (
+                                {auth?.user?.rol === "gestor" && (
                                     <>
                                         <Link
                                             href={route("jugadores.historial", {
