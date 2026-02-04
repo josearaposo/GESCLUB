@@ -97,8 +97,15 @@ export default function Navigation(user) {
                         </div>
 
                         <div className="hidden md:flex space-x-8 md:-my-px md:ms-10">
-                            <NavLink href={route("clubs.salir")}>Clubs</NavLink>
-                            {linkClubs}
+                            {auth?.user?.rol !== "superadmin" && (
+                                <>
+                                    <NavLink href={route("clubs.salir")}>
+                                        Clubs
+                                    </NavLink>
+
+                                    {linkClubs}
+                                </>
+                            )}
                         </div>
                     </div>
                     <div className="hidden lg:flex lg:items-center lg:ms-6">

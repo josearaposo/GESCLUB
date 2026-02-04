@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'rol',
         'password',
+        'activo',
     ];
 
     public function clubes()
@@ -48,6 +49,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-
 }

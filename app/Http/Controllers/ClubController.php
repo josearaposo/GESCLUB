@@ -20,20 +20,25 @@ class ClubController extends Controller
     public function index(Request $request)
     {
 
-
         $user = auth()->user();
         $filtro = $request->get('estado', 'activos');
 
-        $clubs = Auth::user()
-            ->clubes()
-            ->when($filtro === 'eliminados', function ($query) {
-                $query->onlyTrashed();
-            })
-            ->when($filtro === 'activos', function ($query) {
-                $query->whereNull('deleted_at');
-            })
-            ->orderBy('nombre')
-            ->get();
+        // Obtener clubes según el rol del usuario
+        if ($user->rol === 'superadmin') {
+            $clubs = Club::all();
+        } else {
+            $clubs = Auth::user()
+                ->clubes()
+                ->when($filtro === 'eliminados', function ($query) {
+                    $query->onlyTrashed();
+                })
+                ->when($filtro === 'activos', function ($query) {
+                    $query->whereNull('deleted_at');
+                })
+                ->orderBy('nombre')
+                ->get();
+        }
+
 
         return Inertia::render('Clubs/Index', [
             'clubs' => $clubs,

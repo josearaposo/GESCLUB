@@ -128,7 +128,7 @@ class JugadorController extends Controller
         })
             ->with([
                 'division',
-                // 🔑 cargamos SOLO el jugador actual con su pivot
+                // cargamos SOLO el jugador actual con su pivot
                 'jugadores' => function ($q) use ($jugador) {
                     $q->where('jugador_id', $jugador->id);
                 },
