@@ -25,9 +25,13 @@ class AdminDashboardController extends Controller
 
     public function cambiar(User $user)
     {
+        if ($user->rol === 'superadmin') {
+            return back()->with('error', 'No puedes modificar el superadmin');
+        }
+
         $user->activo = ! $user->activo;
         $user->save();
 
-        return back();
+        return back()->with('success', 'Estado del usuario actualizado');
     }
 }

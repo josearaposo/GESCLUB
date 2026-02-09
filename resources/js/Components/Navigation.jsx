@@ -3,7 +3,7 @@ import { useState } from "react";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
-import { User, LogOut, } from "lucide-react";
+import { User, LogOut, MonitorCog } from "lucide-react";
 
 
 
@@ -21,21 +21,24 @@ export default function Navigation(user) {
             >
                 Equipos
             </NavLink>
+            {(auth?.user?.rol === "gestor" || auth?.user?.rol === "informador") && (
+                <>
+                    <NavLink
+                        href={route("representantes.index", { club: club.id })}
+                        active={route().current("representantes.index")}
+                    >
+                        Representantes
+                    </NavLink>
 
-            <NavLink
-                href={route("representantes.index", { club: club.id })}
-                active={route().current("representantes.index")}
-            >
-                Representantes
-            </NavLink>
-
-            <NavLink
-                href={route("divisiones.index")}
-                active={route().current("divisiones.index")}
-            >
-                Divisiones
-            </NavLink>
-            {auth?.user?.rol === "gestor" && (
+                    <NavLink
+                        href={route("divisiones.index")}
+                        active={route().current("divisiones.index")}
+                    >
+                        Divisiones
+                    </NavLink>
+                </>
+            )}
+            {(auth?.user?.rol === "gestor" || auth?.user?.rol === "superadmin") && (
                 <NavLink
                     href={route("usuarios.index", { club: club })}
                     active={route().current("usuarios.index")}
@@ -54,34 +57,43 @@ export default function Navigation(user) {
             >
                 Equipos
             </ResponsiveNavLink>
+            {auth?.user?.rol !== "socio" && (
+                <>
+                    <ResponsiveNavLink
+                        href={route("representantes.index", { club: club.id })}
+                        active={route().current("representantes.index")}
+                    >
+                        Representantes
+                    </ResponsiveNavLink>
 
-            <ResponsiveNavLink
-                href={route("representantes.index", { club: club.id })}
-                active={route().current("representantes.index")}
-            >
-                Representantes
-            </ResponsiveNavLink>
+                    <ResponsiveNavLink
+                        href={route("divisiones.index")}
+                        active={route().current("divisiones.index")}
+                    >
+                        Divisiones
+                    </ResponsiveNavLink>
 
-            <ResponsiveNavLink
-                href={route("divisiones.index")}
-                active={route().current("divisiones.index")}
-            >
-                Divisiones
-            </ResponsiveNavLink>
-
-            {auth?.user?.rol === "gestor" && (
-                <ResponsiveNavLink
-                    href={route("usuarios.index", { club })}
-                    active={route().current("usuarios.index")}
-                >
-                    Informadores
-                </ResponsiveNavLink>
+                    {auth?.user?.rol === "gestor" && (
+                        <ResponsiveNavLink
+                            href={route("usuarios.index", { club })}
+                            active={route().current("usuarios.index")}
+                        >
+                            Informadores
+                        </ResponsiveNavLink>
+                    )}
+                </>
             )}
+
         </>
     ) : null;
 
     return (
-        <nav className="bg-white border-b border-gray-100 fixed top-0 left-0 w-full z-50">
+        <nav
+            className={`border-b fixed top-0 left-0 w-full z-50 ${auth?.user?.rol === "superadmin"
+                ? "bg-red-200 border-red-800"
+                : "bg-white border-gray-100"
+                }`}
+        >
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
@@ -97,19 +109,28 @@ export default function Navigation(user) {
                         </div>
 
                         <div className="hidden md:flex space-x-8 md:-my-px md:ms-10">
-                            {auth?.user?.rol !== "superadmin" && (
-                                <>
-                                    <NavLink href={route("clubs.salir")}>
-                                        Clubs
-                                    </NavLink>
 
-                                    {linkClubs}
-                                </>
-                            )}
+                            <>
+                                <NavLink href={route("clubs.salir")}>
+                                    Clubs
+                                </NavLink>
+
+                                {linkClubs}
+                            </>
+
                         </div>
                     </div>
                     <div className="hidden lg:flex lg:items-center lg:ms-6">
                         <div className="flex space-x-4">
+                            {auth?.user?.rol === "superadmin" && (
+                                <Link
+                                    href={route("admin.dashboard")}
+                                    className="block text-left px-4 py-2 border border-green-600 text-green-800 rounded
+                       hover:bg-green-600 hover:text-white transition"
+                                >
+                                    <MonitorCog className="w-5 h-5" />
+                                </Link>
+                            )}
                             <Link
                                 href={route("profile.edit")}
                                 className="block text-left px-4 py-2 border border-green-600 text-green-800 rounded
@@ -203,6 +224,11 @@ export default function Navigation(user) {
                     </div>
 
                     <div className="mt-3 space-y-1">
+                        {auth?.user?.rol === "superadmin" && (
+                            <ResponsiveNavLink href={route("admin.dashboard")}>
+                                Panel
+                            </ResponsiveNavLink>
+                        )}
                         <ResponsiveNavLink href={route("profile.edit")}>
                             Perfil de Usuario
                         </ResponsiveNavLink>

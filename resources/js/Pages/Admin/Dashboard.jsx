@@ -14,6 +14,13 @@ export default function Dashboard({ clubs, users }) {
         router.put(route('admin.dashboard.cambiar', user.id));
     };
 
+
+    const eliminarUser = (id) => {
+        router.delete(route("usuarios.destroy", id), {
+            preserveScroll: true,
+        });
+    };
+
     const usersFiltrados = users.filter((user) => {
         const texto = buscar.toLowerCase();
 
@@ -81,6 +88,19 @@ export default function Dashboard({ clubs, users }) {
                                                 >
                                                     {user.activo ? 'Bloquear' : 'Activar'}
                                                 </button>
+                                                {user.rol === 'gestor' && (
+                                                    <button
+                                                        onClick={() => eliminarUser(user.id)}
+                                                        disabled={!user.activo}
+                                                        title="Eliminar clubes asociados y desactivar usuario"
+                                                        className={`px-3 py-1 rounded ml-2 text-white ${user.activo
+                                                            ? "bg-gray-800 hover:bg-black"
+                                                            : "bg-gray-400 cursor-not-allowed"
+                                                            }`}
+                                                    >
+                                                        Eliminar
+                                                    </button>
+                                                )}
                                             </td>
                                         </tr>
                                     ))}

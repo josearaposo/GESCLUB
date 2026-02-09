@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navigation from "@/Components/Navigation";
 import { usePage, Link, router } from "@inertiajs/react";
 
@@ -8,6 +8,8 @@ export default function Index({ clubs, estado }) {
     const handleRestore = (id) => {
         router.post(route("clubs.restore", id));
     };
+
+    const [mostrarPagoClub, setMostrarPagoClub] = useState(false);
 
     return (
         <>
@@ -36,12 +38,12 @@ export default function Index({ clubs, estado }) {
                     <div className="flex justify-between items-center mb-4">
                         <h1 className="text-2xl sm:text-4xl font-bold text-white">Gestión de Clubs</h1>
                         {auth?.user?.rol === "gestor" && (
-                            <Link
-                                href={route("clubs.create")}
+                            <button
+                                onClick={() => setMostrarPagoClub(true)}
                                 className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                             >
                                 Crear Club
-                            </Link>
+                            </button>
                         )}
                     </div>
 
@@ -61,7 +63,39 @@ export default function Index({ clubs, estado }) {
                             )}
                         </div>
                     )}
+                    {mostrarPagoClub && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+                            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md text-center">
+                                <h2 className="text-xl font-bold mb-3">
+                                    Crear nuevo club
+                                </h2>
 
+                                <p className="text-gray-600 mb-4">
+                                    Para poder crear tu nuevo club es neceario el pago unico de
+                                    <span className="font-semibold"> 100 €</span>.
+                                    <span> Cualquier duda sobre el pago, contacta con nosotros.</span>
+                                </p>
+
+                                <div className="flex justify-center gap-3">
+                                    {/* Botón PayPal */}
+                                    <a
+                                        href={route("pago.club")}
+                                        className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                                    >
+                                        Pagar con PayPal
+                                    </a>
+
+                                    {/* Cancelar */}
+                                    <button
+                                        onClick={() => setMostrarPagoClub(false)}
+                                        className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                                    >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     <div className="overflow-x-auto">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {clubs.map((club) => {
@@ -72,8 +106,8 @@ export default function Index({ clubs, estado }) {
                                         key={club.id}
                                         className={`relative w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-white-700 ${isDeleted ? "opacity-60" : ""}`}
                                     >
-                                        {/* Botones */}
-                                        {!isDeleted && auth?.user?.rol === "gestor" && (
+
+                                        {!isDeleted && (auth?.user?.rol === "gestor" || auth?.user?.rol === "superadmin") && (
                                             <Link
                                                 href={route("clubs.edit", club.id)}
                                                 className="absolute top-2 right-2 text-gray-500 hover:text-blue-600"
@@ -104,10 +138,11 @@ export default function Index({ clubs, estado }) {
                                                         href={route("equipos.index", { club: club.id })}
                                                         className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                                                     >
-                                                        Scouting
+                                                        {auth?.user?.rol === "socio" ? "Información" : "Scouting"}
+
                                                     </Link>
                                                 )}
-                                                {!isDeleted && auth?.user?.rol === "gestor" && (
+                                                {!isDeleted && (auth?.user?.rol === "gestor" || auth?.user?.rol === "superadmin") && (
                                                     <Link
                                                         href={route("estadios.index", { club: club.id })}
                                                         className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
@@ -115,7 +150,7 @@ export default function Index({ clubs, estado }) {
                                                         Abonados
                                                     </Link>
                                                 )}
-                                                {isDeleted && auth?.user?.rol === "gestor" && (
+                                                {isDeleted && (auth?.user?.rol === "gestor" || auth?.user?.rol === "superadmin") && (
                                                     <button
                                                         onClick={() => handleRestore(club.id)}
                                                         className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
@@ -131,7 +166,7 @@ export default function Index({ clubs, estado }) {
                         </div>
                     </div>
                     <div className="flex gap-2 mt-4 right-0">
-                        {estado === 'activos' && auth?.user?.rol === "gestor" && (
+                        {estado === 'activos' && (auth?.user?.rol === "gestor" || auth?.user?.rol === "superadmin") && (
                             <Link
                                 href={route('clubs.index', { estado: 'eliminados' })}
                                 className="px-4 py-2 rounded bg-red-600 text-white"

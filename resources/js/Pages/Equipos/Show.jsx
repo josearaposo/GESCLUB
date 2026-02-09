@@ -1,9 +1,9 @@
 import Navigation from "@/Components/Navigation";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 export default function Show({ equipo, partidos }) {
     const puedeCrearPartido = equipo.jugadores.filter(j => j.estado === 'fichado').length >= 11;
-
+    const { auth } = usePage().props;
 
     return (
         <>
@@ -65,12 +65,14 @@ export default function Show({ equipo, partidos }) {
                             </h2>
 
                             {puedeCrearPartido ? (
-                                <Link
-                                    href={route("posiciones.index", { equipo: equipo.id })}
-                                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-                                >
-                                    + Nuevo Partido
-                                </Link>
+                                auth?.user?.rol === "gestor" && (
+                                    <Link
+                                        href={route("posiciones.index", { equipo: equipo.id })}
+                                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                                    >
+                                        + Nuevo Partido
+                                    </Link>
+                                )
                             ) : (
                                 <span
                                     className="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed opacity-60"

@@ -21,23 +21,24 @@ class ClubController extends Controller
     {
 
         $user = auth()->user();
+
         $filtro = $request->get('estado', 'activos');
 
         // Obtener clubes según el rol del usuario
-        if ($user->rol === 'superadmin') {
-            $clubs = Club::all();
-        } else {
-            $clubs = Auth::user()
-                ->clubes()
-                ->when($filtro === 'eliminados', function ($query) {
-                    $query->onlyTrashed();
-                })
-                ->when($filtro === 'activos', function ($query) {
-                    $query->whereNull('deleted_at');
-                })
-                ->orderBy('nombre')
-                ->get();
-        }
+        $query = $user->rol === 'superadmin'
+            ? Club::query()
+            : Auth::user()->clubes();
+
+
+        $query->when($filtro === 'eliminados', function ($q) {
+            $q->onlyTrashed();
+        })
+            ->when($filtro === 'activos', function ($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->orderBy('nombre');
+
+        $clubs = $query->get();
 
 
         return Inertia::render('Clubs/Index', [

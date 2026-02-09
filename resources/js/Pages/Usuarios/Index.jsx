@@ -7,7 +7,7 @@ export default function InformadoresIndex({ informadores, club }) {
     return (
         <>
             <Navigation />
-            <div className="container mx-auto p-6">
+            <div className="container mx-auto p-6 mt-32">
                 {/* Mensajes Flash */}
                 {flash.success && (
                     <div className="mb-4 p-4 bg-green-100 text-green-800 border border-green-400 rounded">
@@ -33,14 +33,29 @@ export default function InformadoresIndex({ informadores, club }) {
                         {informadores.map((informador) => (
                             <div
                                 key={informador.id}
-                                className="bg-white p-4 rounded-lg shadow border"
+                                className="bg-white p-4 rounded-lg shadow border flex items-center justify-between"
                             >
-                                <h2 className="text-lg font-semibold text-gray-800">
-                                    {informador.name}
-                                </h2>
-                                <p className="text-gray-600">
-                                    {informador.email}
-                                </p>
+                                {/* Info izquierda */}
+                                <div>
+                                    <h2 className="text-lg font-semibold text-gray-800">
+                                        {informador.name}
+                                    </h2>
+                                    <p className="text-gray-600">{informador.email}</p>
+                                </div>
+
+                                {/* Botones derecha */}
+                                <div className="flex items-center gap-2">
+                                    <Link
+                                        href={route("usuarios.informador.destroy", {
+                                            informador: informador.id,
+                                        })}
+                                        method="delete"
+                                        as="button"
+                                        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                                    >
+                                        Eliminar
+                                    </Link>
+                                </div>
                             </div>
                         ))}
                     </div>

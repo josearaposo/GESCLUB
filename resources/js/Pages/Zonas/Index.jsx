@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, router, usePage } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
 
 export default function Index({ zonas, estadio, numero_socio }) {
+
     const { flash } = usePage().props;
     const [controlFormulario, setControlFormulario] = useState(null);
     const [seleccionZona, setSeleccionZona] = useState(null);
@@ -12,9 +13,16 @@ export default function Index({ zonas, estadio, numero_socio }) {
     const [socioDatos, setSocioDatos] = useState({
         nombre: "",
         dni: "",
+        email: "",
         numero_socio: numero_socio,
     });
     const [asientoSeleccionado, setAsientoSeleccionado] = useState(null);
+
+    useEffect(() => {
+        if (flash?.zona_actualizada) {
+            handleZonaClick(flash.zona_actualizada);
+        }
+    }, [flash]);
 
     // Eliminar zona
     const handleDelete = (id) => {
@@ -31,7 +39,9 @@ export default function Index({ zonas, estadio, numero_socio }) {
         setSeleccionZona(zona);
         setLoading(true);
         // Fetch asientos
-        fetch(`/zonas/${zonaId}/asientos`)
+        fetch(`/zonas/${zonaId}/asientos`, {
+            cache: "no-store",
+        })
             .then((response) => response.json())
             .then((data) => {
                 const ordenados = [...data].sort((a, b) => a.numero - b.numero);
@@ -62,7 +72,7 @@ export default function Index({ zonas, estadio, numero_socio }) {
     const handleSubmitSocio = (e) => {
         e.preventDefault();
         // Validaciones
-        if (!socioDatos.nombre || !socioDatos.dni || !socioDatos.numero_socio) {
+        if (!socioDatos.nombre || !socioDatos.dni || !socioDatos.email || !socioDatos.numero_socio) {
             setControlFormulario({
                 type: "error",
                 message: "Completa todos los campos",
@@ -83,6 +93,7 @@ export default function Index({ zonas, estadio, numero_socio }) {
             estadio: estadio,
             nombre: socioDatos.nombre,
             dni: socioDatos.dni,
+            email: socioDatos.email,
             numero_socio: socioDatos.numero_socio,
         }, {
 
@@ -99,12 +110,12 @@ export default function Index({ zonas, estadio, numero_socio }) {
                 );
 
                 setMostrarFormularioSocio(false);
-                setSocioDatos({ nombre: "", dni: "", numero_socio: socioDatos.numero_socio + 1 });
+                setSocioDatos({ nombre: "", dni: "", email: "", numero_socio: socioDatos.numero_socio + 1 });
             },
             onError: (errors) => {
                 setControlFormulario({
                     type: "error",
-                    message: errors.dni || errors.numero_socio || "Error en el formulario",
+                    message: errors.dni || errors.email || errors.numero_socio || "Error en el formulario",
                 });
             }
         });
@@ -136,6 +147,7 @@ export default function Index({ zonas, estadio, numero_socio }) {
 
         return letra === letraCorrecta;
     };
+
 
     return (
         <>
@@ -242,6 +254,18 @@ export default function Index({ zonas, estadio, numero_socio }) {
                                         className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                                     />
                                 </div>
+                                <div className="mb-4">
+                                    <label className="block font-medium text-white">
+                                        Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={socioDatos.email}
+                                        onChange={handleFormularioChange}
+                                        className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                                    />
+                                </div>
 
                                 <div className="mb-4">
                                     <label className="block font-medium text-white">
@@ -267,7 +291,7 @@ export default function Index({ zonas, estadio, numero_socio }) {
                                     onClick={() => {
                                         setMostrarFormularioSocio(false);
                                         setControlFormulario(null);
-                                        setSocioDatos({ nombre: "", dni: "", numero_socio: socioDatos.numero_socio });
+                                        setSocioDatos({ nombre: "", dni: "", email: "", numero_socio: socioDatos.numero_socio });
 
                                     }}
                                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"

@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('dni')->unique();
-            $table->integer('numero_socio')->unique();
+            $table->integer('numero_socio');
+            $table->foreignId('club_id')->constrained('clubs')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('asiento_id')->constrained('asientos');
             $table->timestamp('fecha_reserva');
             $table->timestamps();
+            $table->unique(['club_id', 'numero_socio']);
         });
     }
 

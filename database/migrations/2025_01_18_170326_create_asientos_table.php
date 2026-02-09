@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('asientos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('zona_id')->constrained('zonas')->onDelete('cascade');
-            $table->string('numero');
+            $table->integer('numero');
             $table->enum('estado', ['Libre', 'Reservado', 'Vendido'])->default('Libre');
             $table->timestamps();
         });

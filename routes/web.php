@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbonoController;
 use App\Http\Controllers\AsientoController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ClubController;
@@ -52,6 +53,10 @@ Route::middleware(['auth', 'verified', 'activo'])->group(function () {
         if ($user->rol === 'superadmin') {
             return redirect()->route('admin.dashboard');
         }
+        if ($user->rol === 'socio') {
+            return redirect()->route('socios.show', $user->socio->id);
+        }
+
 
         return redirect()->route('clubs.index');
     })->middleware(['auth', 'verified'])->name('dashboard');
@@ -98,13 +103,25 @@ Route::middleware(['auth', 'verified', 'activo'])->group(function () {
     Route::get('/informadores', [RegisteredUserController::class, 'indexInformadores'])->name('usuarios.index');
     Route::get('/usuarios/informador/{club}/crear', [RegisteredUserController::class, 'createInformador'])->name('usuarios.informador.create');
     Route::post('/usuarios/informador', [RegisteredUserController::class, 'storeInformador'])->name('usuarios.informador.store');
+    Route::delete('/usuarios/informador/{informador}', [RegisteredUserController::class, 'destroyInformador'])->name('usuarios.informador.destroy');
+    Route::delete('/usuarios/{user}', [RegisteredUserController::class, 'destroy'])
+        ->name('usuarios.destroy');
+
 
     Route::get('/club/crear', function () {
         return Inertia::render('Clubs/PagoPayPal');
     })->name('clubs.start');
-    Route::get('/payment/create', [PaypalController::class, 'createPayment'])->name('payment.club');
+    Route::get('/payment/create', [PaypalController::class, 'createPayment'])->name('pago.club');
     Route::get('/payment/success', [PaypalController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/payment/cancel', [PaypalController::class, 'paymentCancel'])->name('payment.cancel');
+    Route::get('/abonos/{abono}/paypal', [PaypalController::class, 'pagarAbono'])
+        ->name('abonos.paypal');
+
+    Route::get('/abonos/{abono}/paypal/success', [PaypalController::class, 'pagoAbonoSuccess'])
+        ->name('abonos.paypal.success');
+
+    Route::get('/abonos/{abono}/paypal/cancel', [PaypalController::class, 'pagoAbonoCancel'])
+        ->name('abonos.paypal.cancel');
 
     Route::post('/jugadores/{jugador}/fichar', [JugadorController::class, 'fichar'])->name('jugadores.fichar');
 
@@ -134,6 +151,14 @@ Route::middleware(['auth', 'verified', 'activo'])->group(function () {
 
     Route::put('/admin/dashboard/users/{user}', [AdminDashboardController::class, 'cambiar'])
         ->name('admin.dashboard.cambiar');
+
+    // Rutas para gestión de abonos
+    Route::post('/abonos/{abono}/pagar', [AbonoController::class, 'pagar'])
+        ->name('abonos.pagar');
+
+    // Ruta para generar PDF del abono
+    Route::get('/abonos/{abono}/pdf', [AbonoController::class, 'pdf'])
+        ->name('abonos.pdf');
 });
 
 require __DIR__ . '/auth.php';

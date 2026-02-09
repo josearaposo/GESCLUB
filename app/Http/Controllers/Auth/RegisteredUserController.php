@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -51,53 +51,97 @@ class RegisteredUserController extends Controller
         return redirect(RouteServiceProvider::HOME);
     }
 
-//Informadores
-public function indexInformadores(Request $request)
-{
+    //Informadores
+    public function indexInformadores(Request $request)
+    {
 
-    $clubId = $request->input('club');
-    $club = Club::findOrFail($clubId);
+        $clubId = $request->input('club');
+        $club = Club::findOrFail($clubId);
 
-    $informadores = $club->usuarios()
-        ->where('rol', 'informador')
-        ->get();
+        $informadores = $club->usuarios()
+            ->where('rol', 'informador')
+            ->get();
 
-    return Inertia::render('Usuarios/Index', [
-        'informadores' => $informadores,
-        'club' => $clubId,
-    ]);
-}
+        return Inertia::render('Usuarios/Index', [
+            'informadores' => $informadores,
+            'club' => $clubId,
+        ]);
+    }
 
-public function createInformador(Club $club)
-{
+    public function createInformador(Club $club)
+    {
 
-    return Inertia::render('Usuarios/CreateInformador', [
-        'club' => $club,
-    ]);
-}
+        return Inertia::render('Usuarios/CreateInformador', [
+            'club' => $club,
+        ]);
+    }
 
-public function storeInformador(Request $request)
-{
+    public function storeInformador(Request $request)
+    {
+        $clubId = $request->input('club');
 
-    $club = $request->input('club');
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'password' => 'nullable|string|min:6|confirmed',
+        ]);
+        $user = User::where('email', $validated['email'])->first();
 
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|string|min:6|confirmed',
-    ]);
+        if (!$user) {
 
-    $user = User::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'password' => bcrypt($validated['password']),
-        'rol' => 'informador', // Se asigna directamente
-    ]);
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => bcrypt($validated['password']),
+                'rol' => 'informador',
+            ]);
+        }
 
-    $user->clubes()->attach($club);
+        if ($user->clubes()->where('club_id', $clubId)->exists()) {
+            return back()->withErrors([
+                'email' => 'Este usuario ya pertenece a este club.',
+            ]);
+        }
 
-    return redirect()->route('usuarios.index', ['club' => $club])->with('success', 'Informador creado correctamente.');
+        // Asociar al club
+        $user->clubes()->attach($clubId);
+
+        return redirect()
+            ->route('usuarios.index', ['club' => $clubId])
+            ->with('success', 'Informador asociado correctamente.');
+    }
 
 
-}
+    public function destroyInformador(User $informador)
+    {
+
+        $clubId = session('club');
+
+        if ($informador->clubes()->count() > 1) {
+            // Solo desvincular de ESTE club
+            $informador->clubes()->detach($clubId);
+
+            return back()->with('success', 'Informador desvinculado de tu club correctamente');
+        }
+
+        // Si solo pertenece a un club quitar relación y borrar usuario
+        $informador->clubes()->detach();
+        $informador->delete();
+
+        return back()->with('success', 'Informador eliminado correctamente');
+    }
+
+    public function destroy(User $user)
+    {
+        $user->activo = false;
+        $user->save();
+
+        $clubs = $user->clubes;
+
+        foreach ($clubs as $club) {
+            $club->delete(); // eliminar el club
+        }
+
+        return back()->with('success', 'Usuario eliminado');
+    }
 }

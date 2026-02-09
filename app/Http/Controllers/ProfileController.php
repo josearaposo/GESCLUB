@@ -50,7 +50,7 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
-
+        $user->clubes()->detach();
         Auth::logout();
 
         $user->delete();

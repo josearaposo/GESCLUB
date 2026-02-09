@@ -110,13 +110,59 @@ class ZonaController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
-            'aforo' => 'integer',
-            'filas' => 'integer',
+            'aforo' => 'required|integer|min:1',
+            'filas' => 'required|integer|min:1',
         ]);
+
+        $aforoAnterior = $zona->aforo;
+        $asientosPorFila = ceil($validated['aforo'] / $validated['filas']);
+        // Si el nuevo aforo es menor, verificamos que no haya asientos ocupados en la parte que se va a eliminar
+        if ($validated['aforo'] < $aforoAnterior) {
+
+            $ocupados = $zona->asientos()
+                ->whereIn('estado', ['Reservado', 'Vendido'])
+                ->where('numero', '>', $validated['aforo'])
+                ->exists();
+
+            if ($ocupados) {
+                return redirect()
+                    ->route('zonas.index', ['estadio' => $zona->estadio_id])
+                    ->with([
+                        'error' => 'No puedes reducir el aforo porque hay asientos reservados o vendidos.',
+                    ]);
+            }
+            // eliminar solo los sobrantes
+            $zona->asientos()
+                ->where('numero', '>', $validated['aforo'])
+                ->delete();
+        }
+        // Si el nuevo aforo es mayor, agregamos los nuevos asientos
+        if ($validated['aforo'] > $aforoAnterior) {
+
+            for ($numero = $aforoAnterior + 1; $numero <= $validated['aforo']; $numero++) {
+
+                $fila = intval(ceil($numero / $asientosPorFila));
+
+                Asiento::create([
+                    'zona_id' => $zona->id,
+                    'numero' => $numero,
+                    'fila' => $fila,
+                    'estado' => 'Libre',
+                ]);
+            }
+        }
+
         $zona->update($validated);
 
-        return redirect()->route('zonas.index', ['estadio' => $zona->estadio_id])->with('success', 'Zona actualizada correctamente.');
+        return redirect()
+            ->route('zonas.index', ['estadio' => $zona->estadio_id])
+            ->with([
+                'success' => 'Zona actualizada correctamente.',
+                'zona_actualizada' => $zona->id,
+            ]);
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -134,6 +180,7 @@ class ZonaController extends Controller
 
     public function asientos(Zona $zona)
     {
+
         return response()->json($zona->asientos);
     }
 }

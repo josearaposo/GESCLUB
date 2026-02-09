@@ -30,6 +30,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Club::class, 'club_usuario');
     }
 
+    public function socio()
+    {
+        return $this->hasOne(Socio::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -43,12 +43,14 @@ export default function Index({ jugadores, equipo, estado }) {
                         )}
 
                         {estado === 'fichado' && (
-                            <Link
-                                href={route("jugadores.index", { estado: "ojeado", equipo: equipo })}
-                                className="bg-indigo-100 text-indigo-700 px-3 py-2 rounded hover:bg-indigo-200 text-sm"
-                            >
-                                Jugadores Ojeados
-                            </Link>
+                            (auth?.user?.rol === "gestor" || auth?.user?.rol === "informador") && (
+                                <Link
+                                    href={route("jugadores.index", { estado: "ojeado", equipo: equipo })}
+                                    className="bg-indigo-100 text-indigo-700 px-3 py-2 rounded hover:bg-indigo-200 text-sm"
+                                >
+                                    Jugadores Ojeados
+                                </Link>
+                            )
                         )}
                         {auth?.user?.rol === "gestor" && (
                             <Link
@@ -58,12 +60,14 @@ export default function Index({ jugadores, equipo, estado }) {
                                 Nuevo Jugador
                             </Link>
                         )}
-                        <Link
-                            href={route("jugadores.create", { equipo: equipo, estado: "ojeado" })}
-                            className="bg-amber-500 text-white px-3 py-2 rounded hover:bg-amber-600 text-sm"
-                        >
-                            🔍 Ojear Jugador
-                        </Link>
+                        {(auth?.user?.rol === "gestor" || auth?.user?.rol === "informador") && (
+                            <Link
+                                href={route("jugadores.create", { equipo: equipo, estado: "ojeado" })}
+                                className="bg-amber-500 text-white px-3 py-2 rounded hover:bg-amber-600 text-sm"
+                            >
+                                🔍 Ojear Jugador
+                            </Link>
+                        )}
                         {auth?.user?.rol === "gestor" && (
                             <Link
                                 href={route("informes.comparar")}
@@ -110,31 +114,37 @@ export default function Index({ jugadores, equipo, estado }) {
                                     Edad:{" "}
                                     {new Date().getFullYear() - jugador.year}
                                 </p>
-                                <p className="text-sm text-gray-500">
-                                    Valoración: {jugador.valoracion}
-                                </p>
+                                {auth?.user?.rol === "gestor" && (
+                                    <p className="text-sm text-gray-500">
+                                        Valoración: {jugador.valoracion}
+                                    </p>
+                                )}
                             </div>
                             {jugador.estado === "ojeado" && (
                                 <div>Equipo: {jugador.equipo_externo}</div>
                             )}
 
                             <div className="flex gap-2 mt-4 md:mt-0">
-                                <Link
-                                    href={route("informes.create", {
-                                        jugador: jugador.id,
-                                    })}
-                                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
-                                >
-                                    Nuevo Informe
-                                </Link>
-                                <Link
-                                    href={route("informes.index", {
-                                        jugador: jugador.id,
-                                    })}
-                                    className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm"
-                                >
-                                    Ver Informes
-                                </Link>
+                                {(auth?.user?.rol === "gestor" || auth?.user?.rol === "informador") && (
+                                    <>
+                                        <Link
+                                            href={route("informes.create", {
+                                                jugador: jugador.id,
+                                            })}
+                                            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
+                                        >
+                                            Nuevo Informe
+                                        </Link>
+                                        <Link
+                                            href={route("informes.index", {
+                                                jugador: jugador.id,
+                                            })}
+                                            className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm"
+                                        >
+                                            Ver Informes
+                                        </Link>
+                                    </>
+                                )}
                                 {auth?.user?.rol === "gestor" && (
                                     <>
                                         <Link

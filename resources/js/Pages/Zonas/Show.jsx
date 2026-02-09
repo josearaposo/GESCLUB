@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, router } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
+import { LucideAirVent } from "lucide-react";
 
 export default function Show({ zona, asientos }) {
     const [asientoEditando, setAsientoEditando] = useState(null);
@@ -10,6 +11,7 @@ export default function Show({ zona, asientos }) {
         nombre: "",
         dni: "",
         numero_socio: "",
+        asiento_id: "",
     });
 
     // Filtrar los asientos ocupados
@@ -22,7 +24,8 @@ export default function Show({ zona, asientos }) {
             asiento.numero.toString().includes(texto) ||
             asiento.socio.nombre.toLowerCase().includes(texto) ||
             asiento.socio.dni.toLowerCase().includes(texto) ||
-            asiento.socio.numero_socio.toString().includes(texto)
+            asiento.socio.numero_socio.toString().includes(texto) ||
+            asiento.socio.asiento_id.toString().includes(texto)
         );
     });
 
@@ -69,11 +72,21 @@ export default function Show({ zona, asientos }) {
                                             <td className="border p-2 text-center">
                                                 <button
                                                     onClick={() => {
+                                                        router.visit(route("socios.show", asiento.socio.id));
+                                                    }}
+                                                    className="bg-green-600 text-white px-2 rounded mr-2"
+                                                >
+                                                    Gestionar
+                                                </button>
+
+                                                <button
+                                                    onClick={() => {
                                                         setAsientoEditando(asiento);
                                                         setFormData({
                                                             nombre: asiento.socio.nombre,
                                                             dni: asiento.socio.dni,
                                                             numero_socio: asiento.socio.numero_socio,
+                                                            asiento_id: asiento.id,
                                                         });
                                                     }}
                                                     className="bg-blue-500 text-white px-2 rounded"
@@ -157,6 +170,19 @@ export default function Show({ zona, asientos }) {
                                         setFormData({
                                             ...formData,
                                             numero_socio: e.target.value,
+                                        })
+                                    }
+                                />
+                                <label htmlFor="asiento_id" className="block text-gray-700 text-sm font-bold mb-2">
+                                    Asiento:
+                                </label>
+                                <input
+                                    className="w-full p-2 border rounded"
+                                    value={formData.asiento_id}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            asiento_id: e.target.value,
                                         })
                                     }
                                 />

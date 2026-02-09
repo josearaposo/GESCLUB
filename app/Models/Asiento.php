@@ -19,4 +19,8 @@ class Asiento extends Model
     {
         return $this->hasOne(Socio::class);
     }
+    public function abono()
+    {
+        return $this->hasOne(Abono::class);
+    }
 }

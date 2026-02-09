@@ -154,12 +154,17 @@ class PartidoController extends Controller
         $partido->load([
             'division',
             'equipo',
-            'jugadores',
             'estadisticas',
+            'jugadores' => function ($q) {
+                $q->withPivot(['rol', 'posicion_id']);
+            },
         ]);
+
+        $posiciones = Posicion::where('activo', true)->get();
 
         return Inertia::render('Partidos/Show', [
             'partido' => $partido,
+            'posiciones' => $posiciones,
         ]);
     }
 
