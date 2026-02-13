@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEstadisticaRequest;
-use App\Http\Requests\UpdateEstadisticaRequest;
 use App\Models\Estadistica;
 use App\Models\Partido;
 use Illuminate\Http\Request;

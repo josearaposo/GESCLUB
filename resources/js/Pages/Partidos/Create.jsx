@@ -90,7 +90,6 @@ export default function Create({ division, equipo, jugadores, posiciones }) {
             <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 bg-white rounded shadow space-y-6">
                 <h1 className="text-2xl font-bold mb-4">Nuevo Partido</h1>
 
-                {/* Datos del partido */}
                 <div className="mb-6">
                     <label htmlFor="division_name" className="block text-gray-700 text-sm font-bold mb-2">
                         Division:
@@ -157,7 +156,7 @@ export default function Create({ division, equipo, jugadores, posiciones }) {
                 {/* Titulares */}
                 {posicionesIncompletas && (
                     <div className="bg-yellow-100 text-yellow-800 p-2 rounded mb-2">
-                        ⚠️ Faltan jugadores por asignar en alguna posición
+                        Faltan jugadores por asignar en alguna posición
                     </div>
                 )}
 
@@ -263,7 +262,6 @@ export default function Create({ division, equipo, jugadores, posiciones }) {
                     {errors.suplentes && <div className="text-red-600">{errors.suplentes}</div>}
                 </div>
 
-                {/* Botón guardar */}
                 <button
                     type="submit"
                     disabled={posicionesIncompletas}

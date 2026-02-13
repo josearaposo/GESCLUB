@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreDivisionRequest;
-use App\Http\Requests\UpdateDivisionRequest;
 use App\Models\Club;
 use App\Models\Division;
 use Illuminate\Http\Request;

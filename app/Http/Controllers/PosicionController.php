@@ -125,11 +125,10 @@ class PosicionController extends Controller
 
     public function toggleActivo(Posicion $posicion)
     {
-        // Cambiar el estado activo
+
         $posicion->activo = !$posicion->activo;
         $posicion->save();
 
-        // Retornar un mensaje flash o JSON
         return redirect()->back()->with('success', 'Estado de la posición actualizado correctamente.');
     }
 }

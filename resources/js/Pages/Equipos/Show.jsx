@@ -16,7 +16,6 @@ export default function Show({ equipo, partidos }) {
                 }}>
                 <div className="container mx-auto p-6 pt-32">
 
-                    {/* DATOS DEL EQUIPO */}
                     <div className="bg-white rounded-lg shadow-lg p-8">
                         <h1 className="text-3xl font-bold text-green-700 mb-6">
                             Detalles del Equipo
@@ -136,7 +135,6 @@ export default function Show({ equipo, partidos }) {
 
                     </div>
 
-                    {/* VOLVER */}
                     <div className="flex justify-end gap-2 mt-4">
                         <Link
                             href={route("equipos.index", { club: equipo.club.id })}

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Inertia } from "@inertiajs/inertia";
 import { router } from "@inertiajs/react";
 
 export default function FicharJugador({ jugador, equipos }) {
@@ -50,7 +49,6 @@ export default function FicharJugador({ jugador, equipos }) {
                 </div>
             )}
 
-            {/* Tipo de traspaso */}
             <div>
                 <label className="block font-medium">Tipo de traspaso:</label>
                 <select

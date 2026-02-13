@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateJugadorRequest;
 use App\Models\Equipo;
 use App\Models\Jugador;
 use App\Models\Partido;

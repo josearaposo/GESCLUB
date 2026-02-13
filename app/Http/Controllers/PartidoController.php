@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePartidoRequest;
 use App\Http\Requests\UpdatePartidoRequest;
 use App\Models\Partido;
 use App\Models\Division;

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreZonaRequest;
-use App\Http\Requests\UpdateZonaRequest;
 use App\Models\Asiento;
 use App\Models\Estadio;
 use App\Models\Socio;

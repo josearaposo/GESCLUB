@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEquipoRequest;
-use App\Http\Requests\UpdateEquipoRequest;
 use App\Models\Club;
 use App\Models\Division;
 use App\Models\Equipo;

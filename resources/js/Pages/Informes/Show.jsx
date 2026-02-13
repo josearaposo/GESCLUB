@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useForm, usePage } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import {
     Radar,
     RadarChart,

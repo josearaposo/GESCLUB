@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEstadioRequest;
-use App\Http\Requests\UpdateEstadioRequest;
+
 use App\Models\Club;
 use App\Models\Estadio;
-use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 

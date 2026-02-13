@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreInformeRequest;
-use App\Http\Requests\UpdateInformeRequest;
 use App\Models\Informe;
 use App\Models\Jugador;
 use Illuminate\Http\Request;

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSocioRequest;
-use App\Http\Requests\UpdateSocioRequest;
 use App\Models\Asiento;
 use App\Models\Socio;
 use App\Models\User;

@@ -82,6 +82,7 @@ class AbonoController extends Controller
 
         if (file_exists($ruta)) {
             $tipo = pathinfo($ruta, PATHINFO_EXTENSION);
+            //necesario para la imagen
             $logo = 'data:image/' . $tipo . ';base64,' . base64_encode(file_get_contents($ruta));
         }
 

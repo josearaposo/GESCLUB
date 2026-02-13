@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRepresentanteRequest;
-use App\Http\Requests\UpdateRepresentanteRequest;
 use App\Models\Club;
 use App\Models\Representante;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
