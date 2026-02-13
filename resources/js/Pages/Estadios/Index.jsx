@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
 
 
@@ -55,8 +55,10 @@ export default function Index({ club, estadios }) {
                             <tbody className="bg-white rounded-lg">
 
                                 {estadios.map((estadio) => (
-                                    <tr key={estadio.id} className="hover:bg-gray-200">
-                                        <td className="border border-gray-300 px-4 py-2">{estadio.nombre}</td>
+                                    <tr key={estadio.id} className="hover:bg-gray-200 ">
+
+                                        <td className="border border-gray-300 px-4 py-2 cursor-pointer"
+                                            onClick={() => router.get(route("zonas.index", { estadio: estadio.id }))}>{estadio.nombre}</td>
                                         <td className="border border-gray-300 px-4 py-2">{estadio.direccion}</td>
                                         <td className="border border-gray-300 px-4 py-2">{estadio.capacidad}</td>
                                         <td className="border border-gray-300 px-4 py-2 align-center">
@@ -103,7 +105,7 @@ export default function Index({ club, estadios }) {
                         </Link>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 }

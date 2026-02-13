@@ -244,19 +244,28 @@ export default function Edit({ club }) {
                             <div className="text-center">
                                 <button
                                     type="submit"
-                                    className="bg-blue-500 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                                    className="bg-blue-500 text-white font-medium py-2 px-4  m-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                                 >
                                     Actualizar
                                 </button>
+
+                                <Link
+                                    href={route('clubs.destroy', club.id)}
+                                    method="delete"
+                                    as="button"
+                                    className="bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600"
+                                >
+                                    Eliminar
+                                </Link>
                             </div>
-                            <Link
-                                href={route('clubs.destroy', club.id)}
-                                method="delete"
-                                as="button"
-                                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                            >
-                                Eliminar
-                            </Link>
+                            <div className="text-center">
+                                <Link
+                                    href={route("clubs.index", { club: club.id })}
+                                    className=" bg-gray-700 text-white px-4 mt-4 py-2 rounded hover:bg-gray-800"
+                                >
+                                    Volver
+                                </Link>
+                            </div>
                         </form>
                     </div>
                 </div>

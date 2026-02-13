@@ -57,6 +57,7 @@ class InformeController extends Controller
 
         $jugadorId = $request->input('jugador_id');
         $jugador = Jugador::findOrFail($jugadorId);
+
         $validated = $request->validate([
             'jugador_id' => 'required|exists:jugadores,id',
 
@@ -124,10 +125,7 @@ class InformeController extends Controller
 
 
         $jugador->save();
-
-        return redirect()
-            ->route('jugadores.index')
-            ->with('success', 'Informe creado correctamente.');
+        return redirect()->route('equipos.show', ['equipo' => $jugador->equipo_id])->with('success', 'Jugador modificado correctamente.');
     }
 
 

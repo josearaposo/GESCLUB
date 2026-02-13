@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreClubRequest;
-use App\Http\Requests\UpdateClubRequest;
 use App\Models\Club;
 use App\Models\Estadio;
-use App\Models\Jugador;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;

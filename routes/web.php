@@ -100,12 +100,18 @@ Route::middleware(['auth', 'verified', 'activo'])->group(function () {
     Route::get('/zonas/{zona}/asientos', [ZonaController::class, 'asientos']);
     Route::post('/reservar', [ReservaController::class, 'reservar'])->name('reservar');
 
-    Route::get('/informadores', [RegisteredUserController::class, 'indexInformadores'])->name('usuarios.index');
-    Route::get('/usuarios/informador/{club}/crear', [RegisteredUserController::class, 'createInformador'])->name('usuarios.informador.create');
-    Route::post('/usuarios/informador', [RegisteredUserController::class, 'storeInformador'])->name('usuarios.informador.store');
-    Route::delete('/usuarios/informador/{informador}', [RegisteredUserController::class, 'destroyInformador'])->name('usuarios.informador.destroy');
-    Route::delete('/usuarios/{user}', [RegisteredUserController::class, 'destroy'])
-        ->name('usuarios.destroy');
+    Route::middleware(['auth', 'role:gestor,superadmin'])->group(function () {
+        Route::get('/informadores', [RegisteredUserController::class, 'indexInformadores'])
+            ->name('usuarios.index');
+        Route::get('/usuarios/informador/{club}/crear', [RegisteredUserController::class, 'createInformador'])
+            ->name('usuarios.informador.create');
+        Route::post('/usuarios/informador', [RegisteredUserController::class, 'storeInformador'])
+            ->name('usuarios.informador.store');
+        Route::delete('/usuarios/informador/{informador}', [RegisteredUserController::class, 'destroyInformador'])
+            ->name('usuarios.informador.destroy');
+        Route::delete('/usuarios/{user}', [RegisteredUserController::class, 'destroy'])
+            ->name('usuarios.destroy');
+    });
 
 
     Route::get('/club/crear', function () {

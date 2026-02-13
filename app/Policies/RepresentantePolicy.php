@@ -13,7 +13,7 @@ class RepresentantePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return in_array($user->rol, ['superadmin', 'gestor', 'informador']);
     }
 
     /**
@@ -21,7 +21,7 @@ class RepresentantePolicy
      */
     public function view(User $user, Representante $representante): bool
     {
-        //
+        return in_array($user->rol, ['gestor', 'informador']);
     }
 
     /**
@@ -29,7 +29,7 @@ class RepresentantePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return in_array($user->rol, ['gestor', 'informador']);
     }
 
     /**
@@ -37,7 +37,7 @@ class RepresentantePolicy
      */
     public function update(User $user, Representante $representante): bool
     {
-        //
+        return in_array($user->rol, ['gestor', 'informador']);
     }
 
     /**
@@ -45,7 +45,7 @@ class RepresentantePolicy
      */
     public function delete(User $user, Representante $representante): bool
     {
-        //
+        return in_array($user->rol, ['gestor', 'informador']);
     }
 
     /**

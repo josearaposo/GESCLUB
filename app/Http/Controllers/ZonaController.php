@@ -20,7 +20,15 @@ class ZonaController extends Controller
     {
 
         $estadio_id = $request->input('estadio');
-        $zonas = Zona::where('estadio_id', $estadio_id)->get();
+        //zona con asientos y asientos libres.
+        $zonas = Zona::where('estadio_id', $estadio_id)
+            ->with(['asientos.socio'])
+            ->withCount([
+                'asientos as libres_count' => function ($q) {
+                    $q->where('estado', 'Libre');
+                }
+            ])
+            ->get();
 
         $ultimoNumero = Socio::max('numero_socio') ?? 0;
         $numeroSocio = $ultimoNumero + 1;
@@ -82,9 +90,15 @@ class ZonaController extends Controller
      */
     public function show(Zona $zona)
     {
-        $zona->load(['asientos' => function ($q) {
-            $q->orderBy('numero');
-        }, 'asientos.socio']);
+        // Cargar los asientos ordenados por número de socio
+        $zona->load([
+            'asientos' => function ($q) {
+                $q->leftJoin('socios', 'socios.asiento_id', '=', 'asientos.id')
+                    ->orderBy('socios.numero_socio')
+                    ->select('asientos.*');
+            },
+            'asientos.socio',
+        ]);
 
         return Inertia::render('Zonas/Show', [
             'zona' => $zona,

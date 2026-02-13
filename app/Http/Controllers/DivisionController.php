@@ -17,6 +17,7 @@ class DivisionController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Division::class);
         $clubId = Session::get('club');
 
         $club = Club::findOrFail($clubId);
@@ -54,7 +55,7 @@ class DivisionController extends Controller
             'club_id' => $clubId,
         ]);
 
-        return redirect()->route('equipos.create');
+        return redirect()->route('equipos.create')->with('success', 'Division creada correctamente.');;
     }
 
     /**
@@ -89,7 +90,7 @@ class DivisionController extends Controller
 
         $division->update($validated);
 
-        return redirect()->route('divisiones.index');
+        return redirect()->route('divisiones.index')->with('success', 'Division actualizada correctamente.');;
     }
 
     /**
@@ -97,6 +98,18 @@ class DivisionController extends Controller
      */
     public function destroy(Division $division)
     {
-        //
+        if ($division->equipos()->exists()) {
+            return redirect()->back()->with(
+                'error',
+                'No se puede eliminar la division por que tiene equipos'
+            );
+        }
+
+        $division->delete();
+
+        return redirect()->back()->with(
+            'success',
+            'Division eliminada correctamente.'
+        );
     }
 }

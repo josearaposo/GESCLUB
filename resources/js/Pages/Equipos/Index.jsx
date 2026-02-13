@@ -1,6 +1,6 @@
 import React from "react";
 import Navigation from "@/Components/Navigation";
-import { usePage, Link } from "@inertiajs/react";
+import { usePage, Link, router } from "@inertiajs/react";
 
 export default function Index({ equipos, club }) {
     const { flash, auth } = usePage().props;
@@ -69,9 +69,10 @@ export default function Index({ equipos, club }) {
                                 {equipos.map((equipo) => (
                                     <tr
                                         key={equipo.id}
-                                        className="hover:bg-gray-200"
+                                        className="hover:bg-gray-200 "
                                     >
-                                        <td className="border border-gray-300 px-4 py-2">
+                                        <td className="border border-gray-300 px-4 py-2 cursor-pointer"
+                                            onClick={() => router.get(route("equipos.show", equipo.id))}>
                                             {equipo.nombre}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2">
@@ -90,7 +91,7 @@ export default function Index({ equipos, club }) {
                                             >
                                                 Ver
                                             </Link>
-                                            {auth?.user?.rol === "gestor" && (
+                                            {(auth?.user?.rol === "gestor" || auth?.user?.rol === "superadmin") && (
                                                 <>
                                                     <Link
                                                         href={route(
@@ -121,8 +122,9 @@ export default function Index({ equipos, club }) {
                             </tbody>
                         </table>
                     </div>
+
                 </div>
-            </div>
+            </div >
         </>
     );
 }

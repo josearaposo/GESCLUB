@@ -19,157 +19,164 @@ export default function Create() {
     return (
         <>
             <Navigation />
-            <div className="max-w-4xl mx-auto p-8 bg-white shadow rounded">
-
-                <h1 className="text-2xl font-bold mb-6">Crear Nuevo Representante</h1>
-
-                <form
-                    onSubmit={handleSubmit}
-                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                >
-                    <div className="mb-4">
-                        <label
-                            htmlFor="nombre"
-                            className="block text-gray-700 text-sm font-bold mb-2"
+            <div
+                className="min-h-screen bg-cover bg-center bg-no-repeat"
+                style={{
+                    backgroundImage: "url('/imagenes/representantes.jpg')",
+                }}>
+                <div className="container mx-auto p-6 pt-32">
+                    <div className="max-w-4xl mx-auto p-6 bg-white shadow rounded">
+                        <h1 className="text-2xl font-bold mb-6 text-gray-800">Crear Representante</h1>
+                        <form
+                            onSubmit={handleSubmit}
+                            className="grid grid-cols-1 md:grid-cols-2 gap-2"
                         >
-                            Nombre:
-                        </label>
-                        <input
-                            type="text"
-                            id="nombre"
-                            name="nombre"
-                            placeholder="Nombre"
-                            value={nombre}
-                            onChange={(e) => setNombre(e.target.value)}
-                            required
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        />
-                    </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="primer_apellido"
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                        >
-                            Primer Apellido:
-                        </label>
-                        <input
-                            type="text"
-                            id="primer_apellido"
-                            name="primer_apellido"
-                            placeholder="Primer Apellido"
-                            value={primer_apellido}
-                            onChange={(e) => setPrimerApellido(e.target.value)}
-                            required
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        />
-                    </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="nombre"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Nombre:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="nombre"
+                                    name="nombre"
+                                    placeholder="Nombre"
+                                    value={nombre}
+                                    onChange={(e) => setNombre(e.target.value)}
+                                    required
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                />
+                            </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="segundo_apellido"
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                        >
-                            Segundo Apellido:
-                        </label>
-                        <input
-                            type="text"
-                            id="segundo_apellido"
-                            name="segundo_apellido"
-                            placeholder="Segundo Apellido"
-                            value={segundo_apellido}
-                            onChange={(e) => setSegundoApellido(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label
-                            htmlFor="telefono"
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                        >
-                            Telefono:
-                        </label>
-                        <input
-                            type="text"
-                            id="telefono"
-                            name="telefono"
-                            placeholder="Telefono"
-                            value={telefono}
-                            onChange={(e) => setTelefono(e.target.value)}
-                            required
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        />
-                    </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="primer_apellido"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Primer Apellido:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="primer_apellido"
+                                    name="primer_apellido"
+                                    placeholder="Primer Apellido"
+                                    value={primer_apellido}
+                                    onChange={(e) => setPrimerApellido(e.target.value)}
+                                    required
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                />
+                            </div>
 
-                    <div className="mb-4">
-                        <label
-                            htmlFor="email"
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                        >
-                            Correo electronico:
-                        </label>
-                        <input
-                            type="text"
-                            id="email"
-                            name="email"
-                            placeholder="e-mail"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        />
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="segundo_apellido"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Segundo Apellido:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="segundo_apellido"
+                                    name="segundo_apellido"
+                                    placeholder="Segundo Apellido"
+                                    value={segundo_apellido}
+                                    onChange={(e) => setSegundoApellido(e.target.value)}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="telefono"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Telefono:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="telefono"
+                                    name="telefono"
+                                    placeholder="Telefono"
+                                    value={telefono}
+                                    onChange={(e) => setTelefono(e.target.value)}
+                                    required
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="email"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Correo electronico:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="email"
+                                    name="email"
+                                    placeholder="e-mail"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="direccion"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Direccion:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="direccion"
+                                    name="direccion"
+                                    placeholder="Direccion"
+                                    value={direccion}
+                                    onChange={(e) => setDireccion(e.target.value)}
+                                    required
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="pais"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Pais:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="pais"
+                                    name="pais"
+                                    placeholder="Pais"
+                                    value={pais}
+                                    onChange={(e) => setPais(e.target.value)}
+                                    required
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                />
+                            </div>
+
+
+
+                            <div className="flex items-center justify-between">
+                                <button
+                                    type="submit"
+                                    as="button"
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                >
+                                    Guardar
+                                </button>
+                            </div>
+                        </form>
                     </div>
-
-                    <div className="mb-4">
-                        <label
-                            htmlFor="direccion"
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                        >
-                            Direccion:
-                        </label>
-                        <input
-                            type="text"
-                            id="direccion"
-                            name="direccion"
-                            placeholder="Direccion"
-                            value={direccion}
-                            onChange={(e) => setDireccion(e.target.value)}
-                            required
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label
-                            htmlFor="pais"
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                        >
-                            Pais:
-                        </label>
-                        <input
-                            type="text"
-                            id="pais"
-                            name="pais"
-                            placeholder="Pais"
-                            value={pais}
-                            onChange={(e) => setPais(e.target.value)}
-                            required
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        />
-                    </div>
-
-
-
-                    <div className="flex items-center justify-between">
-                        <button
-                            type="submit"
-                            as="button"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                            Guardar
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
         </>
     );

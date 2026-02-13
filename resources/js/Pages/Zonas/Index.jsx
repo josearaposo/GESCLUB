@@ -188,41 +188,50 @@ export default function Index({ zonas, estadio, numero_socio }) {
                         {zonas.map((zona) => (
                             <div
                                 key={zona.id}
-                                className="flex bg-blue-500 text-white font-bold py-2 px-4 rounded m-2"
+                                className="bg-blue-500 text-white font-bold rounded m-2 p-3"
                             >
-                                <button
-                                    onClick={() => handleZonaClick(zona.id)}
-                                    className="flex-1 text-left"
-                                >
-                                    {zona.nombre} - {zona.precio}€
-                                </button>
-                                <Link
-                                    href={route("zonas.show", zona.id)}
-                                    className="px-2 hover:bg-gray-600 rounded"
-                                >
-                                    Socios
-                                </Link>
-                                <Link
-                                    href={route("zonas.edit", zona.id)}
-                                    className="px-2 hover:bg-yellow-500 rounded"
-                                >
-                                    Editar
-                                </Link>
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
 
-                                <button
-                                    onClick={() => {
-                                        handleDelete(zona.id);
-                                        setMostrarFormularioSocio(false);
-                                        setControlFormulario(null);
-                                    }}
-                                    className="px-2 hover:bg-red-600 rounded"
-                                >
-                                    Borrar
-                                </button>
+                                    {/* Botón zona */}
+                                    <button
+                                        onClick={() => handleZonaClick(zona.id)}
+                                        className="text-left text-sm sm:text-base"
+                                    >
+                                        {zona.nombre} - {zona.precio}€ - {zona.libres_count} Libres
+                                    </button>
+
+                                    {/* Acciones */}
+                                    <div className="flex flex-wrap gap-2 text-sm">
+                                        <Link
+                                            href={route("zonas.show", zona.id)}
+                                            className="bg-gray-700 hover:bg-gray-800 px-3 py-1 rounded"
+                                        >
+                                            Socios
+                                        </Link>
+
+                                        <Link
+                                            href={route("zonas.edit", zona.id)}
+                                            className="bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded"
+                                        >
+                                            Editar
+                                        </Link>
+
+                                        <button
+                                            onClick={() => {
+                                                handleDelete(zona.id);
+                                                setMostrarFormularioSocio(false);
+                                                setControlFormulario(null);
+                                            }}
+                                            className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded"
+                                        >
+                                            Borrar
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-
                         ))}
                     </div>
+
                     {mostrarFormularioSocio && (
                         <div className="my-4 p-4 border border-gray-300 bg-gray-700 rounded-md">
                             <h3 className="text-lg font-bold text-white mb-2">
@@ -313,7 +322,7 @@ export default function Index({ zonas, estadio, numero_socio }) {
                     )}
                     {seleccionZona && (
                         <div className="asientos my-4">
-                            <h2 className="text-xl font-bold mb-2 text-white">
+                            <h2 className="text-xl bg-slate-400 rounded font-bold mb-2 text-white">
                                 Asientos en zona: {seleccionZona.nombre}
                             </h2>
 

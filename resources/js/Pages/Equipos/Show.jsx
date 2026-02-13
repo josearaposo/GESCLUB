@@ -1,5 +1,6 @@
 import Navigation from "@/Components/Navigation";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
+
 
 export default function Show({ equipo, partidos }) {
     const puedeCrearPartido = equipo.jugadores.filter(j => j.estado === 'fichado').length >= 11;
@@ -98,8 +99,9 @@ export default function Show({ equipo, partidos }) {
                                     </thead>
                                     <tbody>
                                         {partidos.map((partido) => (
-                                            <tr key={partido.id} className="border-t">
-                                                <td className="p-2">
+                                            <tr key={partido.id} className="border-t hover:bg-gray-200 cursor-pointer"
+                                                onClick={() => router.get(route("partidos.show", partido.id))}>
+                                                < td className="p-2" >
                                                     {new Date(partido.fecha).toLocaleDateString()}
                                                 </td>
                                                 <td>{partido.division?.nombre}</td>
@@ -135,7 +137,7 @@ export default function Show({ equipo, partidos }) {
                     </div>
 
                     {/* VOLVER */}
-                    <div>
+                    <div className="flex justify-end gap-2 mt-4">
                         <Link
                             href={route("equipos.index", { club: equipo.club.id })}
                             className="inline-block bg-gray-700 text-white px-4 mt-4 py-2 rounded hover:bg-gray-800"

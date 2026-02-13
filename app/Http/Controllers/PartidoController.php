@@ -160,7 +160,8 @@ class PartidoController extends Controller
             },
         ]);
 
-        $posiciones = Posicion::where('activo', true)->get();
+        $posiciones = Posicion::where('equipo_id', $partido->equipo_id)->get();
+
 
         return Inertia::render('Partidos/Show', [
             'partido' => $partido,

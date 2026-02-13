@@ -136,7 +136,7 @@ class EquipoController extends Controller
 
         $equipo->update($validated);
 
-        return redirect()->route('equipos.index');
+        return redirect()->route('equipos.index')->with('success', 'Equipo actualizado correctamente.');
     }
 
     /**

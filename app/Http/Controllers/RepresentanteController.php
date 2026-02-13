@@ -17,6 +17,8 @@ class RepresentanteController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Representante::class);
+
         $clubId = session('club');
         $club = Club::find($clubId);
 
@@ -34,6 +36,8 @@ class RepresentanteController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Representante::class);
+
         return Inertia::render('Representantes/Create');
     }
 
@@ -84,7 +88,7 @@ class RepresentanteController extends Controller
      */
     public function update(Request $request, Representante $representante)
     {
-        dd($representante);
+
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'primer_apellido' => 'required|string|max:255',
@@ -106,8 +110,18 @@ class RepresentanteController extends Controller
      */
     public function destroy(Representante $representante)
     {
+        if ($representante->jugadores()->exists()) {
+            return redirect()->back()->with(
+                'error',
+                'No se puede eliminar el representante por que tiene jugadores'
+            );
+        }
+
         $representante->delete();
 
-        return redirect()->route('representantes.index');
+        return redirect()->back()->with(
+            'success',
+            'Representante eliminado correctamente.'
+        );
     }
 }

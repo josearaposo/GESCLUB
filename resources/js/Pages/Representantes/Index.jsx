@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
 
 
@@ -30,7 +30,7 @@ export default function Index({ representantes }) {
 
 
                     <div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md bg-clip-border rounded-xl">
-                        <table class="w-full text-left table-auto min-w-max">
+                        <table className="w-full text-left table-auto min-w-max">
                             <thead className="bg-gray-100">
                                 <tr>
                                     <th className="border border-gray-300 px-4 py-2">Nombre</th>
@@ -46,8 +46,9 @@ export default function Index({ representantes }) {
                             <tbody>
 
                                 {representantes.map((representante) => (
-                                    <tr key={representante.id} className="hover:bg-gray-50">
-                                        <td className="border border-gray-300 px-4 py-2">{representante.nombre}</td>
+                                    <tr key={representante.id} className="hover:bg-gray-50 cursor-pointer">
+                                        <td className="border border-gray-300 px-4 py-2"
+                                            onClick={() => router.get(route("representantes.show", representante.id))}>{representante.nombre}</td>
                                         <td className="border border-gray-300 px-4 py-2">{representante.primer_apellido}</td>
                                         <td className="border border-gray-300 px-4 py-2">{representante.segundo_apellido}</td>
                                         <td className="border border-gray-300 px-4 py-2">{representante.telefono}</td>

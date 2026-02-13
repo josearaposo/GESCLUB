@@ -145,7 +145,7 @@ export default function Index({ clubs, estado }) {
                                                 {!isDeleted && (auth?.user?.rol === "gestor" || auth?.user?.rol === "superadmin") && (
                                                     <Link
                                                         href={route("estadios.index", { club: club.id })}
-                                                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                                                        className="px-4 py-2 bg-teal-700 text-white rounded hover:bg-teal-600"
                                                     >
                                                         Abonados
                                                     </Link>
@@ -171,7 +171,7 @@ export default function Index({ clubs, estado }) {
                                 href={route('clubs.index', { estado: 'eliminados' })}
                                 className="px-4 py-2 rounded bg-red-600 text-white"
                             >
-                                Ver eliminados
+                                Eliminados
                             </Link>
                         )}
 

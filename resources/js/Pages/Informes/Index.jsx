@@ -7,113 +7,120 @@ export default function Index({ informes, jugador }) {
 
     return (
         <>
-            <Navigation />
-            <div className="container mx-auto p-6">
-                {/* Mensajes Flash */}
-                {flash.success && (
-                    <div className="mb-4 p-4 bg-green-100 text-green-800 border border-green-400 rounded">
-                        {flash.success}
-                    </div>
-                )}
-
-                {flash.error && (
-                    <div className="mb-4 p-4 bg-red-100 text-red-800 border border-red-400 rounded">
-                        {flash.error}
-                    </div>
-                )}
-
-                <h1 className="text-2xl font-bold mb-4">
-                    Informes de {jugador.nombre} {jugador.primer_apellido}
-                </h1>
-
-                <div className="grid gap-4">
-                    {informes.length === 0 && (
-                        <p className="text-gray-500">
-                            No hay informes aún para este jugador.
-                        </p>
+            <div
+                className="min-h-screen bg-cover bg-center bg-no-repeat"
+                style={{
+                    backgroundImage: "url('/imagenes/informadores.jpg')",
+                }}>
+                <Navigation />
+                <div className="container mx-auto p-6 pt-32">
+                    {/* Mensajes Flash */}
+                    {flash.success && (
+                        <div className="mb-4 p-4 bg-green-100 text-green-800 border border-green-400 rounded">
+                            {flash.success}
+                        </div>
                     )}
 
-                    {informes.map((informe) => {
-                        const numericKeys = Object.keys(informe).filter(
-                            (key) =>
-                                typeof informe[key] === "number" &&
-                                !["id", "jugador_id", "user_id"].includes(key)
-                        );
-                        const promedio = (
-                            numericKeys.reduce(
-                                (sum, key) => sum + informe[key],
-                                0
-                            ) / numericKeys.length
-                        ).toFixed(2);
+                    {flash.error && (
+                        <div className="mb-4 p-4 bg-red-100 text-red-800 border border-red-400 rounded">
+                            {flash.error}
+                        </div>
+                    )}
 
-                        return (
-                            <div
-                                key={informe.id}
-                                className="bg-white border rounded-lg shadow p-4"
-                            >
-                                <p className="text-sm text-gray-500 mb-2">
-                                    Valoración promedio:{" "}
-                                    <strong>{promedio}</strong>/10
-                                </p>
+                    <h1 className="text-2xl text-white font-bold mb-4">
+                        Informes de {jugador.nombre} {jugador.primer_apellido}
+                    </h1>
 
-                                <div className="flex justify-between items-center text-sm text-gray-500">
-                                    {informe.user && (
-                                        <span>Autor: {informe.user.name}</span>
-                                    )}
+                    <div className="grid gap-4">
+                        {informes.length === 0 && (
+                            <p className="text-white text-2xl">
+                                No hay informes aún para este jugador.
+                            </p>
+                        )}
 
-                                    <div className="flex gap-2">
-                                        <Link
-                                            href={route(
-                                                "informes.show",
-                                                informe.id
-                                            )}
-                                            as="button"
-                                            className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                                        >
-                                            Ver
-                                        </Link>
-                                        {(auth.user.id === informe.user_id || auth.user.rol === 'gestor') && (
-                                            <>
-                                                <Link
-                                                    href={route(
-                                                        "informes.edit",
-                                                        informe.id
-                                                    )}
-                                                    as="button"
-                                                    className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-                                                >
-                                                    Editar
-                                                </Link>
-                                                <Link
-                                                    href={route(
-                                                        "informes.destroy",
-                                                        informe.id
-                                                    )}
-                                                    method="delete"
-                                                    as="button"
-                                                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                                                >
-                                                    Eliminar
-                                                </Link>
-                                            </>
+                        {informes.map((informe) => {
+                            const numericKeys = Object.keys(informe).filter(
+                                (key) =>
+                                    typeof informe[key] === "number" &&
+                                    !["id", "jugador_id", "user_id"].includes(key)
+                            );
+                            const promedio = (
+                                numericKeys.reduce(
+                                    (sum, key) => sum + informe[key],
+                                    0
+                                ) / numericKeys.length
+                            ).toFixed(2);
+
+                            return (
+                                <div
+                                    key={informe.id}
+                                    className="bg-white border rounded-lg shadow p-4"
+                                >
+                                    <p className="text-sm text-gray-500 mb-2">
+                                        Valoración promedio:{" "}
+                                        <strong>{promedio}</strong>/10
+                                    </p>
+
+                                    <div className="flex justify-between items-center text-sm text-gray-500">
+                                        {informe.user && (
+                                            <span>Autor: {informe.user.name}</span>
                                         )}
+
+                                        <div className="flex gap-2">
+                                            <Link
+                                                href={route(
+                                                    "informes.show",
+                                                    informe.id
+                                                )}
+                                                as="button"
+                                                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                                            >
+                                                Ver
+                                            </Link>
+                                            {(auth.user.id === informe.user_id || auth.user.rol === 'gestor') && (
+                                                <>
+                                                    <Link
+                                                        href={route(
+                                                            "informes.edit",
+                                                            informe.id
+                                                        )}
+                                                        as="button"
+                                                        className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                                                    >
+                                                        Editar
+                                                    </Link>
+                                                    <Link
+                                                        href={route(
+                                                            "informes.destroy",
+                                                            informe.id
+                                                        )}
+                                                        method="delete"
+                                                        as="button"
+                                                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                                                    >
+                                                        Eliminar
+                                                    </Link>
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className="mt-8">
-                    <Link
-                        href={route("jugadores.index", {
-                            equipo: jugador.equipo_id,
+                            );
                         })}
-                        className="inline-block bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800"
-                    >
-                        Volver
-                    </Link>
+                    </div>
+                    <div className="mt-8">
+                        <Link
+                            href={route("jugadores.index", {
+                                equipo: jugador.equipo_id, estado: "fichado"
+                            })}
+                            className="inline-block bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800"
+                        >
+                            Volver
+                        </Link>
+                    </div>
                 </div>
-            </div>
+            </div >
         </>
+
     );
 }

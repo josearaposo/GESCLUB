@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, router } from "@inertiajs/react";
 import Navigation from "@/Components/Navigation";
-import { LucideAirVent } from "lucide-react";
 
 export default function Show({ zona, asientos }) {
     const [asientoEditando, setAsientoEditando] = useState(null);
@@ -51,24 +50,26 @@ export default function Show({ zona, asientos }) {
                         />
 
                         <div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md bg-clip-border rounded-xl">
-                            <table className="min-w-[600px] table-auto w-full border-collapse border border-gray-300">
+                            <table className="w-full text-left table-auto min-w-max">
                                 <thead className="bg-gray-100">
                                     <tr>
+                                        <th className="border p-2">Nº socio</th>
                                         <th className="border p-2">Asiento</th>
                                         <th className="border p-2">Nombre</th>
                                         <th className="border p-2">DNI</th>
-                                        <th className="border p-2">Nº socio</th>
+
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white rounded-lg">
                                     {ocupadosFiltrados.map(asiento => (
                                         <tr key={asiento.id}
-                                            className="hover:bg-gray-200 ">
-                                            <td className="border p-2 text-center">{asiento.numero}</td>
-                                            <td className="border p-2 ">{asiento.socio.nombre}</td>
-                                            <td className="border p-2 text-center">{asiento.socio.dni}</td>
+                                            className="hover:bg-gray-200">
                                             <td className="border p-2 text-center">{asiento.socio.numero_socio}</td>
+                                            <td className="border p-2 text-center">{asiento.numero}</td>
+                                            <td className="border p-2 cursor-pointer"
+                                                onClick={() => router.get(route("socios.show", asiento.socio.id))}>{asiento.socio.nombre}</td>
+                                            <td className="border p-2 text-center">{asiento.socio.dni}</td>
                                             <td className="border p-2 text-center">
                                                 <button
                                                     onClick={() => {

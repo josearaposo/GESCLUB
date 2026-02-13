@@ -4,11 +4,17 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Models\Division;
 use App\Models\Equipo;
 use App\Models\Informe;
+use App\Models\Representante;
+use App\Policies\DivisionPolicy;
 use App\Policies\EquipoPolicy;
 use App\Policies\InformePolicy;
+use App\Policies\RepresentantePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Validation\Rules\In;
+use Symfony\Polyfill\Intl\Idn\Info;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -20,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Informe::class => InformePolicy::class,
         Equipo::class => EquipoPolicy::class,
+        Representante::class => RepresentantePolicy::class,
+        Division::class => DivisionPolicy::class,
     ];
 
     /**
