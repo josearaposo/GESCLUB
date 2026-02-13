@@ -40,7 +40,6 @@ export default function InformadoresIndex({ informadores, club }) {
                                     key={informador.id}
                                     className="bg-white p-4 rounded-lg shadow border flex items-center justify-between"
                                 >
-                                    {/* Info izquierda */}
                                     <div>
                                         <h2 className="text-lg font-semibold text-gray-800">
                                             {informador.name}
@@ -48,7 +47,6 @@ export default function InformadoresIndex({ informadores, club }) {
                                         <p className="text-gray-600">{informador.email}</p>
                                     </div>
 
-                                    {/* Botones derecha */}
                                     <div className="flex items-center gap-2">
                                         <Link
                                             href={route("usuarios.informador.destroy", {

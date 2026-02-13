@@ -62,7 +62,7 @@ export default function Show({ socio, asientos, filas, abono }) {
                                 <div key={index} className="flex gap-[2px] items-center">
                                     {fila.map((asiento) => {
                                         const asientoSocio = asiento.id === socio.asiento_id;
-                                        // determinar estado para el color
+
                                         const color =
                                             asientoSocio
                                                 ? "blue"
